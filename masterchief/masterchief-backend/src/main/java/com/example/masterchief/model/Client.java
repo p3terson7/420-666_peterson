@@ -18,6 +18,9 @@ public class Client extends User{
     private String address;
     private String phone;
 
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+    protected List<Conversation> conversations = new ArrayList<>();
+
     public Client(
             Long id,
             String firstname,
