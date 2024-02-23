@@ -28,4 +28,7 @@ public class Conversation {
     @JoinColumn(name = "client_id")
     private Client client;
 
+    @OneToMany(mappedBy = "conversation", cascade = CascadeType.ALL)
+    private List<Message> messages = new ArrayList<>();
+
 }
