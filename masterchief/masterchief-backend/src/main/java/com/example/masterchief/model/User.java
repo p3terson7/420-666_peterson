@@ -3,9 +3,6 @@ package com.example.masterchief.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Data
 @Entity
 @NoArgsConstructor
@@ -22,6 +19,4 @@ public abstract class User {
     protected String email;
     @ToString.Exclude
     protected String password;
-
-//    public abstract UserDTO toDTO();
 }

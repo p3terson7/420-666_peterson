@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,5 +29,4 @@ public class Conversation {
 
     @OneToMany(mappedBy = "conversation", cascade = CascadeType.ALL)
     private List<Message> messages = new ArrayList<>();
-
 }
