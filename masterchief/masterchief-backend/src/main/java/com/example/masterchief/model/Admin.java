@@ -15,6 +15,9 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class Admin extends User{
+
+    @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL)
+    protected List<Conversation> conversations = new ArrayList<>();
     public Admin(
             Long id,
             String firstname,
