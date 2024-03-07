@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/client")
+@RequestMapping("/clients")
 @AllArgsConstructor
 public class ClientController extends LoggedController {
     private final ClientService clientService;
@@ -22,5 +22,4 @@ public class ClientController extends LoggedController {
                 .map(client -> new ResponseEntity<HttpStatus>(HttpStatus.CREATED))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.BAD_REQUEST));
     }
-
 }
