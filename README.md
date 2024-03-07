@@ -12,3 +12,11 @@ Je cherche donc à offrir une solution qui permettra aux québécois de se procu
 
 ## Plan de match
 L'application que je développe dans ce projet sert de vitrine à mon entreprise, il est donc impératif qu'elle soit complète, intuitive hautement et fiable afin d'inspirer confiance auprès des consommateurs.
+
+### Technologies 
+- **IDE** : IntelliJ
+- **Version** : Github, Git 2.42.0
+- **Backend** : Java 17.0.9, Spring 3.2.2
+- **Frontend** : React TypeScript
+- **Database** : PostgreSQL 16.2
+- **Test** : JUnit, Mockito
