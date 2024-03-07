@@ -4,9 +4,10 @@ import com.example.masterchief.dto.ClientDTO;
 import com.example.masterchief.model.Client;
 import com.example.masterchief.repository.ClientRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-
+@Service
 public class ClientService {
     private final ClientRepository clientRepository;
 
