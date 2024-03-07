@@ -1,5 +1,6 @@
 package com.example.masterchief.model;
 
+import com.example.masterchief.dto.ConversationDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,8 +11,8 @@ import java.util.List;
 
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class Conversation {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "conversation_gen")
@@ -29,4 +30,14 @@ public class Conversation {
 
     @OneToMany(mappedBy = "conversation", cascade = CascadeType.ALL)
     private List<Message> messages = new ArrayList<>();
+
+    public Conversation(Long id, Admin admin, Client client) {
+        this.id = id;
+        this.admin = admin;
+        this.client = client;
+    }
+
+    public ConversationDTO toDTO() {
+        return new ConversationDTO(id, admin.toDTO(), client.toDTO());
+    }
 }

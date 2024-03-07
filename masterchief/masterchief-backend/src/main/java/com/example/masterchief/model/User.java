@@ -1,5 +1,6 @@
 package com.example.masterchief.model;
 
+import com.example.masterchief.dto.UserDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,4 +20,6 @@ public abstract class User {
     protected String email;
     @ToString.Exclude
     protected String password;
+
+    public abstract UserDTO toDTO();
 }
