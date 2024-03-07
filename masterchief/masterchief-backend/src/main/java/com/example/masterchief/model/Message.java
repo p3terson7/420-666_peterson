@@ -1,5 +1,6 @@
 package com.example.masterchief.model;
 
+import com.example.masterchief.dto.MessageDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,4 +27,8 @@ public class Message {
 
     private String content;
     private String timestamp;
+
+    public MessageDTO toDTO() {
+        return new MessageDTO(id, sender.toDTO(), content, timestamp, conversation.toDTO());
+    }
 }

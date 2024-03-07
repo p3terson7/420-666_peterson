@@ -1,5 +1,6 @@
 package com.example.masterchief.model;
 
+import com.example.masterchief.dto.ClientDTO;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
@@ -33,5 +34,9 @@ public class Client extends User{
         super(id, firstname, lastname, email, password);
         this.address = address;
         this.phone = phone;
+    }
+
+    public ClientDTO toDTO() {
+        return new ClientDTO(id, firstName, lastName, email, password, address, phone);
     }
 }
