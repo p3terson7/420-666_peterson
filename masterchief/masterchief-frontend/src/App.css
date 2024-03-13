@@ -117,3 +117,19 @@
   transition-delay: 0.25s;
 }
 
+.signup-success {
+  text-align: center;
+  padding: 40px;
+  color: #333; /* Adjust based on your color scheme */
+}
+
+.signup-success h2 {
+  color: #4BB543; /* Success color */
+  margin-bottom: 20px;
+}
+
+.signup-success p {
+  margin-bottom: 30px;
+  font-size: 16px;
+  color: #555; /* Slightly muted text color */
+}

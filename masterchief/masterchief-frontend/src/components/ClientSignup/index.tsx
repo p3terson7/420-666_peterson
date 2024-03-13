@@ -16,6 +16,7 @@ const ClientSignupForm = () => {
     const [containerHeight, setContainerHeight] = useState('auto');
     const stepOneContentRef = useRef<HTMLDivElement>(null);
     const stepTwoContentRef = useRef<HTMLDivElement>(null);
+    const stepThreeContentRef = useRef<HTMLDivElement>(null);
     const [firstName, setFirstName] = useState<string>("");
     const [lastName, setLastName] = useState<string>("");
     const [address, setAddress] = useState<string>("");
@@ -73,6 +74,7 @@ const ClientSignupForm = () => {
         if (validateStepTwo()) {
             try {
                 const response = await clientSignup(client);
+                setStep(3);
                 console.log('Signup Success:', response.data);
             } catch (error) {
                 console.error('Signup Error:', e.response ? e.response.data : e.message);
@@ -89,7 +91,12 @@ const ClientSignupForm = () => {
             setTimeout(() => {
                 setContainerHeight(`${stepTwoContentRef.current!.scrollHeight + 35}px`);
             }, 10);
+        } else if (step === 3 && stepThreeContentRef.current) {
+            setTimeout(() => {
+                setContainerHeight(`${stepThreeContentRef.current!.scrollHeight + 35}px`);
+            }, 10);
         }
+
     }, [step, Object.keys(errors).length]);
 
     const handleChange = (e: any) => {
@@ -105,7 +112,7 @@ const ClientSignupForm = () => {
 
     const nextStep = () => {
         if (validateStepOne()) {
-            setStep(step + 1);
+            setStep(2);
         }
     }
 
@@ -265,6 +272,21 @@ const ClientSignupForm = () => {
                                                     </Container>
                                                 </Col>
                                             </Row>
+                                        </>
+                                    )}
+                                </Container>
+                                <Container ref={stepThreeContentRef} className={`form-section ${step === 3 ? 'form-section-active' : ''}`}>
+                                    {step === 3 && (
+                                        <>
+                                            <div className="signup-success">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 24 24" style={{ marginBottom: '20px', color: '#4BB543' }}>
+                                                    <path fill="currentColor" d="M9 19l-7-7 1.41-1.42L9 16.17l11.59-11.59L22 6l-13 13z"/>
+
+                                                </svg>
+                                                <h2>Signup Successful!</h2>
+                                                <p>Your account has been successfully created. You're now ready to explore our features and start your journey with us.</p>
+                                                <Button variant="success" onClick={() => {/* Navigate to dashboard or login page */}}>Proceed to Home Page</Button>
+                                            </div>
                                         </>
                                     )}
                                 </Container>
