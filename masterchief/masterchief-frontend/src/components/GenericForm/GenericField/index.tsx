@@ -1,5 +1,7 @@
 import React from 'react';
 import Form from 'react-bootstrap/Form';
+import "../../../App.css";
+import {Container} from "react-bootstrap";
 
 interface GenericFieldProps {
     label: string;
@@ -15,11 +17,11 @@ interface GenericFieldProps {
 export const GenericField: React.FC<GenericFieldProps> = ({ label, type, name, value, placeholder, onChange, isInvalid, errorMessage }) => (
     <Form.Group className="mb-2" controlId={name}>
         <Form.Label>{label}</Form.Label>
-        <Form.Control type={type} name={name} value={value} placeholder={placeholder} onChange={onChange} isInvalid={!!isInvalid} required />
+        <Form.Control type={type} name={name} value={value} placeholder={placeholder} onChange={onChange} isInvalid={!!isInvalid} />
         {isInvalid && (
-            <div className="invalid-feedback fade-in" style={{ display: 'block' }}>
-                {isInvalid}
-            </div>
+            <Container className="invalid-feedback fade-in" style={{ display: 'block' }}>
+                {errorMessage}
+            </Container>
         )}
     </Form.Group>
 );
