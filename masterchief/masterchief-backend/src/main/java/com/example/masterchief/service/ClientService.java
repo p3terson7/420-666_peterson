@@ -30,4 +30,12 @@ public class ClientService {
 
         return Optional.of(clientRepository.save(client).toDTO());
     }
+
+    public Optional<ClientDTO> getClientByEmail(String email) {
+        if (email == null) {
+            throw new IllegalArgumentException("Email cannot be null");
+        }
+
+        return clientRepository.findByEmail(email).map(Client::toDTO);
+    }
 }
