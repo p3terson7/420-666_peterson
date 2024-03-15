@@ -52,6 +52,7 @@ export const GenericForm: React.FC<GenericFormProps> = ({ steps, onSubmit }) => 
         } else {
             setAttemptedNext(false);
         }
+        console.log("Current step: ", currentStep, steps.length);
 
     }, [attemptedNext, currentStep, formData]);
 
@@ -81,24 +82,21 @@ export const GenericForm: React.FC<GenericFormProps> = ({ steps, onSubmit }) => 
         <Card className="form-background" style={{ width: '25rem', borderRadius: '0.5rem', height: containerHeight }}>
             <Card.Body>
                 <Form onSubmit={handleSubmit}>
-                    {steps.map((stepFields, index) => {
-                        if (index === steps.length - 1) {
-                            return (
-                                <Container key={index} className={`form-section form-section-active`}>
-                                    <div className="signup-success">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 24 24" style={{ marginBottom: '20px', color: '#4BB543' }}>
-                                            <path fill="currentColor" d="M9 19l-7-7 1.41-1.42L9 16.17l11.59-11.59L22 6l-13 13z"/>
-                                        </svg>
-                                        <h2>Signup Successful!</h2>
-                                        <p>Your account has been successfully created. You're now apart of the Prototype community!</p>
-                                        <Button variant="success" onClick={() => {/* Navigate to dashboard or login page */}}>Proceed to Home Page</Button>
-                                    </div>
-                                </Container>
-                            );
-                        }
-                        return (
+                    {currentStep === steps.length ? (
+                        <Container className="form-section form-section-active">
+                            <div className="signup-success">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 24 24" style={{ marginBottom: '20px', color: '#4BB543' }}>
+                                    <path fill="currentColor" d="M9 19l-7-7 1.41-1.42L9 16.17l11.59-11.59L22 6l-13 13z"/>
+                                </svg>
+                                <h2>Signup Successful!</h2>
+                                <p>Your account has been successfully created. You're now a part of the Prototype community!</p>
+                                <Button variant="success" onClick={() => {/* Navigate to dashboard or login page */}}>Proceed to Home Page</Button>
+                            </div>
+                        </Container>
+                    ) : (
+                        steps.map((stepFields, index) => (
                             <Container
-                                ref={activeStepRef}
+                                ref={currentStep === index ? activeStepRef : null}
                                 key={index}
                                 className={`form-section ${currentStep === index ? 'form-section-active' : ''}`}
                             >
@@ -116,19 +114,19 @@ export const GenericForm: React.FC<GenericFormProps> = ({ steps, onSubmit }) => 
                                     />
                                 ))}
                             </Container>
-                        );
-                    })}
+                        ))
+                    )}
                     <Container className="btn-container">
-                        {currentStep > 0 && currentStep < steps.length - 1 && (
+                        {currentStep > 0 && currentStep < steps.length && (
                             <Button variant="secondary" onClick={handlePrev}>
                                 Previous
                             </Button>
                         )}
-                        {currentStep < steps.length - 1 ? (
+                        {currentStep < steps.length - 1 && (
                             <Button variant="primary" onClick={handleNext}>
                                 Next
                             </Button>
-                        ) : null}
+                        )}
                         {currentStep === steps.length - 1 && (
                             <Button type="submit">
                                 Submit
