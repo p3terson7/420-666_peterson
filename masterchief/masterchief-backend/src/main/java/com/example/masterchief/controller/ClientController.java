@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.*;
 public class ClientController extends LoggedController {
     private final ClientService clientService;
 
-    @PostMapping("/signup/client")
+    @PostMapping("/signup")
     public ResponseEntity<HttpStatus> createClient(@RequestBody ClientDTO clientDTO) {
-        logger.info("createStudent");
+        logger.info("createClient");
         return clientService.createClient(clientDTO)
                 .map(client -> new ResponseEntity<HttpStatus>(HttpStatus.CREATED))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.BAD_REQUEST));

@@ -39,7 +39,7 @@ export const validatePasswordConfirmation = (
 };
 
 export const validateExisting = (input: string): boolean => {
-    return input !== "";
+    return input !== "" && input !== undefined;
 };
 
 export const validatePhone = (phone: string): boolean => {
