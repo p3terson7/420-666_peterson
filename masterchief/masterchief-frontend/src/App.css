@@ -2,17 +2,6 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -28,11 +17,116 @@
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
+@font-face {
+  font-family: 'RetroGaming';
+  src: url('assets/fonts/retro_gaming.ttf') format('truetype');
+}
+
+.background-gif {
+  height: 100vh;
+  background: url('./assets/img/pixel_signup.jpg') no-repeat center center fixed;
+  background-size: cover;
+  display: flex;
+  width: 100%;
+}
+
+.container-fluid {
+  padding: 0;
+  margin: 0;
+}
+
+.row {
+  margin: 0;
+  padding: 0;
+}
+
+.col {
+  padding: 0;
+  margin: 0;
+}
+
+.form-background {
+  background-color: #36393E;
+  color: #FFFFFF;
+  border-radius: 0.5rem;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.5);
+  text-align: start;
+  overflow: hidden;
+  transition: height 0.5s ease-in-out;
+}
+
+.form-background .form-control {
+  background-color: #2c2f33;
+  border: 1px solid #202225;
+  color: #FFFFFF;
+}
+
+@keyframes fadeIn {
   from {
-    transform: rotate(0deg);
+    opacity: 0;
   }
   to {
-    transform: rotate(360deg);
+    opacity: 1;
   }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out forwards;
+}
+
+.form-background .form-label {
+  color: #FFFFFF;
+  font-weight: bold;
+}
+
+.form-background .form-control::placeholder {
+  color: #A9A9A9;
+}
+
+.form-background .btn-primary {
+  background-color: #5c6bc0;
+  border-color: #5c6bc0;
+  box-shadow: 0 2px 4px 0 rgba(92, 107, 192, 0.4);
+  color: #fff;
+}
+
+.form-background .btn-primary:hover {
+  background-color: #7986cb;
+  border-color: #7986cb;
+}
+
+.btn-container {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  padding-top: 0.5rem;
+}
+
+.form-section {
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.form-section-active {
+  opacity: 1;
+  height: auto;
+  transition: opacity 0.35s ease-in, height 0s 0.35s;
+}
+
+.signup-success {
+  text-align: center;
+  padding: 40px;
+  color: #333;
+}
+
+.signup-success h2 {
+  color: #4BB543;
+  margin-bottom: 20px;
+}
+
+.signup-success p {
+  margin-bottom: 30px;
+  font-size: 16px;
+  color: #555;
 }
