@@ -16,7 +16,6 @@ const ClientSignupForm = () => {
     const [phone, setPhone] = useState<string>("");
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
-    const [passwordConfirmation, setPasswordConfirmation] = useState<string>("");
     const [unexpectedError, setUnexpectedError] = useState<string>("");
     const [client, setClient] = useState<Client>({
         firstName: firstName,
@@ -105,33 +104,18 @@ const ClientSignupForm = () => {
 
         try {
             const response = await clientSignup(clientData);
-            console.log('Signup Success:', response.data);
             // TODO: Rediriger l'utilisateur vers la page de connexion
             setUnexpectedError("");
         } catch (error: any) {
             if (error.response && error.response.status === 409) {
                 setUnexpectedError(error.response.data);
-                console.log('Unexpected Error:', error.response.data)
                 throw new Error(error.response.data);
             } else {
-                console.error('Signup Error:', error.response ? error.response.data : error.message);
-                throw new Error('An unexpected error occurred.');
+                throw new Error('An unexpected error occurred.', error.response ? error.response.data : error.message);
             }
         }
     };
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setClient(prevState => ({
-            ...prevState,
-            [name]: value,
-        }));
-
-        // Optionally, clear the unexpectedError when the user starts making corrections
-        if (unexpectedError) {
-            setUnexpectedError("");
-        }
-    };
     return (
         <Container fluid className="background-gif">
             <Row className="m-auto">
