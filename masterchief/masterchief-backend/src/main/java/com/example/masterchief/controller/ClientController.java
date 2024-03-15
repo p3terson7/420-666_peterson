@@ -16,10 +16,15 @@ public class ClientController extends LoggedController {
     private final ClientService clientService;
 
     @PostMapping("/signup")
-    public ResponseEntity<HttpStatus> createClient(@RequestBody ClientDTO clientDTO) {
+    public ResponseEntity<?> createClient(@RequestBody ClientDTO clientDTO) {
         logger.info("createClient");
-        return clientService.createClient(clientDTO)
-                .map(client -> new ResponseEntity<HttpStatus>(HttpStatus.CREATED))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.BAD_REQUEST));
+        try {
+            return clientService.createClient(clientDTO)
+                    .map(client -> ResponseEntity.status(HttpStatus.CREATED).body(client))
+                    .orElseGet(() -> ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        }
     }
 }
+

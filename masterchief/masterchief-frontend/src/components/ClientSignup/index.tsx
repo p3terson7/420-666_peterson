@@ -10,8 +10,6 @@ import '../../App.css';
 import {GenericForm} from "../GenericForm";
 
 const ClientSignupForm = () => {
-    const [step, setStep] = useState(1);
-    const [containerHeight, setContainerHeight] = useState('auto');
     const [firstName, setFirstName] = useState<string>("");
     const [lastName, setLastName] = useState<string>("");
     const [address, setAddress] = useState<string>("");
@@ -20,7 +18,6 @@ const ClientSignupForm = () => {
     const [password, setPassword] = useState<string>("");
     const [passwordConfirmation, setPasswordConfirmation] = useState<string>("");
     const [unexpectedError, setUnexpectedError] = useState<string>("");
-    const [errors, setErrors] = useState<validation.Errors>({});
     const [client, setClient] = useState<Client>({
         firstName: firstName,
         lastName: lastName,
@@ -95,19 +92,6 @@ const ClientSignupForm = () => {
         ],
     ];
 
-    // const handleSubmit = async (e: any) => {
-    //     e.preventDefault();
-    //     if (validateStepTwo()) {
-    //         try {
-    //             const response = await clientSignup(client);
-    //             setStep(3);
-    //             console.log('Signup Success:', response.data);
-    //         } catch (error) {
-    //             console.error('Signup Error:', e.response ? e.response.data : e.message);
-    //         }
-    //     }
-    // };
-
     const handleFormSubmit = async (formData: Record<string, string>) => {
         const { passwordConfirmation, ...rest } = formData;
         const clientData: Client = {
@@ -123,10 +107,17 @@ const ClientSignupForm = () => {
         try {
             const response = await clientSignup(clientData);
             console.log('Signup Success:', response.data);
-            // Handle successful signup
-        } catch (error:any) {
-            console.error('Signup Error:', error.response ? error.response.data : error.message);
-            // Handle signup error
+            // TODO: Rediriger l'utilisateur vers la page de connexion
+            setUnexpectedError("");
+        } catch (error: any) {
+            if (error.response && error.response.status === 409) {
+                setUnexpectedError(error.response.data);
+                console.log('Unexpected Error:', error.response.data)
+                throw new Error(error.response.data);
+            } else {
+                console.error('Signup Error:', error.response ? error.response.data : error.message);
+                throw new Error('An unexpected error occurred.');
+            }
         }
     };
 
@@ -146,7 +137,7 @@ const ClientSignupForm = () => {
             <Row className="m-auto">
                 <Col>
                     <h1 style={{ fontFamily: "RetroGaming, sans-serif"}} className="mb-4">Welcome!</h1>
-                    <GenericForm steps={formSteps} onSubmit={handleFormSubmit} />
+                    <GenericForm steps={formSteps} onSubmit={handleFormSubmit} unexpectedError={unexpectedError}/>
                 </Col>
             </Row>
         </Container>

@@ -16,20 +16,26 @@ export const validateEmail = (email: string): boolean => {
 };
 
 export const validatePassword = (password: string): boolean => {
-    const minLength = 8;
-    const hasUpperCase = /[A-Z]/.test(password);
-    const hasLowerCase = /[a-z]/.test(password);
-    const hasDigit = /[0-9]/.test(password);
-    const hasSpecialChar = /[!@#$%^&*()_+{}[\]:;<>,.?~\\-]/.test(password);
+    try {
+        const minLength = 8;
+        const hasUpperCase = /[A-Z]/.test(password);
+        const hasLowerCase = /[a-z]/.test(password);
+        const hasDigit = /[0-9]/.test(password);
+        const hasSpecialChar = /[!@#$%^&*()_+{}[\]:;<>,.?~\\-]/.test(password);
 
-    return (
-        password.length >= minLength &&
-        hasUpperCase &&
-        hasLowerCase &&
-        hasDigit &&
-        hasSpecialChar
-    );
+        return (
+            password.length >= minLength &&
+            hasUpperCase &&
+            hasLowerCase &&
+            hasDigit &&
+            hasSpecialChar
+        );
+    } catch (error) {
+        console.error("An error occurred during password validation", error);
+        return false;
+    }
 };
+
 
 export const validatePasswordConfirmation = (
     password: string,
