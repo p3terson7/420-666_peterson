@@ -46,15 +46,14 @@ const ClientSignupForm = () => {
                 validationRule: validation.validatePassword,
                 errorMessage: 'Password must be at least 8 characters long and include an uppercase letter, a lowercase letter, a digit, and a special character.',
             },
-            // {
-            //     label: 'Confirm Password',
-            //     name: 'passwordConfirmation',
-            //     type: 'password',
-            //     placeholder: 'Confirm Password',
-            //     // Assuming validatePasswordConfirmation is adapted to use formData for comparison
-            //     validationRule: (value, formData) => formData ? validation.validatePasswordConfirmation(formData['password'], value) : false,
-            //     errorMessage: 'Passwords do not match.',
-            // }
+            {
+                label: 'Confirm Password',
+                name: 'passwordConfirmation',
+                type: 'password',
+                placeholder: 'Confirm Password',
+                validationRule: (value: string, formData: Record<string, string> = {}) => validation.validatePasswordConfirmation(formData['password'] || '', value),
+                errorMessage: 'Passwords do not match.',
+            }
         ],
         [
             {
@@ -121,17 +120,18 @@ const ClientSignupForm = () => {
         }
     };
 
-    const handleChange = (e: any) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        if (name === "password-confirm") {
-            setPasswordConfirmation(value);
-        }
         setClient(prevState => ({
             ...prevState,
             [name]: value,
         }));
-    };
 
+        // Optionally, clear the unexpectedError when the user starts making corrections
+        if (unexpectedError) {
+            setUnexpectedError("");
+        }
+    };
     return (
         <Container fluid className="background-gif">
             <Row className="m-auto">
