@@ -87,12 +87,11 @@ export const GenericForm: React.FC<GenericFormProps> = ({ steps, onSubmit, unexp
                     {currentStep === steps.length && isSubmissionSuccessful ? (
                         <Container className="form-section form-section-active">
                             <div className="signup-success">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 24 24" style={{ marginBottom: '20px', color: '#4BB543' }}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 24 24" className="text-success mb-2">
                                     <path fill="currentColor" d="M9 19l-7-7 1.41-1.42L9 16.17l11.59-11.59L22 6l-13 13z"/>
                                 </svg>
-                                <h2>Signup Successful!</h2>
+                                <h2 className="text-success">Signup Successful!</h2>
                                 <p>Your account has been successfully created. You're now a part of the Prototype community!</p>
-                                <Button variant="success" onClick={() => {/* TODO: Navigate to Home page */}}>Proceed to Home Page</Button>
                             </div>
                         </Container>
                     ) : (

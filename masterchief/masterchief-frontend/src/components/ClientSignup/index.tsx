@@ -17,6 +17,8 @@ const ClientSignupForm = () => {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [unexpectedError, setUnexpectedError] = useState<string>("");
+    const [isRedirecting, setIsRedirecting] = useState(false);
+    const [redirectCount, setRedirectCount] = useState(3);
     const [client, setClient] = useState<Client>({
         firstName: firstName,
         lastName: lastName,
@@ -104,7 +106,7 @@ const ClientSignupForm = () => {
 
         try {
             const response = await clientSignup(clientData);
-            // TODO: Rediriger l'utilisateur vers la page de connexion
+            setIsRedirecting(true);
             setUnexpectedError("");
         } catch (error: any) {
             if (error.response && error.response.status === 409) {
@@ -116,14 +118,28 @@ const ClientSignupForm = () => {
         }
     };
 
+    useEffect(() => {
+        if (redirectCount === 0) {
+            window.location.href = '/';
+            setIsRedirecting(false);
+        } else if (isRedirecting) {
+            const countDownInterval = setInterval(() => {
+                setRedirectCount(redirectCount - 1);
+            }, 1000);
+            return () => clearInterval(countDownInterval);
+        }
+    }, [redirectCount, isRedirecting]);
+
+
     return (
         <Container fluid className="background-gif">
-            <Row className="m-auto">
-                <Col>
-                    <h1 style={{ fontFamily: "RetroGaming, sans-serif"}} className="mb-4">Welcome!</h1>
-                    <GenericForm steps={formSteps} onSubmit={handleFormSubmit} unexpectedError={unexpectedError}/>
-                </Col>
-            </Row>
+            <h1 style={{ fontFamily: "RetroGaming, sans-serif" }} className="mb-4">Welcome!</h1>
+            <GenericForm steps={formSteps} onSubmit={handleFormSubmit} unexpectedError={unexpectedError}/>
+            {isRedirecting && (
+                <div className="form-background mt-4 fade-in">
+                    <h4 className="text-success m-1" style={{ fontFamily: "RetroGaming, sans-serif" }}>Redirecting to home page in {redirectCount}..</h4>
+                </div>
+            )}
         </Container>
     );
 };
