@@ -3,11 +3,10 @@ import { Client } from '../../model/user';
 import { clientSignup } from "../../services/signupService";
 import * as validation from "../../services/formValidation";
 import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../App.css';
 import {GenericForm} from "../GenericForm";
+import {useNavigate} from "react-router-dom";
 
 const ClientSignupForm = () => {
     const [firstName, setFirstName] = useState<string>("");
@@ -19,6 +18,7 @@ const ClientSignupForm = () => {
     const [unexpectedError, setUnexpectedError] = useState<string>("");
     const [isRedirecting, setIsRedirecting] = useState(false);
     const [redirectCount, setRedirectCount] = useState(3);
+    const navigate = useNavigate();
     const [client, setClient] = useState<Client>({
         firstName: firstName,
         lastName: lastName,
@@ -120,7 +120,7 @@ const ClientSignupForm = () => {
 
     useEffect(() => {
         if (redirectCount === 0) {
-            window.location.href = '/';
+            navigate('/');
             setIsRedirecting(false);
         } else if (isRedirecting) {
             const countDownInterval = setInterval(() => {

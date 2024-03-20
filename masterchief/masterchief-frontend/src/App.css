@@ -23,7 +23,7 @@
 }
 
 .background-gif {
-  height: 100vh;
+  height: calc(100vh - 63px);
   background: url('./assets/img/pixel_signup.jpg') no-repeat center center fixed;
   background-size: cover;
   display: flex;

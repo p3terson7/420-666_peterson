@@ -1,0 +1,29 @@
+.navbar {
+    background-color: #282c34;
+    padding: 0.5rem 1rem;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #202225;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.navbar-menu {
+    display: flex;
+}
+
+.navbar-item {
+    padding: 0.5rem 1rem;
+    color: white;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.navbar-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
