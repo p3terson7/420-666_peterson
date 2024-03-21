@@ -1,29 +1,76 @@
 .navbar {
-    background-color: #282c34;
-    padding: 0.5rem 1rem;
+    background-color: #202225;
     color: white;
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid #202225;
+    align-items: center;
+    padding: 10px 16px;
+    font-size: 14px;
+}
+
+.navbar-left, .navbar-right {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-right {
+    margin-right: 1rem;
 }
 
 .navbar-brand {
-    font-size: 1.5rem;
-    font-weight: bold;
+    margin-left: 8px;
+    font-weight: 600;
+    color: white;
 }
 
 .navbar-menu {
     display: flex;
+    align-items: center;
 }
 
 .navbar-item {
-    padding: 0.5rem 1rem;
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
     color: white;
     text-decoration: none;
     transition: background-color 0.3s ease;
 }
 
-.navbar-item:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+.navbar-icon {
+    display: block;
+    width: 24px;
+    height: 24px;
+    margin-right: 4px;
+}
+
+.icon-description {
+    visibility: hidden;
+    width: 120px;
+    background-color: #36393E;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 100;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s, visibility 0.3s;
+    pointer-events: none;
+    margin-top: 8px;
+}
+
+.navbar-item:hover .icon-description {
+    visibility: visible;
+    opacity: 1;
+}
+
+.navbar-item:hover .navbar-icon {
+    transform: scale(1.2);
+    color: #36393E;
+    transition: transform 0.3s ease, color 0.3s ease;
 }
