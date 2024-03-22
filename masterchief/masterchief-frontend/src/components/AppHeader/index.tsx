@@ -4,7 +4,6 @@ import '../../App.css';
 import {Container, Nav, Navbar} from "react-bootstrap";
 import {UserIcon, InfoBox, MessageIcon, DashboardIcon} from "../../assets/icons/icons";
 
-
 const AppHeader = () => {
     return (
         <Navbar className="navbar">

@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import { Client } from '../../model/user';
-import { clientSignup } from "../../services/signupService";
+import { clientSignup } from "../../services/authService";
 import * as validation from "../../services/formValidation";
 import Container from 'react-bootstrap/Container';
 import 'bootstrap/dist/css/bootstrap.min.css';
