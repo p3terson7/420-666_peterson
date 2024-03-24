@@ -7,6 +7,7 @@ import com.example.masterchief.dto.AdminDTO;
 import com.example.masterchief.dto.ClientDTO;
 import com.example.masterchief.dto.UserDTO;
 import com.example.masterchief.security.config.Authorities;
+import com.example.masterchief.security.jwt.TimedJwt;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,6 +34,21 @@ public class JwtManipulator {
         this.issuer = issuer;
         this.expirationMs = expirationMs;
         this.signingAlgorithm = Algorithm.HMAC256(secret);
+    }
+
+    public TimedJwt generateToken(UserDTO user) {
+        return new TimedJwt(
+                JWT.create()
+                        .withSubject(user.getEmail())
+                        .withIssuedAt(new Date())
+                        .withClaim("id", user.getId())
+                        .withClaim("email", user.getEmail())
+                        .withClaim("authorities", determineAuthorities(user))
+                        .withExpiresAt(new Date(new Date().getTime() + expirationMs))
+                        .withIssuer(issuer)
+                        .sign(signingAlgorithm),
+                expirationMs
+        );
     }
 
     public List<String> determineAuthorities(UserDTO user) {
