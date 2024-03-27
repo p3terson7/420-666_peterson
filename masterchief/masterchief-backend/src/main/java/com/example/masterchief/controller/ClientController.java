@@ -13,18 +13,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/clients")
 @AllArgsConstructor
 public class ClientController extends LoggedController {
-    private final ClientService clientService;
 
-    @PostMapping("/signup")
-    public ResponseEntity<?> createClient(@RequestBody ClientDTO clientDTO) {
-        logger.info("createClient");
-        try {
-            return clientService.createClient(clientDTO)
-                    .map(client -> ResponseEntity.status(HttpStatus.CREATED).body(client))
-                    .orElseGet(() -> ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
-        }
-    }
 }
 
