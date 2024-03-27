@@ -46,12 +46,13 @@ public class AuthService {
         String email = signInRequest.getEmail();
         Optional<User> optionalUser = userRepository.findByEmail(email);
 
-
-        User user = optionalUser.orElseThrow();
-        Salt salt = saltRepository.findByUser(user).orElseThrow();
+        User user = optionalUser.orElseThrow(() -> new NoSuchElementException("User not found with email: " + email));
+        Salt salt = saltRepository.findByUser(user).orElseThrow(() -> new NoSuchElementException("Salt not found for user: " + user.getId()));
 
         String pw = signInRequest.getPassword();
         String hashedPw = BCrypt.hashpw(pw, salt.getValue());
+
+        if (!BCrypt.checkpw(pw, user.getPassword())) return Optional.empty();
 
         if (!hashedPw.equals(user.getPassword()))
             return Optional.empty();

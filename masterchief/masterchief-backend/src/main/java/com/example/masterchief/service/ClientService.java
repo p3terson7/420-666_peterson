@@ -3,15 +3,17 @@ package com.example.masterchief.service;
 import com.example.masterchief.dto.ClientDTO;
 import com.example.masterchief.model.Client;
 import com.example.masterchief.repository.ClientRepository;
+import com.example.masterchief.repository.security.SaltRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 @Service
-public class ClientService {
+public class ClientService extends GenericUserService<Client> {
     private final ClientRepository clientRepository;
 
-    public ClientService(ClientRepository clientRepository) {
+    public ClientService(ClientRepository clientRepository, SaltRepository saltRepository) {
+        super(saltRepository);
         this.clientRepository = clientRepository;
     }
 
@@ -27,6 +29,7 @@ public class ClientService {
         }
 
         Client client = clientDTO.fromDTO();
+        hashAndSaltPassword(client);
 
         return Optional.of(clientRepository.save(client).toDTO());
     }
