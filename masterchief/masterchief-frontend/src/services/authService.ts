@@ -42,7 +42,7 @@ export const getJwt = (): string | null => {
   return localStorage.getItem(JWT);
 };
 
-export const logout = () => {
+export const signOut = () => {
   clearConnection();
   console.log("Logged out");
 };

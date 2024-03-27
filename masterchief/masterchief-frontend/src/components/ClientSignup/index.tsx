@@ -104,18 +104,31 @@ const ClientSignupForm = () => {
             type: 'client',
         };
 
-        try {
-            const response = await clientSignup(clientData);
-            setIsRedirecting(true);
-            setUnexpectedError("");
-        } catch (error: any) {
-            if (error.response && error.response.status === 409) {
-                setUnexpectedError(error.response.data);
-                throw new Error(error.response.data);
-            } else {
-                throw new Error('An unexpected error occurred.', error.response ? error.response.data : error.message);
-            }
-        }
+        // try {
+        //     const response = await clientSignup(clientData);
+        //     setIsRedirecting(true);
+        //     setUnexpectedError("");
+        // } catch (error: any) {
+        //     if (error.response && error.response.status === 409) {
+        //         setUnexpectedError(error.response.data);
+        //         throw new Error(error.response.data);
+        //     } else {
+        //         throw new Error('An unexpected error occurred.', error.response ? error.response.data : error.message);
+        //     }
+        // }
+        await clientSignup(clientData)
+            .then((response) => {
+                setIsRedirecting(true);
+                setUnexpectedError("");
+            })
+            .catch((error) => {
+                if (error.response && error.response.status === 409) {
+                    setUnexpectedError(error.response.data);
+                    throw new Error(error.response.data);
+                } else {
+                    throw new Error('An unexpected error occurred.', error.response ? error.response.data : error.message);
+                }
+            });
     };
 
     useEffect(() => {

@@ -6,10 +6,10 @@ const PageNotFound = () => {
 
     return (
         <>
-            <Container fluid className="background-gif">
+            <Container fluid className="background-redirect">
                 <div>
-                    <h1 style={{ fontFamily: "RetroGaming, sans-serif", color:'#FFC0CB', textShadow:'2px 2px 4px #000000' }}>
-                        404 Page Not Found...
+                    <h1 style={{ fontFamily: "RetroGaming, sans-serif", color:'#36393E', textShadow:'2px 2px 4px #000000' }}>
+                        404 Not Found...
                     </h1>
                 </div>
             </Container>

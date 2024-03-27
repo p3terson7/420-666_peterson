@@ -3,14 +3,14 @@ import Container from 'react-bootstrap/Container';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../App.css';
 import { GenericForm } from "../GenericForm";
-import {useLocation, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {
     authenticate,
     getUserId,
     hasSessionExpiredRecently,
     isConnected,
     login,
-    logout
+    signOut
 } from "../../services/authService";
 import * as validation from "../../services/formValidation";
 import {SignInRequest} from "../../model/auth";
@@ -21,6 +21,7 @@ const SignInForm = () => {
     const navigate = useNavigate();
     const [areCredentialsValid, setAreCredentialsValid] = useState<boolean>(true);
     const [isDisabled, setIsDisabled] = useState<boolean>(false);
+    const [authError, setAuthError] = useState<string>("");
 
     const navigateToUserTypeHomePage = (userType: string) => {
         switch (userType) {
@@ -66,14 +67,14 @@ const SignInForm = () => {
 
         setIsDisabled(true);
 
-        login(signInRequest)
+        await login(signInRequest)
             .then((response) => {
                 authenticate(response.data);
 
                 const id = getUserId();
 
                 if (id == null) {
-                    logout();
+                    signOut();
                     navigate("/pageNotFound");
                     return;
                 }
@@ -85,15 +86,15 @@ const SignInForm = () => {
                     .catch((err) => {
                         console.error("Error fetching user by ID:", err.message);
                         console.error("Full error details:", err);
-                        logout();
+                        signOut();
                         navigate("/pageNotFound");
                     });
             })
             .catch((error) => {
                 console.log(error);
                 if (error.response.status === 401 || error.response.status === 403) setAreCredentialsValid(false);
-
-                setIsDisabled(false);
+                setUnexpectedError("Invalid email or password.");
+                throw new Error(error.response.data);
             });
     };
 

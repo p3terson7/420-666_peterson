@@ -62,13 +62,21 @@ export const GenericForm: React.FC<GenericFormProps> = ({ steps, onSubmit, unexp
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (currentStep === steps.length - 1 && validateCurrentStep()) {
-            try {
-                await onSubmit(formData);
-                setIsSubmissionSuccessful(true);
-                setCurrentStep(currentStep + 1);
-            } catch (error) {
-                console.error('Submission failed:', error);
-            }
+            // try {
+            //     await onSubmit(formData);
+            //     setIsSubmissionSuccessful(true);
+            //     setCurrentStep(currentStep + 1);
+            // } catch (error) {
+            //     console.error('Submission failed:', error);
+            // }
+            await onSubmit(formData)
+                .then(() => {
+                    setIsSubmissionSuccessful(true);
+                    setCurrentStep(currentStep + 1);
+                })
+                .catch(error => {
+                    console.error('Submission failed:', error);
+                });
         }
     };
 
@@ -87,11 +95,9 @@ export const GenericForm: React.FC<GenericFormProps> = ({ steps, onSubmit, unexp
                     {currentStep === steps.length && isSubmissionSuccessful ? (
                         <Container className="form-section form-section-active">
                             <div className="signup-success">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 24 24" className="text-success mb-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 24 24" className="text-success">
                                     <path fill="currentColor" d="M9 19l-7-7 1.41-1.42L9 16.17l11.59-11.59L22 6l-13 13z"/>
                                 </svg>
-                                <h2 className="text-success">Signup Successful!</h2>
-                                <p>Your account has been successfully created. You're now a part of the Prototype community!</p>
                             </div>
                         </Container>
                     ) : (

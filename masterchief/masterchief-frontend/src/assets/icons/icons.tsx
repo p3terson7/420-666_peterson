@@ -24,6 +24,12 @@ export const LogoutIcon = () => (
     </svg>
 );
 
+export const LoginIcon = () => (
+    <svg className="navbar-icon" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M5 3H3v4h2V5h14v14H5v-2H3v4h18V3H5zm12 8h-2V9h-2V7h-2v2h2v2H3v2h10v2h-2v2h2v-2h2v-2h2v-2z" fill="#5c6bc0"/>
+    </svg>
+);
+
 export const MessageIcon = () => (
     <svg className="navbar-icon" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
         <path d="M4 2h18v16H6v2H4v-2h2v-2h14V4H4v18H2V2h2zm5 7H7v2h2V9zm2 0h2v2h-2V9zm6 0h-2v2h2V9z" fill="currentColor"/>

@@ -10,6 +10,7 @@ import PageNotFoundView from "./views/PageNotFoundView";
 import ConnectedRoute from "./components/ConnectedRoute";
 import AuthorizedRoute from "./components/AuthorizedRoute";
 import {Authority} from "./model/auth";
+import HomePageView from "./views/HomePageView";
 
 function App() {
     return (
@@ -17,6 +18,7 @@ function App() {
             <div className="App">
                 <AppHeader />
                 <Routes>
+                    <Route path="/home" element={<HomePageView />} />
                     <Route path="/signup" element={<SignupView userType={UserType.Client} />} />
                     <Route path="/pageNotFound" element={<PageNotFoundView />} />
                     <Route
