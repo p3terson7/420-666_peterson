@@ -44,6 +44,7 @@ export const getJwt = (): string | null => {
 
 export const logout = () => {
   clearConnection();
+  console.log("Logged out");
 };
 
 export const expireSession = () => {

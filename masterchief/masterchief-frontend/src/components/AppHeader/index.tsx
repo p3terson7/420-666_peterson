@@ -2,7 +2,8 @@ import React from "react";
 import './Navbar.css';
 import '../../App.css';
 import {Container, Nav, Navbar} from "react-bootstrap";
-import {UserIcon, InfoBox, MessageIcon, DashboardIcon} from "../../assets/icons/icons";
+import {UserIcon, InfoBox, MessageIcon, DashboardIcon, LogoutIcon} from "../../assets/icons/icons";
+import {logout} from "../../services/authService";
 
 const AppHeader = () => {
     return (
@@ -26,6 +27,10 @@ const AppHeader = () => {
                     <Container fluid className="navbar-item">
                         <InfoBox />
                         <span className="icon-description">Info</span>
+                    </Container>
+                    <Container fluid className="navbar-item" onClick={logout}>
+                        <LogoutIcon />
+                        <span className="icon-description">Log out</span>
                     </Container>
                 </Nav>
             </div>

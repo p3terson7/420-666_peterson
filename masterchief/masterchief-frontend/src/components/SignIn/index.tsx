@@ -11,7 +11,7 @@ import {
     isConnected,
     login,
     logout
-} from "../../services/authService"; // Ensure you have a signIn service
+} from "../../services/authService";
 import * as validation from "../../services/formValidation";
 import {SignInRequest} from "../../model/auth";
 import {getUserById} from "../../services/userService";
