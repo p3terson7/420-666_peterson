@@ -1,8 +1,7 @@
 import {Client} from "../model/user";
 import { AxiosResponse } from "axios";
 import http from "../constants/http";
-import { CLIENT_PREFIX} from "../constants/apiPrefixes";
-import { Authority, DecodedJwt, LoginRequest, TimedJwt } from "../model/auth";
+import {Authority, DecodedJwt, SignInRequest, TimedJwt} from "../model/auth";
 import {
   JWT,
   JWT_EXPIRES_AT,
@@ -15,13 +14,13 @@ import { AUTH_PREFIX } from "../constants/apiPrefixes";
 export const clientSignup = async (
   client: Client
 ): Promise<AxiosResponse> => {
-  return http.post(`${CLIENT_PREFIX}/signup`, client);
+  return http.post(`${AUTH_PREFIX}/signup`, client);
 };
 
 export const login = async (
-    loginRequest: LoginRequest
+    signInRequest: SignInRequest
 ): Promise<AxiosResponse<TimedJwt>> => {
-  return http.post(`${AUTH_PREFIX}/login`, loginRequest);
+  return http.post(`${AUTH_PREFIX}/login`, signInRequest);
 };
 
 export const authenticate = (timedJwt: TimedJwt) => {

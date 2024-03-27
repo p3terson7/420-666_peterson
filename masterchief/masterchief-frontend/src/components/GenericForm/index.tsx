@@ -81,7 +81,7 @@ export const GenericForm: React.FC<GenericFormProps> = ({ steps, onSubmit, unexp
     };
 
     return (
-        <Card className="form-background" style={{ width: '25rem', borderRadius: '0.5rem', height: containerHeight }}>
+        <Card className="form-background" style={{ width: '25rem', borderRadius: '0.5rem', height: containerHeight, marginTop:'1rem' }}>
             <Card.Body>
                 <Form onSubmit={handleSubmit}>
                     {currentStep === steps.length && isSubmissionSuccessful ? (

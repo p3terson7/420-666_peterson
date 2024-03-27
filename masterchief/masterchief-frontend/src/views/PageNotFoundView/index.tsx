@@ -3,7 +3,7 @@ import PageNotFound from "../../components/PageNotFound";
 
 const PageNotFoundView = () => {
     return (
-        <Container>
+        <Container fluid>
             <PageNotFound />
         </Container>
     );

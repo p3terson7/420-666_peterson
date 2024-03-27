@@ -133,8 +133,10 @@ const ClientSignupForm = () => {
 
     return (
         <Container fluid className="background-gif">
-            <h1 style={{ fontFamily: "RetroGaming, sans-serif" }} className="mb-4">Welcome!</h1>
-            <GenericForm steps={formSteps} onSubmit={handleFormSubmit} unexpectedError={unexpectedError}/>
+                <h1 style={{ fontFamily: "RetroGaming, sans-serif", color:'#FFC0CB', textShadow:'2px 2px 4px #000000' }}>
+                    Embark on the Quest!<br></br>Join us, and claim your destiny
+                </h1>
+            <GenericForm steps={formSteps} onSubmit={handleFormSubmit} unexpectedError={unexpectedError} />
             {isRedirecting && (
                 <div className="form-background mt-4 fade-in">
                     <h4 className="text-success m-1" style={{ fontFamily: "RetroGaming, sans-serif" }}>Redirecting to home page in {redirectCount}..</h4>
