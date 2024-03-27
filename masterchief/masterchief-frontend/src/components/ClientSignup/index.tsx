@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { Client } from '../../model/user';
 import { clientSignup } from "../../services/authService";
 import * as validation from "../../services/formValidation";
@@ -9,25 +9,10 @@ import {GenericForm} from "../GenericForm";
 import {useNavigate} from "react-router-dom";
 
 const ClientSignupForm = () => {
-    const [firstName, setFirstName] = useState<string>("");
-    const [lastName, setLastName] = useState<string>("");
-    const [address, setAddress] = useState<string>("");
-    const [phone, setPhone] = useState<string>("");
-    const [email, setEmail] = useState<string>("");
-    const [password, setPassword] = useState<string>("");
     const [unexpectedError, setUnexpectedError] = useState<string>("");
     const [isRedirecting, setIsRedirecting] = useState(false);
     const [redirectCount, setRedirectCount] = useState(3);
     const navigate = useNavigate();
-    const [client, setClient] = useState<Client>({
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        password: password,
-        address: address,
-        phone: phone,
-        type: 'client',
-    });
 
     const formSteps = [
         [
@@ -104,20 +89,8 @@ const ClientSignupForm = () => {
             type: 'client',
         };
 
-        // try {
-        //     const response = await clientSignup(clientData);
-        //     setIsRedirecting(true);
-        //     setUnexpectedError("");
-        // } catch (error: any) {
-        //     if (error.response && error.response.status === 409) {
-        //         setUnexpectedError(error.response.data);
-        //         throw new Error(error.response.data);
-        //     } else {
-        //         throw new Error('An unexpected error occurred.', error.response ? error.response.data : error.message);
-        //     }
-        // }
         await clientSignup(clientData)
-            .then((response) => {
+            .then(() => {
                 setIsRedirecting(true);
                 setUnexpectedError("");
             })
@@ -146,9 +119,9 @@ const ClientSignupForm = () => {
 
     return (
         <Container fluid className="background-gif">
-                <h1 style={{ fontFamily: "RetroGaming, sans-serif", color:'#FFC0CB', textShadow:'2px 2px 4px #000000' }}>
-                    Embark on the Quest!<br></br>Join us, and claim your destiny
-                </h1>
+            <h1 style={{ fontFamily: "RetroGaming, sans-serif", color:'#FFC0CB', textShadow:'2px 2px 4px #000000' }}>
+                Embark on the Quest!<br></br>Join us, and claim your destiny
+            </h1>
             <GenericForm steps={formSteps} onSubmit={handleFormSubmit} unexpectedError={unexpectedError} />
             {isRedirecting && (
                 <div className="form-background mt-4 fade-in">

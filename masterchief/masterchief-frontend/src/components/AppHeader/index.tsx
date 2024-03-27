@@ -3,8 +3,7 @@ import './Navbar.css';
 import '../../App.css';
 import {Container, Nav, Navbar} from "react-bootstrap";
 import {UserIcon, InfoBox, MessageIcon, DashboardIcon, LogoutIcon, LoginIcon} from "../../assets/icons/icons";
-import {getUserId, isConnected, signOut} from "../../services/authService";
-import {getUserById} from "../../services/userService";
+import {isConnected, signOut} from "../../services/authService";
 import {useNavigate} from "react-router-dom";
 
 const AppHeader = () => {

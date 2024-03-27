@@ -3,7 +3,6 @@ package com.example.masterchief.controller;
 import com.example.masterchief.controller.abstracts.GenericUserController;
 import com.example.masterchief.model.Client;
 import com.example.masterchief.service.ClientService;
-import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "*")

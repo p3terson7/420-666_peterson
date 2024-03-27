@@ -14,13 +14,13 @@ import { AUTH_PREFIX } from "../constants/apiPrefixes";
 export const clientSignup = async (
   client: Client
 ): Promise<AxiosResponse> => {
-  return http.post(`${AUTH_PREFIX}/signup`, client);
+  return http.post(`${AUTH_PREFIX}/signUp`, client);
 };
 
 export const login = async (
     signInRequest: SignInRequest
 ): Promise<AxiosResponse<TimedJwt>> => {
-  return http.post(`${AUTH_PREFIX}/login`, signInRequest);
+  return http.post(`${AUTH_PREFIX}/signIn`, signInRequest);
 };
 
 export const authenticate = (timedJwt: TimedJwt) => {

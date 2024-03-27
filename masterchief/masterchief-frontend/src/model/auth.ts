@@ -21,6 +21,5 @@ export interface DecodedJwt {
 export enum Authority {
     CLIENT = "CLIENT",
     ADMIN = "ADMIN",
-    GUEST = "GUEST",
     USER = "USER",
 }

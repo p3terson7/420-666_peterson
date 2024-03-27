@@ -19,10 +19,10 @@ function App() {
                 <AppHeader />
                 <Routes>
                     <Route path="/home" element={<HomePageView />} />
-                    <Route path="/signup" element={<SignupView userType={UserType.Client} />} />
+                    <Route path="/signUp" element={<SignupView userType={UserType.Client} />} />
                     <Route path="/pageNotFound" element={<PageNotFoundView />} />
                     <Route
-                        path="/signin/*"
+                        path="/signIn/*"
                         element={
                             <ConnectedRoute isConnectedRoute={false}>
                                 <Routes>

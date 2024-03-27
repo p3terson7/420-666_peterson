@@ -24,7 +24,7 @@ export const GenericForm: React.FC<GenericFormProps> = ({ steps, onSubmit, unexp
     const [formData, setFormData] = useState<Record<string, string>>({});
     const [errors, setErrors] = useState<Record<string, string>>({});
     const activeStepRef = useRef<HTMLDivElement>(null);
-    const [containerHeight, setContainerHeight] = useState('auto');
+    const [containerHeight] = useState('auto');
     const [attemptedNext, setAttemptedNext] = useState(false);
     const [isSubmissionSuccessful, setIsSubmissionSuccessful] = useState(false);
 
@@ -62,13 +62,6 @@ export const GenericForm: React.FC<GenericFormProps> = ({ steps, onSubmit, unexp
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (currentStep === steps.length - 1 && validateCurrentStep()) {
-            // try {
-            //     await onSubmit(formData);
-            //     setIsSubmissionSuccessful(true);
-            //     setCurrentStep(currentStep + 1);
-            // } catch (error) {
-            //     console.error('Submission failed:', error);
-            // }
             await onSubmit(formData)
                 .then(() => {
                     setIsSubmissionSuccessful(true);

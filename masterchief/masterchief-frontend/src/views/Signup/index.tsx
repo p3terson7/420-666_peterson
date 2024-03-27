@@ -7,9 +7,9 @@ interface Props {
     userType: UserType;
 }
 const SignupView = ({ userType }: Props) => {
-  return <Container fluid>
-    <ClientSignupForm />
-  </Container>;
+    return <Container fluid>
+        <ClientSignupForm />
+    </Container>;
 }
 
 export default SignupView;

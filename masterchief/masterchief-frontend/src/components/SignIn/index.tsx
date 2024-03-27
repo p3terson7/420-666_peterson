@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState} from 'react';
 import Container from 'react-bootstrap/Container';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../App.css';
@@ -7,8 +7,6 @@ import {useNavigate} from "react-router-dom";
 import {
     authenticate,
     getUserId,
-    hasSessionExpiredRecently,
-    isConnected,
     login,
     signOut
 } from "../../services/authService";
@@ -19,9 +17,6 @@ import {getUserById} from "../../services/userService";
 const SignInForm = () => {
     const [unexpectedError, setUnexpectedError] = useState<string>("");
     const navigate = useNavigate();
-    const [areCredentialsValid, setAreCredentialsValid] = useState<boolean>(true);
-    const [isDisabled, setIsDisabled] = useState<boolean>(false);
-    const [authError, setAuthError] = useState<string>("");
 
     const navigateToUserTypeHomePage = (userType: string) => {
         switch (userType) {
@@ -65,8 +60,6 @@ const SignInForm = () => {
             password: rest.password,
         };
 
-        setIsDisabled(true);
-
         await login(signInRequest)
             .then((response) => {
                 authenticate(response.data);
@@ -92,9 +85,10 @@ const SignInForm = () => {
             })
             .catch((error) => {
                 console.log(error);
-                if (error.response.status === 401 || error.response.status === 403) setAreCredentialsValid(false);
-                setUnexpectedError("Invalid email or password.");
-                throw new Error(error.response.data);
+                if (error.response.status === 401 || error.response.status === 403) {
+                    setUnexpectedError("Invalid email or password.");
+                    throw new Error(error.response.data);
+                }
             });
     };
 

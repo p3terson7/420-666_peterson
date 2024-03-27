@@ -9,7 +9,6 @@ import com.example.masterchief.service.AuthService;
 import com.example.masterchief.service.ClientService;
 import com.example.masterchief.utils.JwtManipulator;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,22 +25,11 @@ public class AuthController extends LoggedController {
     private final ClientService clientService;
     private final JwtManipulator jwtManipulator;
 
-
-    @PostMapping("/signin")
-    public ResponseEntity<UserDTO> signIn(@RequestBody SignInRequest signInRequest) {
-        try {
-            UserDTO userDTO = authService.signIn(signInRequest.getEmail(), signInRequest.getPassword());
-            return ResponseEntity.ok(userDTO);
-        } catch (NoSuchElementException | IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-        }
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<TimedJwt> login(@RequestBody SignInRequest signInRequest) {
+    @PostMapping("/signIn")
+    public ResponseEntity<TimedJwt> signIn(@RequestBody SignInRequest signInRequest) {
         logger.info("login");
 
-        Optional<UserDTO> loggedUser = authService.login(signInRequest);
+        Optional<UserDTO> loggedUser = authService.signIn(signInRequest);
 
         if (loggedUser.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -51,7 +39,7 @@ public class AuthController extends LoggedController {
         return ResponseEntity.ok(jwt);
     }
 
-    @PostMapping("/signup")
+    @PostMapping("/signUp")
     public ResponseEntity<?> createClient(@RequestBody ClientDTO clientDTO) {
         logger.info("createClient");
         try {
