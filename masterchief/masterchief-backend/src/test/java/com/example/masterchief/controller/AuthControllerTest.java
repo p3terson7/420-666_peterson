@@ -1,5 +1,6 @@
 package com.example.masterchief.controller;
 
+import com.example.masterchief.dto.ClientDTO;
 import com.example.masterchief.dto.UserDTO;
 import com.example.masterchief.repository.UserRepository;
 import com.example.masterchief.security.jwt.TimedJwt;
@@ -19,6 +20,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -52,5 +54,19 @@ public class AuthControllerTest {
                 .contentType(MediaType.APPLICATION_JSON);
 
         mockMvc.perform(request).andExpect(status().isOk());
+    }
+
+    @Test
+    @WithMockUser
+    public void testLogin_UserNotFound_soUnauthorized() throws Exception {
+        when(authService.signIn(any())).thenReturn(Optional.empty());
+
+        RequestBuilder request = MockMvcRequestBuilders
+                .post("/auth/signIn").with(csrf())
+                .accept(MediaType.APPLICATION_JSON)
+                .content("{\"identification\":\"identification\",\"password\":\"password\"}")
+                .contentType(MediaType.APPLICATION_JSON);
+
+        mockMvc.perform(request).andExpect(status().isUnauthorized());
     }
 }
