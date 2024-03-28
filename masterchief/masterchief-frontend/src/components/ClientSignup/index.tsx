@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import { Client } from '../../model/user';
 import {authenticate, clientSignup, getUserId, login, signOut} from "../../services/authService";
 import * as validation from "../../services/formValidation";
@@ -12,8 +12,7 @@ import {getUserById} from "../../services/userService";
 
 const ClientSignupForm = () => {
     const [unexpectedError, setUnexpectedError] = useState<string>("");
-    const [isRedirecting, setIsRedirecting] = useState(false);
-    const [redirectCount, setRedirectCount] = useState(3);
+    const [successMessage, setSuccessMessage] = useState<string>("");
     const navigate = useNavigate();
 
     const formSteps = [
@@ -94,7 +93,6 @@ const ClientSignupForm = () => {
 
         await clientSignup(clientData)
             .then(() => {
-                setIsRedirecting(true);
                 setUnexpectedError("");
             })
             .catch((error) => {
@@ -118,6 +116,7 @@ const ClientSignupForm = () => {
         await login(signInRequest)
             .then((response) => {
                 authenticate(response.data);
+                setSuccessMessage("Successfully signed up!")
 
                 const id = getUserId();
 
@@ -142,29 +141,12 @@ const ClientSignupForm = () => {
             });
     }
 
-    useEffect(() => {
-        if (redirectCount === 0) {
-            // automaticRedirect(email, password);
-            setIsRedirecting(false);
-        } else if (isRedirecting) {
-            const countDownInterval = setInterval(() => {
-                setRedirectCount(redirectCount - 1);
-            }, 1000);
-            return () => clearInterval(countDownInterval);
-        }
-    }, [redirectCount, isRedirecting]);
-
     return (
         <Container fluid className="background-gif">
             <h1 style={{ fontFamily: "RetroGaming, sans-serif", color:'#FFC0CB', textShadow:'2px 2px 4px #000000' }}>
                 Embark on the Quest!<br></br>Join us, and claim your destiny
             </h1>
-            <GenericForm steps={formSteps} onSubmit={handleFormSubmit} unexpectedError={unexpectedError} />
-            {isRedirecting && (
-                <div className="form-background mt-4 fade-in">
-                    <h4 className="text-success m-1" style={{ fontFamily: "RetroGaming, sans-serif" }}>Redirecting to home page in {redirectCount}..</h4>
-                </div>
-            )}
+            <GenericForm steps={formSteps} onSubmit={handleFormSubmit} unexpectedError={unexpectedError} successMessage={successMessage}/>
         </Container>
     );
 };
