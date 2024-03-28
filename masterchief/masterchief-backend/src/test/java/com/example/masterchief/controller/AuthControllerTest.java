@@ -19,8 +19,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -72,19 +71,49 @@ public class AuthControllerTest {
 
     @Test
     @WithMockUser
-    public void testStudentSignup_happyPath() throws Exception {
+    public void testClientSignup_happyPath() throws Exception {
 
         when(clientService.createClient(any())).thenReturn(Optional.of(mock(ClientDTO.class)));
 
         RequestBuilder request = MockMvcRequestBuilders
                 .post("/auth/signUp").with(csrf())
-                .content(createJsonOfClientDTO())
+                .content(createJsonOfClientDTO("existing@email.com"))
                 .contentType(MediaType.APPLICATION_JSON);
 
         mockMvc.perform(request).andExpect(status().isCreated());
     }
 
-    private String createJsonOfClientDTO() {
+    @Test
+    @WithMockUser
+    public void testSignupWithExistingEmailReturnsBadRequest() throws Exception {
+        when(clientService.createClient(argThat(clientDto -> "existing@email.com".equals(clientDto.getEmail()))))
+                .thenReturn(Optional.empty());
+
+        RequestBuilder request = MockMvcRequestBuilders
+                .post("/auth/signUp").with(csrf())
+                .content(createJsonOfClientDTO("existing@email.com"))
+                .contentType(MediaType.APPLICATION_JSON);
+
+        mockMvc.perform(request)
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @WithMockUser
+    public void testSignup_InvalidClient() throws Exception {
+        ClientDTO mockedClientDTO = mock(ClientDTO.class);
+
+        when(clientService.createClient(mockedClientDTO)).thenReturn(Optional.empty());
+
+        RequestBuilder request = MockMvcRequestBuilders
+                .post("/auth/signUp").with(csrf())
+                .content(createJsonOfClientDTO(""))
+                .contentType(MediaType.APPLICATION_JSON);
+        mockMvc.perform(request).andExpect(status().isBadRequest());
+    }
+
+
+    private String createJsonOfClientDTO(String mail) {
         return "{" +
                 "\"firstName\":\"\"," +
                 "\"lastName\":\"\"," +
