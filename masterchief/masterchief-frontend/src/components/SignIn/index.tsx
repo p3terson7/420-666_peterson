@@ -13,7 +13,6 @@ import {
 import * as validation from "../../services/formValidation";
 import {SignInRequest} from "../../model/auth";
 import {getUserById} from "../../services/userService";
-import {enqueueSnackbar} from "notistack";
 
 const SignInForm = () => {
     const [unexpectedError, setUnexpectedError] = useState<string>("");
@@ -63,7 +62,7 @@ const SignInForm = () => {
                     .then((res) => {
                         navigateToUserTypeHomePage(res.data.type!);
                     })
-                    .catch((err) => {
+                    .catch(() => {
                         signOut();
                         navigate("/pageNotFound");
                     });

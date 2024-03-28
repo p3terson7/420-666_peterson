@@ -19,17 +19,15 @@ interface GenericFormProps {
     onSubmit: (formData: Record<string, string>) => Promise<void>;
     unexpectedError?: string;
     successMessage?: string;
-    onSubmissionSuccess?: () => void;
 }
 
-export const GenericForm: React.FC<GenericFormProps> = ({ steps, onSubmit, unexpectedError, successMessage, onSubmissionSuccess }) => {
+export const GenericForm: React.FC<GenericFormProps> = ({ steps, onSubmit, unexpectedError, successMessage }) => {
     const [currentStep, setCurrentStep] = useState(0);
     const [formData, setFormData] = useState<Record<string, string>>({});
     const [errors, setErrors] = useState<Record<string, string>>({});
     const activeStepRef = useRef<HTMLDivElement>(null);
     const [containerHeight] = useState('auto');
     const [attemptedNext, setAttemptedNext] = useState(false);
-    const [isSubmissionSuccessful, setIsSubmissionSuccessful] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const validateCurrentStep = () => {
@@ -80,7 +78,6 @@ export const GenericForm: React.FC<GenericFormProps> = ({ steps, onSubmit, unexp
         if (currentStep === steps.length - 1 && validateCurrentStep()) {
             await onSubmit(formData)
                 .then(() => {
-                    setIsSubmissionSuccessful(true);
                 })
                 .catch(error => {
                     console.error('Submission failed:', error);

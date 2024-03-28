@@ -12,7 +12,6 @@ import AuthorizedRoute from "./components/AuthorizedRoute";
 import {Authority} from "./model/auth";
 import HomePageView from "./views/HomePageView";
 import {SnackbarProvider} from "notistack";
-
 function App() {
     return (
         <SnackbarProvider maxSnack={3}>
