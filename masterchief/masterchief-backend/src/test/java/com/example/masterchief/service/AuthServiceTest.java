@@ -3,7 +3,6 @@ package com.example.masterchief.service;
 import com.example.masterchief.dto.UserDTO;
 import com.example.masterchief.model.User;
 import com.example.masterchief.model.security.Salt;
-import com.example.masterchief.repository.ClientRepository;
 import com.example.masterchief.repository.UserRepository;
 import com.example.masterchief.repository.security.SaltRepository;
 import com.example.masterchief.security.login.SignInRequest;
