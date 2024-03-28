@@ -69,4 +69,30 @@ public class AuthControllerTest {
 
         mockMvc.perform(request).andExpect(status().isUnauthorized());
     }
+
+    @Test
+    @WithMockUser
+    public void testStudentSignup_happyPath() throws Exception {
+
+        when(clientService.createClient(any())).thenReturn(Optional.of(mock(ClientDTO.class)));
+
+        RequestBuilder request = MockMvcRequestBuilders
+                .post("/auth/signUp").with(csrf())
+                .content(createJsonOfClientDTO())
+                .contentType(MediaType.APPLICATION_JSON);
+
+        mockMvc.perform(request).andExpect(status().isCreated());
+    }
+
+    private String createJsonOfClientDTO() {
+        return "{" +
+                "\"firstName\":\"\"," +
+                "\"lastName\":\"\"," +
+                "\"email\":\"\"," +
+                "\"password\":\"\"," +
+                "\"address\":\"\"," +
+                "\"phone\":\"\"," +
+                "\"type\":\"client\"" +
+                "}";
+    }
 }
