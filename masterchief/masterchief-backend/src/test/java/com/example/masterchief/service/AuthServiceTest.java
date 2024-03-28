@@ -14,9 +14,11 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -24,8 +26,6 @@ import static org.mockito.Mockito.when;
 public class AuthServiceTest {
     @Mock
     private UserRepository userRepository;
-    @Mock
-    private ClientRepository clientRepository;
     @Mock
     private SaltRepository saltRepository;
 
@@ -48,6 +48,30 @@ public class AuthServiceTest {
         Optional<UserDTO> userDTO = authService.signIn(signInRequest);
 
         assertThat(userDTO).isPresent();
+    }
+
+    @Test
+    public void testLogin_invalidEmail() {
+        SignInRequest signInRequest = new SignInRequest("email@email.com", "password");
+
+        when(userRepository.findByEmail(signInRequest.getEmail())).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> authService.signIn(signInRequest))
+                .isInstanceOf(NoSuchElementException.class);
+    }
+
+    @Test
+    public void testLogin_invalidPassword() {
+        SignInRequest signInRequest = new SignInRequest("email@email.com", "password");
+        User mockedUser = mock(User.class);
+
+        Salt salt = createNewSalt(mockedUser);
+
+        when(userRepository.findByEmail(signInRequest.getEmail())).thenReturn(Optional.of(mockedUser));
+        when(saltRepository.findByUser(mockedUser)).thenReturn(Optional.of(salt));
+        when(mockedUser.getPassword()).thenReturn(BCrypt.hashpw("wrongPassword", salt.getValue()));
+
+        assertThat(authService.signIn(signInRequest)).isEmpty();
     }
 
     private Salt createNewSalt(User user) {
