@@ -12,6 +12,7 @@ import AuthorizedRoute from "./components/AuthorizedRoute";
 import {Authority} from "./model/auth";
 import HomePageView from "./views/HomePageView";
 import {SnackbarProvider} from "notistack";
+import AuthForm from "./components/AuthForm";
 function App() {
     return (
         <SnackbarProvider maxSnack={3}>
@@ -21,6 +22,7 @@ function App() {
                     <Routes>
                         <Route path="/home" element={<HomePageView />} />
                         <Route path="/signUp" element={<SignupView userType={UserType.Client} />} />
+                        <Route path="/auth" element={<AuthForm />} />
                         <Route path="/pageNotFound" element={<PageNotFoundView />} />
                         <Route
                             path="/signIn/*"

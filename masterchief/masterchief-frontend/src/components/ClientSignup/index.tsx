@@ -2,9 +2,7 @@ import React, {useState} from 'react';
 import { Client } from '../../model/user';
 import {authenticate, clientSignup, getUserId, login, signOut} from "../../services/authService";
 import * as validation from "../../services/formValidation";
-import Container from 'react-bootstrap/Container';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../../App.css';
 import {GenericForm} from "../GenericForm";
 import {useNavigate} from "react-router-dom";
 import {SignInRequest} from "../../model/auth";
@@ -142,12 +140,12 @@ const ClientSignupForm = () => {
     }
 
     return (
-        <Container fluid className="background-gif">
+        <div className="row justify-content-center">
             <h1 style={{ fontFamily: "RetroGaming, sans-serif", color:'#FFC0CB', textShadow:'2px 2px 4px #000000' }}>
                 Embark on the Quest!<br></br>Join us, and claim your destiny
             </h1>
             <GenericForm steps={formSteps} onSubmit={handleFormSubmit} unexpectedError={unexpectedError} successMessage={successMessage}/>
-        </Container>
+        </div>
     );
 };
 

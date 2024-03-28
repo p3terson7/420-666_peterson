@@ -1,7 +1,5 @@
 import React, {useState} from 'react';
-import Container from 'react-bootstrap/Container';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../../App.css';
 import { GenericForm } from "../GenericForm";
 import {useNavigate} from "react-router-dom";
 import {
@@ -91,14 +89,14 @@ const SignInForm = () => {
     };
 
     return (
-        <Container fluid className="background-gif">
+        <div className="row justify-content-center">
             <div className="header-container">
                 <h1 style={{ fontFamily: "RetroGaming, sans-serif", color:'#FFC0CB', textShadow:'2px 2px 4px #000000' }}>
                     Look Who's Back!<br/>We saved your spot
                 </h1>
             </div>
             <GenericForm steps={formFields} onSubmit={handleFormSubmit} unexpectedError={unexpectedError} successMessage={successMessage} />
-        </Container>
+        </div>
     );
 };
 
