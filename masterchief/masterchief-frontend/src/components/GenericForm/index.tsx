@@ -3,6 +3,7 @@ import { Button, Container, Form} from 'react-bootstrap';
 import { GenericField } from './GenericField';
 import "../../App.css";
 import Card from "react-bootstrap/Card";
+import {enqueueSnackbar} from "notistack";
 
 interface FieldConfig {
     label: string;
@@ -18,15 +19,18 @@ interface GenericFormProps {
     onSubmit: (formData: Record<string, string>) => Promise<void>;
     unexpectedError?: string;
     successMessage?: string;
+    onSubmissionSuccess?: () => void;
 }
 
-export const GenericForm: React.FC<GenericFormProps> = ({ steps, onSubmit, unexpectedError }) => {
+export const GenericForm: React.FC<GenericFormProps> = ({ steps, onSubmit, unexpectedError, successMessage, onSubmissionSuccess }) => {
     const [currentStep, setCurrentStep] = useState(0);
     const [formData, setFormData] = useState<Record<string, string>>({});
     const [errors, setErrors] = useState<Record<string, string>>({});
     const activeStepRef = useRef<HTMLDivElement>(null);
     const [containerHeight] = useState('auto');
     const [attemptedNext, setAttemptedNext] = useState(false);
+    const [isSubmissionSuccessful, setIsSubmissionSuccessful] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const validateCurrentStep = () => {
         const currentFields = steps[currentStep];
@@ -54,6 +58,18 @@ export const GenericForm: React.FC<GenericFormProps> = ({ steps, onSubmit, unexp
         }
     }, [attemptedNext, currentStep, formData]);
 
+    useEffect(() => {
+        if (isSubmitting) {
+            if (unexpectedError) {
+                enqueueSnackbar(unexpectedError, { variant: 'error' });
+            }
+            if (successMessage) {
+                enqueueSnackbar(successMessage, { variant: 'success' });
+            }
+        }
+        setIsSubmitting(false);
+    }, [unexpectedError, successMessage, isSubmitting]);
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
@@ -62,7 +78,14 @@ export const GenericForm: React.FC<GenericFormProps> = ({ steps, onSubmit, unexp
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (currentStep === steps.length - 1 && validateCurrentStep()) {
-            await onSubmit(formData);
+            await onSubmit(formData)
+                .then(() => {
+                    setIsSubmissionSuccessful(true);
+                })
+                .catch(error => {
+                    console.error('Submission failed:', error);
+                });
+            setIsSubmitting(true);
         }
     };
 
@@ -97,11 +120,6 @@ export const GenericForm: React.FC<GenericFormProps> = ({ steps, onSubmit, unexp
                                     errorMessage={errors[field.name]}
                                 />
                             ))}
-                            {unexpectedError && currentStep === steps.length - 1 && (
-                                <Container fluid className="d-block invalid-feedback fade-in fw-bold mt-2 mb-2 text-center">
-                                    {unexpectedError}
-                                </Container>
-                            )}
                         </Container>
                     ))}
                     <Container className="btn-container">

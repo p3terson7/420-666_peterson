@@ -17,6 +17,7 @@ import {enqueueSnackbar} from "notistack";
 
 const SignInForm = () => {
     const [unexpectedError, setUnexpectedError] = useState<string>("");
+    const [successMessage, setSuccessMessage] = useState<string>("");
     const navigate = useNavigate();
     const formFields = [
         [
@@ -49,7 +50,7 @@ const SignInForm = () => {
         await login(signInRequest)
             .then((response) => {
                 authenticate(response.data);
-
+                setSuccessMessage(`Successfully logged in!`);
                 const id = getUserId();
 
                 if (id == null) {
@@ -60,7 +61,6 @@ const SignInForm = () => {
 
                 getUserById(parseInt(id))
                     .then((res) => {
-                        enqueueSnackbar('Successfully signed in!', { variant: 'success' });
                         navigateToUserTypeHomePage(res.data.type!);
                     })
                     .catch((err) => {
@@ -74,6 +74,7 @@ const SignInForm = () => {
                     throw new Error(error.response.data);
                 }
             });
+        setUnexpectedError("");
     };
 
     const navigateToUserTypeHomePage = (userType: string) => {
@@ -97,7 +98,7 @@ const SignInForm = () => {
                     Look Who's Back!<br/>We saved your spot
                 </h1>
             </div>
-            <GenericForm steps={formFields} onSubmit={handleFormSubmit} unexpectedError={unexpectedError} />
+            <GenericForm steps={formFields} onSubmit={handleFormSubmit} unexpectedError={unexpectedError} successMessage={successMessage} />
         </Container>
     );
 };
