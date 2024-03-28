@@ -17,21 +17,6 @@ import {getUserById} from "../../services/userService";
 const SignInForm = () => {
     const [unexpectedError, setUnexpectedError] = useState<string>("");
     const navigate = useNavigate();
-
-    const navigateToUserTypeHomePage = (userType: string) => {
-        switch (userType) {
-            case "client":
-                navigate("/clients");
-                break;
-            case "admin":
-                navigate("/admins");
-                break;
-            default:
-                navigate("/pageNotFound");
-                break;
-        }
-    };
-
     const formFields = [
         [
             {
@@ -77,19 +62,30 @@ const SignInForm = () => {
                         navigateToUserTypeHomePage(res.data.type!);
                     })
                     .catch((err) => {
-                        console.error("Error fetching user by ID:", err.message);
-                        console.error("Full error details:", err);
                         signOut();
                         navigate("/pageNotFound");
                     });
             })
             .catch((error) => {
-                console.log(error);
                 if (error.response.status === 401 || error.response.status === 403) {
                     setUnexpectedError("Invalid email or password.");
                     throw new Error(error.response.data);
                 }
             });
+    };
+
+    const navigateToUserTypeHomePage = (userType: string) => {
+        switch (userType) {
+            case "client":
+                navigate("/clients");
+                break;
+            case "admin":
+                navigate("/admins");
+                break;
+            default:
+                navigate("/pageNotFound");
+                break;
+        }
     };
 
     return (

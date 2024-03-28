@@ -1,12 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import { Client } from '../../model/user';
-import { clientSignup } from "../../services/authService";
+import {authenticate, clientSignup, getUserId, login, signOut} from "../../services/authService";
 import * as validation from "../../services/formValidation";
 import Container from 'react-bootstrap/Container';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../App.css';
 import {GenericForm} from "../GenericForm";
 import {useNavigate} from "react-router-dom";
+import {SignInRequest} from "../../model/auth";
+import {getUserById} from "../../services/userService";
 
 const ClientSignupForm = () => {
     const [unexpectedError, setUnexpectedError] = useState<string>("");
@@ -79,6 +81,7 @@ const ClientSignupForm = () => {
 
     const handleFormSubmit = async (formData: Record<string, string>) => {
         const { passwordConfirmation, ...rest } = formData;
+
         const clientData: Client = {
             address: rest.address,
             phone: rest.phone,
@@ -102,11 +105,46 @@ const ClientSignupForm = () => {
                     throw new Error('An unexpected error occurred.', error.response ? error.response.data : error.message);
                 }
             });
+
+        await automaticRedirect(rest.email, rest.password)
     };
+
+    const automaticRedirect = async (email: string, password: string) => {
+        const signInRequest: SignInRequest = {
+            email: email,
+            password: password,
+        };
+
+        await login(signInRequest)
+            .then((response) => {
+                authenticate(response.data);
+
+                const id = getUserId();
+
+                if (id == null) {
+                    signOut();
+                    navigate("/pageNotFound");
+                    return;
+                }
+
+                getUserById(parseInt(id))
+                    .then(() => {
+                        navigate("/clients");
+                    })
+                    .catch(() => {
+                        signOut();
+                        navigate("/pageNotFound");
+                    });
+            })
+            .catch((error) => {
+                setUnexpectedError("Unexpected Redirection Error.");
+                throw new Error(error.response.data);
+            });
+    }
 
     useEffect(() => {
         if (redirectCount === 0) {
-            navigate('/');
+            // automaticRedirect(email, password);
             setIsRedirecting(false);
         } else if (isRedirecting) {
             const countDownInterval = setInterval(() => {
@@ -115,7 +153,6 @@ const ClientSignupForm = () => {
             return () => clearInterval(countDownInterval);
         }
     }, [redirectCount, isRedirecting]);
-
 
     return (
         <Container fluid className="background-gif">

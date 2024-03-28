@@ -3,6 +3,7 @@ import { Button, Container, Form} from 'react-bootstrap';
 import { GenericField } from './GenericField';
 import "../../App.css";
 import Card from "react-bootstrap/Card";
+import {SuccessIcon} from "../../assets/icons/icons";
 
 interface FieldConfig {
     label: string;
@@ -17,9 +18,11 @@ interface GenericFormProps {
     steps: FieldConfig[][];
     onSubmit: (formData: Record<string, string>) => Promise<void>;
     unexpectedError?: string;
+    successMessage?: string;
+    onSubmissionSuccess?: () => void;
 }
 
-export const GenericForm: React.FC<GenericFormProps> = ({ steps, onSubmit, unexpectedError }) => {
+export const GenericForm: React.FC<GenericFormProps> = ({ steps, onSubmit, unexpectedError, onSubmissionSuccess }) => {
     const [currentStep, setCurrentStep] = useState(0);
     const [formData, setFormData] = useState<Record<string, string>>({});
     const [errors, setErrors] = useState<Record<string, string>>({});
@@ -66,6 +69,9 @@ export const GenericForm: React.FC<GenericFormProps> = ({ steps, onSubmit, unexp
                 .then(() => {
                     setIsSubmissionSuccessful(true);
                     setCurrentStep(currentStep + 1);
+                    if (onSubmissionSuccess) {
+                        onSubmissionSuccess();
+                    }
                 })
                 .catch(error => {
                     console.error('Submission failed:', error);
@@ -87,11 +93,8 @@ export const GenericForm: React.FC<GenericFormProps> = ({ steps, onSubmit, unexp
                 <Form onSubmit={handleSubmit}>
                     {currentStep === steps.length && isSubmissionSuccessful ? (
                         <Container className="form-section form-section-active">
-                            <div className="signup-success">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 24 24" className="text-success">
-                                    <path fill="currentColor" d="M9 19l-7-7 1.41-1.42L9 16.17l11.59-11.59L22 6l-13 13z"/>
-                                </svg>
-                            </div>
+                            <SuccessIcon />
+
                         </Container>
                     ) : (
                         <>
