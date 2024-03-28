@@ -33,9 +33,9 @@
   flex-direction: column;
 }
 
-.background-gif {
+.background-redirect {
   height: calc(100vh - 60px);
-  background: url('./assets/img/pixel_signup.jpg') no-repeat center center fixed;
+  background: #202225;
   background-size: cover;
   display: flex;
   width: 100%;
@@ -44,9 +44,9 @@
   flex-direction: column;
 }
 
-.background-redirect {
+.background-home {
   height: calc(100vh - 60px);
-  background: #202225;
+  background: #F2F2F2;
   background-size: cover;
   display: flex;
   width: 100%;
