@@ -23,11 +23,36 @@
 }
 
 .background-gif {
-  height: 100vh;
+  height: calc(100vh - 60px);
   background: url('./assets/img/pixel_signup.jpg') no-repeat center center fixed;
   background-size: cover;
   display: flex;
   width: 100%;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.background-redirect {
+  height: calc(100vh - 60px);
+  background: #202225;
+  background-size: cover;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.background-home {
+  height: calc(100vh - 60px);
+  background: #F2F2F2;
+  background-size: cover;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .container-fluid {
@@ -129,4 +154,23 @@
   margin-bottom: 30px;
   font-size: 16px;
   color: #555;
+}
+
+.toggle-form-view {
+  display: block;
+  width: 100%;
+  padding: 10px 0;
+  color: lightgray; /* Consider adjusting if this doesn't stand out against your new background */
+  text-align: center;
+  background-color: rgba(40, 44, 52, 0.95); /* Slightly less transparent on hover/focus for feedback */
+  border-radius: 0; /* Optional: adds a bit of rounding to the corners */
+  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+  position: absolute;
+  top: 60px;
+  text-decoration: none;
+}
+
+.toggle-form-view:hover {
+  background-color: rgba(40, 44, 52, 0.65); /* Slightly less transparent on hover/focus for feedback */
+  color: black;
 }

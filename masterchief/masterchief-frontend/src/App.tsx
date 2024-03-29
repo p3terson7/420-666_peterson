@@ -1,18 +1,65 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import SignupView from "./views/Signup";
-import {CLIENT_PREFIX} from "./constants/apiPrefixes";
-
+import AppHeader from "./components/AppHeader";
+import ClientView from "./views/Student/ClientView";
+import AdminView from "./views/Admin/AdminView";
+import {UserType} from "./model/user";
+import PageNotFoundView from "./views/PageNotFoundView";
+import ConnectedRoute from "./components/ConnectedRoute";
+import AuthorizedRoute from "./components/AuthorizedRoute";
+import {Authority} from "./model/auth";
+import HomePageView from "./views/HomePageView";
+import {SnackbarProvider} from "notistack";
+import AuthForm from "./components/AuthForm";
 function App() {
-  return (
-      <Router>
-        <div className="App">
-          <Routes>
-            <Route path={`${CLIENT_PREFIX}/signup`} element={<SignupView />} />
-          </Routes>
-        </div>
-      </Router>
-  );
+    return (
+        <SnackbarProvider maxSnack={3}>
+            <Router>
+                <div className="App">
+                    <AppHeader />
+                    <Routes>
+                        <Route path="/home" element={<HomePageView />} />
+                        <Route path="/signUp" element={<SignupView userType={UserType.Client} />} />
+                        <Route path="/pageNotFound" element={<PageNotFoundView />} />
+                        <Route
+                            path="/authentication/*"
+                            element={
+                                <ConnectedRoute isConnectedRoute={false}>
+                                    <Routes>
+                                        <Route index element={<AuthForm />} />
+                                        <Route path="createdUser" element={<AuthForm />} />
+                                        <Route path="disconnected" element={<AuthForm />} />
+                                        <Route path="*" element={<PageNotFoundView />} />
+                                    </Routes>
+                                </ConnectedRoute>
+                            }
+                        />
+                        <Route
+                            path="/clients/*"
+                            element={
+                                <AuthorizedRoute requiredAuthority={Authority.CLIENT}>
+                                    <Routes>
+                                        <Route index element={<ClientView />} />
+                                    </Routes>
+                                </AuthorizedRoute>
+                            }
+                        />
+                        <Route
+                            path="/admins/*"
+                            element={
+                                <AuthorizedRoute requiredAuthority={Authority.ADMIN}>
+                                    <Routes>
+                                        <Route index element={<AdminView />} />
+                                    </Routes>
+                                </AuthorizedRoute>
+                            }
+                        />
+                    </Routes>
+                </div>
+            </Router>
+        </SnackbarProvider>
+    );
 }
 
 export default App;

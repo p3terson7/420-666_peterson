@@ -13,3 +13,9 @@ export interface Client extends User {
 }
 
 export interface Admin extends User {}
+
+export enum UserType {
+    Client,
+    Admin,
+    Guest
+}

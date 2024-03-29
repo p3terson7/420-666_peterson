@@ -1,13 +1,3 @@
-export type Errors = {
-    email?: string;
-    password?: string;
-    passwordConfirmation?: string;
-    firstName?: string;
-    lastName?: string;
-    address?: string;
-    phone?: string;
-    [key: string]: string | undefined;
-};
 export const validateEmail = (email: string): boolean => {
     return (
         email !== "" &&

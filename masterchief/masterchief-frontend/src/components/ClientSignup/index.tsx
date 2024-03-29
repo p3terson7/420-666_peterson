@@ -1,31 +1,17 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useState} from 'react';
 import { Client } from '../../model/user';
-import { clientSignup } from "../../services/signupService";
+import {authenticate, clientSignup, getUserId, login, signOut} from "../../services/authService";
 import * as validation from "../../services/formValidation";
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../../App.css';
 import {GenericForm} from "../GenericForm";
+import {useNavigate} from "react-router-dom";
+import {SignInRequest} from "../../model/auth";
+import {getUserById} from "../../services/userService";
 
 const ClientSignupForm = () => {
-    const [firstName, setFirstName] = useState<string>("");
-    const [lastName, setLastName] = useState<string>("");
-    const [address, setAddress] = useState<string>("");
-    const [phone, setPhone] = useState<string>("");
-    const [email, setEmail] = useState<string>("");
-    const [password, setPassword] = useState<string>("");
     const [unexpectedError, setUnexpectedError] = useState<string>("");
-    const [client, setClient] = useState<Client>({
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        password: password,
-        address: address,
-        phone: phone,
-        type: 'client',
-    });
+    const [successMessage, setSuccessMessage] = useState<string>("");
+    const navigate = useNavigate();
 
     const formSteps = [
         [
@@ -92,6 +78,7 @@ const ClientSignupForm = () => {
 
     const handleFormSubmit = async (formData: Record<string, string>) => {
         const { passwordConfirmation, ...rest } = formData;
+
         const clientData: Client = {
             address: rest.address,
             phone: rest.phone,
@@ -102,29 +89,63 @@ const ClientSignupForm = () => {
             type: 'client',
         };
 
-        try {
-            const response = await clientSignup(clientData);
-            // TODO: Rediriger l'utilisateur vers la page de connexion
-            setUnexpectedError("");
-        } catch (error: any) {
-            if (error.response && error.response.status === 409) {
-                setUnexpectedError(error.response.data);
-                throw new Error(error.response.data);
-            } else {
-                throw new Error('An unexpected error occurred.', error.response ? error.response.data : error.message);
-            }
-        }
+        await clientSignup(clientData)
+            .then(() => {
+                setUnexpectedError("");
+            })
+            .catch((error) => {
+                if (error.response && error.response.status === 409) {
+                    setUnexpectedError(error.response.data);
+                    throw new Error(error.response.data);
+                } else {
+                    throw new Error('An unexpected error occurred.', error.response ? error.response.data : error.message);
+                }
+            });
+
+        await automaticRedirect(rest.email, rest.password)
     };
 
+    const automaticRedirect = async (email: string, password: string) => {
+        const signInRequest: SignInRequest = {
+            email: email,
+            password: password,
+        };
+
+        await login(signInRequest)
+            .then((response) => {
+                authenticate(response.data);
+                setSuccessMessage("Successfully signed up!")
+
+                const id = getUserId();
+
+                if (id == null) {
+                    signOut();
+                    navigate("/pageNotFound");
+                    return;
+                }
+
+                getUserById(parseInt(id))
+                    .then(() => {
+                        navigate("/clients");
+                    })
+                    .catch(() => {
+                        signOut();
+                        navigate("/pageNotFound");
+                    });
+            })
+            .catch((error) => {
+                setUnexpectedError("Unexpected Redirection Error.");
+                throw new Error(error.response.data);
+            });
+    }
+
     return (
-        <Container fluid className="background-gif">
-            <Row className="m-auto">
-                <Col>
-                    <h1 style={{ fontFamily: "RetroGaming, sans-serif"}} className="mb-4">Welcome!</h1>
-                    <GenericForm steps={formSteps} onSubmit={handleFormSubmit} unexpectedError={unexpectedError}/>
-                </Col>
-            </Row>
-        </Container>
+        <div className="row justify-content-center">
+            <h1 style={{ fontFamily: "RetroGaming, sans-serif", color:'#FFC0CB', textShadow:'2px 2px 4px #000000' }}>
+                Embark on the Quest!<br></br>Join us, and claim your destiny
+            </h1>
+            <GenericForm steps={formSteps} onSubmit={handleFormSubmit} unexpectedError={unexpectedError} successMessage={successMessage}/>
+        </div>
     );
 };
 

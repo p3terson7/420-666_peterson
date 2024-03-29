@@ -3,6 +3,7 @@ import { Button, Container, Form} from 'react-bootstrap';
 import { GenericField } from './GenericField';
 import "../../App.css";
 import Card from "react-bootstrap/Card";
+import {enqueueSnackbar} from "notistack";
 
 interface FieldConfig {
     label: string;
@@ -17,16 +18,17 @@ interface GenericFormProps {
     steps: FieldConfig[][];
     onSubmit: (formData: Record<string, string>) => Promise<void>;
     unexpectedError?: string;
+    successMessage?: string;
 }
 
-export const GenericForm: React.FC<GenericFormProps> = ({ steps, onSubmit, unexpectedError }) => {
+export const GenericForm: React.FC<GenericFormProps> = ({ steps, onSubmit, unexpectedError, successMessage }) => {
     const [currentStep, setCurrentStep] = useState(0);
     const [formData, setFormData] = useState<Record<string, string>>({});
     const [errors, setErrors] = useState<Record<string, string>>({});
     const activeStepRef = useRef<HTMLDivElement>(null);
-    const [containerHeight, setContainerHeight] = useState('auto');
+    const [containerHeight] = useState('auto');
     const [attemptedNext, setAttemptedNext] = useState(false);
-    const [isSubmissionSuccessful, setIsSubmissionSuccessful] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const validateCurrentStep = () => {
         const currentFields = steps[currentStep];
@@ -54,6 +56,18 @@ export const GenericForm: React.FC<GenericFormProps> = ({ steps, onSubmit, unexp
         }
     }, [attemptedNext, currentStep, formData]);
 
+    useEffect(() => {
+        if (isSubmitting) {
+            if (unexpectedError) {
+                enqueueSnackbar(unexpectedError, { variant: 'error' });
+            }
+            if (successMessage) {
+                enqueueSnackbar(successMessage, { variant: 'success' });
+            }
+        }
+        setIsSubmitting(false);
+    }, [unexpectedError, successMessage, isSubmitting]);
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
@@ -62,13 +76,13 @@ export const GenericForm: React.FC<GenericFormProps> = ({ steps, onSubmit, unexp
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (currentStep === steps.length - 1 && validateCurrentStep()) {
-            try {
-                await onSubmit(formData);
-                setIsSubmissionSuccessful(true);
-                setCurrentStep(currentStep + 1);
-            } catch (error) {
-                console.error('Submission failed:', error);
-            }
+            await onSubmit(formData)
+                .then(() => {
+                })
+                .catch(error => {
+                    console.error('Submission failed:', error);
+                });
+            setIsSubmitting(true);
         }
     };
 
@@ -81,50 +95,30 @@ export const GenericForm: React.FC<GenericFormProps> = ({ steps, onSubmit, unexp
     };
 
     return (
-        <Card className="form-background" style={{ width: '25rem', borderRadius: '0.5rem', height: containerHeight }}>
+        <Card className="form-background" style={{ width: '25rem', borderRadius: '0.5rem', height: containerHeight, marginTop:'1rem' }}>
             <Card.Body>
                 <Form onSubmit={handleSubmit}>
-                    {currentStep === steps.length && isSubmissionSuccessful ? (
-                        <Container className="form-section form-section-active">
-                            <div className="signup-success">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 24 24" style={{ marginBottom: '20px', color: '#4BB543' }}>
-                                    <path fill="currentColor" d="M9 19l-7-7 1.41-1.42L9 16.17l11.59-11.59L22 6l-13 13z"/>
-                                </svg>
-                                <h2>Signup Successful!</h2>
-                                <p>Your account has been successfully created. You're now a part of the Prototype community!</p>
-                                <Button variant="success" onClick={() => {/* TODO: Navigate to Home page */}}>Proceed to Home Page</Button>
-                            </div>
-                        </Container>
-                    ) : (
-                        <>
-                            {steps.map((stepFields, index) => (
-                                <Container
-                                    ref={currentStep === index ? activeStepRef : null}
-                                    key={index}
-                                    className={`form-section ${currentStep === index ? 'form-section-active' : ''}`}
-                                >
-                                    {stepFields.map(field => (
-                                        <GenericField
-                                            key={field.name}
-                                            label={field.label}
-                                            type={field.type}
-                                            name={field.name}
-                                            value={formData[field.name] || ''}
-                                            placeholder={field.placeholder}
-                                            onChange={handleChange}
-                                            isInvalid={!!errors[field.name]}
-                                            errorMessage={errors[field.name]}
-                                        />
-                                    ))}
-                                    {unexpectedError && currentStep === steps.length - 1 && (
-                                        <Container fluid className="d-block invalid-feedback fade-in fw-bold mt-2 mb-2 text-center">
-                                            {unexpectedError}
-                                        </Container>
-                                    )}
-                                </Container>
+                    {steps.map((stepFields, index) => (
+                        <Container
+                            ref={currentStep === index ? activeStepRef : null}
+                            key={index}
+                            className={`form-section ${currentStep === index ? 'form-section-active' : ''}`}
+                        >
+                            {stepFields.map(field => (
+                                <GenericField
+                                    key={field.name}
+                                    label={field.label}
+                                    type={field.type}
+                                    name={field.name}
+                                    value={formData[field.name] || ''}
+                                    placeholder={field.placeholder}
+                                    onChange={handleChange}
+                                    isInvalid={!!errors[field.name]}
+                                    errorMessage={errors[field.name]}
+                                />
                             ))}
-                        </>
-                    )}
+                        </Container>
+                    ))}
                     <Container className="btn-container">
                         {currentStep > 0 && currentStep < steps.length && (
                             <Button variant="secondary" onClick={handlePrev}>
