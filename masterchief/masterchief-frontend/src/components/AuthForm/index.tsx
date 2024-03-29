@@ -4,7 +4,7 @@ import LoginForm from '../SignIn/index';
 import ClientSignupForm from '../ClientSignup/index';
 import '../../App.css';
 const AuthForm = () => {
-    const [isLoginView, setIsLoginView] = useState(true); // True for login view, false for signup view
+    const [isLoginView, setIsLoginView] = useState(true);
 
     return (
         <Container fluid className="background-gif font-open-sans">

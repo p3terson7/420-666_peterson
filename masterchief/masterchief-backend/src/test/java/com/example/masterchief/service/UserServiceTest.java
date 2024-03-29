@@ -1,7 +1,7 @@
 package com.example.masterchief.service;
 
+import com.example.masterchief.dto.ClientDTO;
 import com.example.masterchief.dto.UserDTO;
-import com.example.masterchief.model.Client;
 import com.example.masterchief.model.User;
 import com.example.masterchief.repository.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -26,8 +26,7 @@ public class UserServiceTest {
     @Test
     void testGetUser() {
         long userId = 3L;
-        User user = new Client(userId, "Kylian", "Mbappe", "km10@email.com", "password", "70 Parc des Princes", "1234567890");
-
+        User user = createClientDTO().fromDTO();
         when(userRepository.findById(any())).thenReturn(Optional.of(user));
         Optional<UserDTO> userDTO = userService.getUser(userId);
 
@@ -42,5 +41,9 @@ public class UserServiceTest {
         Optional<UserDTO> userDTO = userService.getUser(userId);
 
         assertTrue(userDTO.isEmpty());
+    }
+
+    private ClientDTO createClientDTO() {
+        return new ClientDTO(1L, "Kylian", "Mbappe", "km10@email.com", "password", "70 Parc des Princes", "1234567890");
     }
 }

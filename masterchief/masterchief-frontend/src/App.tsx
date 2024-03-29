@@ -5,7 +5,6 @@ import AppHeader from "./components/AppHeader";
 import ClientView from "./views/Student/ClientView";
 import AdminView from "./views/Admin/AdminView";
 import {UserType} from "./model/user";
-import SignInView from "./views/SignInView";
 import PageNotFoundView from "./views/PageNotFoundView";
 import ConnectedRoute from "./components/ConnectedRoute";
 import AuthorizedRoute from "./components/AuthorizedRoute";
@@ -22,16 +21,15 @@ function App() {
                     <Routes>
                         <Route path="/home" element={<HomePageView />} />
                         <Route path="/signUp" element={<SignupView userType={UserType.Client} />} />
-                        <Route path="/auth" element={<AuthForm />} />
                         <Route path="/pageNotFound" element={<PageNotFoundView />} />
                         <Route
-                            path="/signIn/*"
+                            path="/authentication/*"
                             element={
                                 <ConnectedRoute isConnectedRoute={false}>
                                     <Routes>
-                                        <Route index element={<SignInView />} />
-                                        <Route path="createdUser" element={<SignInView />} />
-                                        <Route path="disconnected" element={<SignInView />} />
+                                        <Route index element={<AuthForm />} />
+                                        <Route path="createdUser" element={<AuthForm />} />
+                                        <Route path="disconnected" element={<AuthForm />} />
                                         <Route path="*" element={<PageNotFoundView />} />
                                     </Routes>
                                 </ConnectedRoute>
