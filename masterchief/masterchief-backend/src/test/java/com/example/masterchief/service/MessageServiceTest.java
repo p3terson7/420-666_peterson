@@ -4,6 +4,7 @@ import com.example.masterchief.dto.AdminDTO;
 import com.example.masterchief.dto.ClientDTO;
 import com.example.masterchief.dto.ConversationDTO;
 import com.example.masterchief.dto.MessageDTO;
+import com.example.masterchief.model.Conversation;
 import com.example.masterchief.model.Message;
 import com.example.masterchief.repository.MessageRepository;
 import org.junit.jupiter.api.Test;
@@ -12,9 +13,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -26,6 +30,24 @@ public class MessageServiceTest {
     private MessageRepository messageRepository;
     @InjectMocks
     private MessageService messageService;
+
+    @Test
+    void getAllMessagesByConversationIdSortedByTimestamp() {
+        Conversation conversation = createConversationDTO().fromDTO();
+        Message message2 = createMessageDTO2().fromDTO();
+        Message message = createMessageDTO().fromDTO();
+
+        when(messageRepository.findByConversationIdOrderByTimestampAsc(conversation.getId()))
+                .thenReturn(Arrays.asList(message, message2));
+
+        List<MessageDTO> result = messageService.getAllMessagesByConversationIdSortedByTimestamp(conversation.getId());
+
+        assertThat(result).isNotNull();
+        assertThat(result).hasSize(2);
+
+        assertThat(result).extracting(MessageDTO::getTimestamp)
+                .isSortedAccordingTo(Comparator.naturalOrder());
+    }
 
     @Test
     void createMessage_WithValidMessageDTO_ReturnsMessageDTO() {
@@ -68,5 +90,7 @@ public class MessageServiceTest {
     private MessageDTO createMessageDTO() {
         return new MessageDTO(null, createAdminDTO(), "Hello, World!", "2023-03-29T12:00:00", createConversationDTO());
     }
-
+    private MessageDTO createMessageDTO2() {
+        return new MessageDTO(null, createAdminDTO(), "Hello, World!", "2023-03-29T13:00:00", createConversationDTO());
+    }
 }
