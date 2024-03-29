@@ -15,7 +15,7 @@ const AppHeader = () => {
     }
 
     const signInButton = () => {
-        navigate("/signin/");
+        navigate("/auth/");
     }
 
     return (
