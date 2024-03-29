@@ -7,10 +7,10 @@ const AuthForm = () => {
     const [isLoginView, setIsLoginView] = useState(true); // True for login view, false for signup view
 
     return (
-        <Container fluid className="background-gif">
+        <Container fluid className="background-gif font-open-sans">
             {isLoginView ? <LoginForm /> : <ClientSignupForm />}
-            <Button variant="link" onClick={() => setIsLoginView(!isLoginView)}>
-                <p>{isLoginView ? "Don't have an account? Sign up" : "Already have an account? Sign in"}</p>
+            <Button variant="link" onClick={() => setIsLoginView(!isLoginView)} className="toggle-form-view">
+                {isLoginView ? "Don't have an account? Sign up" : "Already have an account? Sign in"}
             </Button>
         </Container>
     );
