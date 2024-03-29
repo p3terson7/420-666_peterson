@@ -1,9 +1,7 @@
 package com.example.masterchief.service;
 
 import com.example.masterchief.dto.AdminDTO;
-import com.example.masterchief.dto.ClientDTO;
 import com.example.masterchief.model.Admin;
-import com.example.masterchief.model.Client;
 import com.example.masterchief.repository.AdminRepository;
 import com.example.masterchief.repository.security.SaltRepository;
 import jakarta.transaction.Transactional;
