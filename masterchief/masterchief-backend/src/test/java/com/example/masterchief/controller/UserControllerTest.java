@@ -2,8 +2,10 @@ package com.example.masterchief.controller;
 
 import com.example.masterchief.dto.ClientDTO;
 import com.example.masterchief.dto.UserDTO;
+import com.example.masterchief.repository.AdminRepository;
 import com.example.masterchief.repository.UserRepository;
 import com.example.masterchief.repository.security.SaltRepository;
+import com.example.masterchief.service.AdminService;
 import com.example.masterchief.service.AuthService;
 import com.example.masterchief.service.ClientService;
 import com.example.masterchief.service.UserService;
@@ -42,6 +44,11 @@ public class UserControllerTest {
     private UserRepository userRepository;
     @MockBean
     private SaltRepository saltRepository;
+    @MockBean
+    private AdminRepository adminRepository;
+    @MockBean
+    private AdminService adminService;
+
 
     @Test
     @WithMockUser(username = "user")

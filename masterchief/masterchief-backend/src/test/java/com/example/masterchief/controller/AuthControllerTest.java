@@ -2,8 +2,10 @@ package com.example.masterchief.controller;
 
 import com.example.masterchief.dto.ClientDTO;
 import com.example.masterchief.dto.UserDTO;
+import com.example.masterchief.repository.AdminRepository;
 import com.example.masterchief.repository.UserRepository;
 import com.example.masterchief.security.jwt.TimedJwt;
+import com.example.masterchief.service.AdminService;
 import com.example.masterchief.service.AuthService;
 import com.example.masterchief.service.ClientService;
 import org.junit.jupiter.api.Test;
@@ -37,6 +39,10 @@ public class AuthControllerTest {
     private JwtManipulator jwtManipulator;
     @MockBean
     private UserRepository userRepository;
+    @MockBean
+    private AdminRepository adminRepository;
+    @MockBean
+    private AdminService adminService;
 
     @Test
     @WithMockUser

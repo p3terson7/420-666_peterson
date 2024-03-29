@@ -39,6 +39,6 @@ public class AdminServiceTest {
     }
 
     private AdminDTO createAdminDTO() {
-        return new AdminDTO(1L, "Karim", "Benzema", "kb9@email.com", "password");
+        return new AdminDTO(null, "Karim", "Benzema", "kb11@email.com", "password");
     }
 }

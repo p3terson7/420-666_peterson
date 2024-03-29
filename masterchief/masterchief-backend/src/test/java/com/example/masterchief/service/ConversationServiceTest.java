@@ -93,7 +93,7 @@ public class ConversationServiceTest {
     }
 
     private AdminDTO createAdminDTO() {
-        return new AdminDTO(1L, "Karim", "Benzema", "kb9@email.com", "password");
+        return new AdminDTO(1L, "Karim", "Benzema", "kb11@email.com", "password");
     }
     private ClientDTO createClientDTO() {
         return new ClientDTO(2L, "Kylian", "Mbappe", "km10@email.com", "password", "70 Parc des Princes", "1234567890");

@@ -19,11 +19,11 @@ public class MasterchiefApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		Optional<AdminDTO> optionalAdminDTO = adminService.createAdmin(new AdminDTO(null, "Karim", "Benzema", "kb9@email.com", "Lolface1232!"));
-		if (optionalAdminDTO.isPresent()) {
-			System.out.println("Admin created successfully");
-		} else {
-			System.out.println("Admin creation failed");
-		}
+//		Optional<AdminDTO> optionalAdminDTO = adminService.createAdmin(new AdminDTO(null, "Karim", "Benzema", "kb9@email.com", "Lolface1232!"));
+//		if (optionalAdminDTO.isPresent()) {
+//			System.out.println("Admin created successfully");
+//		} else {
+//			System.out.println("Admin creation failed");
+//		}
 	}
 }

@@ -18,7 +18,6 @@ public class ConversationService {
     private final AdminRepository adminRepository;
     private final ClientRepository clientRepository;
 
-    // Constructor injection of repositories
     public ConversationService(ConversationRepository conversationRepository, AdminRepository adminRepository, ClientRepository clientRepository) {
         this.conversationRepository = conversationRepository;
         this.adminRepository = adminRepository;
