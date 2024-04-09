@@ -5,6 +5,7 @@ import { MessageRow } from "./MessageRow";
 
 interface ConcatenatedMessage extends Omit<Message, 'content'> {
     content: string;
+    isFirstMessageOfDay?: boolean;
 }
 
 export const MessageList = () => {
@@ -20,16 +21,20 @@ export const MessageList = () => {
 
     const concatenateMessages = (messages: Message[]): ConcatenatedMessage[] => {
         const concatenated: ConcatenatedMessage[] = [];
-        messages.reduce((acc: ConcatenatedMessage | null, message: Message, index: number) => {
-            if (!acc || message.sender.id !== acc.sender.id || new Date(message.timestamp).getTime() - new Date(acc.timestamp).getTime() > 60000) {
-                acc = { ...message };
-                concatenated.push(acc);
+        let lastDate!: string;
+
+        messages.forEach((message) => {
+            const currentDate = new Date(message.timestamp).toDateString();
+            const isNewDay = lastDate !== currentDate;
+            lastDate = currentDate;
+
+            if (!concatenated.length || isNewDay || message.sender.id !== concatenated[concatenated.length - 1].sender.id || new Date(message.timestamp).getTime() - new Date(concatenated[concatenated.length - 1].timestamp).getTime() > 60000) {
+                concatenated.push({ ...message, isFirstMessageOfDay: isNewDay, content: message.content });
             } else {
-                acc.content += `\n${message.content}`;
-                acc.timestamp = message.timestamp;
+                concatenated[concatenated.length - 1].content += `\n${message.content}`;
             }
-            return acc;
-        }, null);
+        });
+
         return concatenated;
     };
 
@@ -37,7 +42,7 @@ export const MessageList = () => {
         <ul className="ul">
             {concatenatedMessages.map((message, index) => (
                 <li key={index}>
-                    <MessageRow message={message} />
+                    <MessageRow message={message} isFirstMessageOfDay={message.isFirstMessageOfDay} />
                 </li>
             ))}
         </ul>
