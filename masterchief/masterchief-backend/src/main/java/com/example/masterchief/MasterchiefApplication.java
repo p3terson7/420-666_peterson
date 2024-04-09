@@ -48,7 +48,7 @@ public class MasterchiefApplication implements CommandLineRunner {
 		Optional<UserDTO> admin = userService.getUser(48L);
 
 		Optional<MessageDTO> message = messageService.createMessage(new MessageDTO(null, client.get(), "Kichta la kichta!", LocalDateTime.now().toString(), conversations.get(0)));
-		Optional<MessageDTO> message2 = messageService.createMessage(new MessageDTO(null, client.get(), "Kichta la kichta!", LocalDateTime.now().toString(), conversations.get(0)));
+		Optional<MessageDTO> message2 = messageService.createMessage(new MessageDTO(null, admin.get(), "Kichta la kichta!", LocalDateTime.now().toString(), conversations.get(0)));
 
 	}
 }

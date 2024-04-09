@@ -1,5 +1,6 @@
 import {ConversationList} from "./ConversationList";
-import './MessagingStylesheet.css';
+import './Messaging.css';
+import {MessageList} from "./MessageList";
 
 export const MessagingMenu = () => {
     return (
@@ -8,9 +9,8 @@ export const MessagingMenu = () => {
                 <ConversationList />
             </div>
             <div className="conversationContent">
-
                 <div className="messages">
-                    {/* Display messages of the selected conversation. Use <ConversationContent /> */}
+                    <MessageList />
                 </div>
                 <div className="messageInput">
                     {/* Input bar to write messages. Use <MessageInput /> and handle send action */}

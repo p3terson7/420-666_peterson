@@ -3,7 +3,7 @@ import {getUserConversations} from "../../../services/messagingService";
 import {getUserId, signOut} from "../../../services/authService";
 import {useNavigate} from "react-router-dom";
 import {Conversation} from "../../../model/conversation";
-import '../MessagingStylesheet.css';
+import '../Messaging.css';
 import {ConversationRow} from "./ConversationRow";
 
 export const ConversationList = () => {
