@@ -4,24 +4,30 @@ import com.example.masterchief.dto.ConversationDTO;
 import com.example.masterchief.model.Admin;
 import com.example.masterchief.model.Client;
 import com.example.masterchief.model.Conversation;
+import com.example.masterchief.model.User;
 import com.example.masterchief.repository.AdminRepository;
 import com.example.masterchief.repository.ClientRepository;
 import com.example.masterchief.repository.ConversationRepository;
+import com.example.masterchief.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ConversationService {
     private final ConversationRepository conversationRepository;
     private final AdminRepository adminRepository;
     private final ClientRepository clientRepository;
+    private final UserRepository userRepository;
 
-    public ConversationService(ConversationRepository conversationRepository, AdminRepository adminRepository, ClientRepository clientRepository) {
+    public ConversationService(ConversationRepository conversationRepository, AdminRepository adminRepository, ClientRepository clientRepository, UserRepository userRepository) {
         this.conversationRepository = conversationRepository;
         this.adminRepository = adminRepository;
         this.clientRepository = clientRepository;
+        this.userRepository = userRepository;
     }
 
     @Transactional
@@ -41,5 +47,16 @@ public class ConversationService {
         conversation.setClient(client);
 
         return Optional.of(conversationRepository.save(conversation).toDTO());
+    }
+
+    public List<ConversationDTO> getConversationsByUserId(Long userId) {
+        userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User with ID " + userId + " not found"));
+
+        return conversationRepository
+                .findAllByAdminOrClientId(userId)
+                .stream()
+                .map(Conversation::toDTO)
+                .toList();
     }
 }
