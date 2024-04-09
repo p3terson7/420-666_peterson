@@ -118,7 +118,7 @@ public class AuthControllerTest {
         mockMvc.perform(request).andExpect(status().isBadRequest());
     }
 
-
+    // TODO: Use strings instead
     private String createJsonOfClientDTO(String mail) {
         return "{" +
                 "\"firstName\":\"\"," +

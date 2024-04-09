@@ -3,7 +3,6 @@ package com.example.masterchief.repository;
 import com.example.masterchief.model.Admin;
 import com.example.masterchief.model.Client;
 import com.example.masterchief.model.Conversation;
-import com.example.masterchief.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

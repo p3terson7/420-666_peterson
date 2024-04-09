@@ -4,7 +4,6 @@ import com.example.masterchief.dto.ConversationDTO;
 import com.example.masterchief.model.Admin;
 import com.example.masterchief.model.Client;
 import com.example.masterchief.model.Conversation;
-import com.example.masterchief.model.User;
 import com.example.masterchief.repository.AdminRepository;
 import com.example.masterchief.repository.ClientRepository;
 import com.example.masterchief.repository.ConversationRepository;
@@ -14,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class ConversationService {
