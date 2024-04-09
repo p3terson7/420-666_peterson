@@ -1,0 +1,26 @@
+.messagingMenu {
+    display: flex;
+    height: 85vh;
+    border: 1px solid #ccc;
+}
+
+.conversationList {
+    width: 20%;
+    overflow-y: auto;
+    border-right: 1px solid #ccc;
+}
+
+.conversationContent {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+}
+
+.messages {
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+.messageInput {
+    margin-top: auto;
+}

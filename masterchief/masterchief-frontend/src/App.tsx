@@ -12,6 +12,7 @@ import {Authority} from "./model/auth";
 import HomePageView from "./views/HomePageView";
 import {SnackbarProvider} from "notistack";
 import AuthForm from "./components/AuthForm";
+import ConversationsView from "./views/MessagingView";
 function App() {
     return (
         <SnackbarProvider maxSnack={3}>
@@ -41,6 +42,10 @@ function App() {
                                 <AuthorizedRoute requiredAuthority={Authority.CLIENT}>
                                     <Routes>
                                         <Route index element={<ClientView />} />
+                                        <Route
+                                            path="conversations"
+                                            element={<ConversationsView />}
+                                        />
                                     </Routes>
                                 </AuthorizedRoute>
                             }
@@ -51,6 +56,10 @@ function App() {
                                 <AuthorizedRoute requiredAuthority={Authority.ADMIN}>
                                     <Routes>
                                         <Route index element={<AdminView />} />
+                                        <Route
+                                            path="conversations"
+                                            element={<ConversationsView />}
+                                        />
                                     </Routes>
                                 </AuthorizedRoute>
                             }
