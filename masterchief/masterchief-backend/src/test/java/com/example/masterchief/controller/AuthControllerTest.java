@@ -3,11 +3,11 @@ package com.example.masterchief.controller;
 import com.example.masterchief.dto.ClientDTO;
 import com.example.masterchief.dto.UserDTO;
 import com.example.masterchief.repository.AdminRepository;
+import com.example.masterchief.repository.ConversationRepository;
+import com.example.masterchief.repository.MessageRepository;
 import com.example.masterchief.repository.UserRepository;
 import com.example.masterchief.security.jwt.TimedJwt;
-import com.example.masterchief.service.AdminService;
-import com.example.masterchief.service.AuthService;
-import com.example.masterchief.service.ClientService;
+import com.example.masterchief.service.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -43,6 +43,14 @@ public class AuthControllerTest {
     private AdminRepository adminRepository;
     @MockBean
     private AdminService adminService;
+    @MockBean
+    private ConversationRepository conversationRepository;
+    @MockBean
+    private ConversationService conversationService;
+    @MockBean
+    private MessageRepository messageRepository;
+    @MockBean
+    private MessageService messageService;
 
     @Test
     @WithMockUser

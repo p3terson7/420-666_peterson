@@ -3,12 +3,11 @@ package com.example.masterchief.controller;
 import com.example.masterchief.dto.ClientDTO;
 import com.example.masterchief.dto.UserDTO;
 import com.example.masterchief.repository.AdminRepository;
+import com.example.masterchief.repository.ConversationRepository;
+import com.example.masterchief.repository.MessageRepository;
 import com.example.masterchief.repository.UserRepository;
 import com.example.masterchief.repository.security.SaltRepository;
-import com.example.masterchief.service.AdminService;
-import com.example.masterchief.service.AuthService;
-import com.example.masterchief.service.ClientService;
-import com.example.masterchief.service.UserService;
+import com.example.masterchief.service.*;
 import com.example.masterchief.utils.JwtManipulator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -48,6 +47,14 @@ public class UserControllerTest {
     private AdminRepository adminRepository;
     @MockBean
     private AdminService adminService;
+    @MockBean
+    private ConversationRepository conversationRepository;
+    @MockBean
+    private ConversationService conversationService;
+    @MockBean
+    private MessageRepository messageRepository;
+    @MockBean
+    private MessageService messageService;
 
 
     @Test
