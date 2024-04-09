@@ -8,6 +8,7 @@ export const MessagingMenu = () => {
                 <ConversationList />
             </div>
             <div className="conversationContent">
+
                 <div className="messages">
                     {/* Display messages of the selected conversation. Use <ConversationContent /> */}
                 </div>

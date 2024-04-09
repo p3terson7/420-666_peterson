@@ -29,11 +29,11 @@ public class MasterchiefApplication implements CommandLineRunner {
 //			System.out.println("Admin creation failed");
 //		}
 
-//		Optional<ConversationDTO> conversation = conversationService.createConversation(25L, 24L);
-//		if (conversation.isPresent()) {
-//			System.out.println("Conversation created successfully");
-//		} else {
-//			System.out.println("Conversation creation failed");
-//		}
+		Optional<ConversationDTO> conversation = conversationService.createConversation(48L, 24L);
+		if (conversation.isPresent()) {
+			System.out.println("Conversation created successfully");
+		} else {
+			System.out.println("Conversation creation failed");
+		}
 	}
 }

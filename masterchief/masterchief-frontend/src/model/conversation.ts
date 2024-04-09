@@ -1,5 +1,7 @@
+import {Admin, Client} from "./user";
+
 export interface Conversation {
     id?: number;
-    clientId: number;
-    adminId: number;
+    admin: Admin;
+    client: Client;
 }

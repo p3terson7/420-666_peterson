@@ -4,6 +4,7 @@ import {getUserId, signOut} from "../../../services/authService";
 import {useNavigate} from "react-router-dom";
 import {Conversation} from "../../../model/conversation";
 import '../MessagingStylesheet.css';
+import {ConversationRow} from "./ConversationRow";
 
 export const ConversationList = () => {
     const [conversations, setConversations] = useState<Conversation[]>()
@@ -20,13 +21,16 @@ export const ConversationList = () => {
         getUserConversations(parseInt(userId))
             .then(response => {
                 setConversations(response.data);
+                console.log(response.data[0]);
             })
     }, [userId]);
 
     return (
-            <ul>
+            <ul className="ul">
                 {conversations?.map(conversation => (
-                    <li key={conversation.id}>{conversation.id}</li> // these will become ConversationRow components
+                    <>
+                        <li key={conversation.id}><ConversationRow admin={conversation.admin}/></li>
+                    </>
                 ))}
             </ul>
     );

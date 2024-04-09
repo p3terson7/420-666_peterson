@@ -1,7 +1,12 @@
-export const ConversationRow = () => {
+import {Admin} from "../../../../model/user";
+
+interface Props {
+    admin: Admin;
+}
+export const ConversationRow = ({admin}: Props) => {
     return (
-        <div>
-            ConversationRow
+        <div className="conversation-row">
+            {admin.firstName + " (Admin)"}
         </div>
     );
 }
