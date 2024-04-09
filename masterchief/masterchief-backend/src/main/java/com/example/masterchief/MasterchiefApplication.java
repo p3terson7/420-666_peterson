@@ -1,14 +1,18 @@
 package com.example.masterchief;
 
-import com.example.masterchief.dto.AdminDTO;
-import com.example.masterchief.dto.ConversationDTO;
+import com.example.masterchief.dto.*;
 import com.example.masterchief.service.AdminService;
 import com.example.masterchief.service.ConversationService;
+import com.example.masterchief.service.MessageService;
+import com.example.masterchief.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @SpringBootApplication
@@ -16,6 +20,8 @@ import java.util.Optional;
 public class MasterchiefApplication implements CommandLineRunner {
 	private AdminService adminService;
 	private ConversationService conversationService;
+	private MessageService messageService;
+	private UserService userService;
 	public static void main(String[] args) {
 		SpringApplication.run(MasterchiefApplication.class, args);
 	}
@@ -29,11 +35,20 @@ public class MasterchiefApplication implements CommandLineRunner {
 //			System.out.println("Admin creation failed");
 //		}
 
-		Optional<ConversationDTO> conversation = conversationService.createConversation(48L, 24L);
-		if (conversation.isPresent()) {
-			System.out.println("Conversation created successfully");
-		} else {
-			System.out.println("Conversation creation failed");
-		}
+//		Optional<ConversationDTO> conversation = conversationService.createConversation(48L, 24L);
+//		if (conversation.isPresent()) {
+//			System.out.println("Conversation created successfully");
+//		} else {
+//			System.out.println("Conversation creation failed");
+//		}
+		List<ConversationDTO> conversations = new ArrayList<>();
+		conversations.add(conversationService.getConversationsByUserId(24L).get(0));
+
+		Optional<UserDTO> client = userService.getUser(24L);
+		Optional<UserDTO> admin = userService.getUser(48L);
+
+		Optional<MessageDTO> message = messageService.createMessage(new MessageDTO(null, client.get(), "Kichta la kichta!", LocalDateTime.now().toString(), conversations.get(0)));
+		Optional<MessageDTO> message2 = messageService.createMessage(new MessageDTO(null, client.get(), "Kichta la kichta!", LocalDateTime.now().toString(), conversations.get(0)));
+
 	}
 }

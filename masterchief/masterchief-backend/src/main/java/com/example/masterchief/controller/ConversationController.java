@@ -23,4 +23,5 @@ public class ConversationController extends LoggedController {
     public ResponseEntity<List<ConversationDTO>> getConversations(@PathVariable Long userId) {
         return ResponseEntity.ok(service.getConversationsByUserId(userId));
     }
+
 }
