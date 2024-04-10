@@ -47,6 +47,7 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     color: lightgray;
     display: flex;
+    height: 100%;
 }
 
 .username {
@@ -54,13 +55,14 @@
     color: #F2F3F5;
     padding-right: 10px;
     display: flex;
-    align-self: flex-end;
+    height: 100%;
 }
 
 .date {
     font-size: 12px;
     color: #949BA4;
     display: flex;
+    height: 100%;
 }
 
 .profileIcon {
@@ -77,17 +79,14 @@
     margin-right: 10px;
 }
 
-
 .messageDetailsContent {
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
-    height: 100%;
+    justify-content: flex-start;
 }
 
 .messageDetails {
     display: flex;
-    justify-content: space-between;
     align-items: center;
 }
 

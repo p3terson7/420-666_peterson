@@ -3,9 +3,9 @@ import PageNotFound from "../../components/PageNotFound";
 
 const PageNotFoundView = () => {
     return (
-        <Container fluid>
+        <>
             <PageNotFound />
-        </Container>
+        </>
     );
 };
 

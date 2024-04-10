@@ -3,9 +3,9 @@ import {Container} from "react-bootstrap";
 
 const HomePageView = () => {
     return (
-        <Container fluid>
+        <>
             <HomePage />
-        </Container>
+        </>
     );
 }
 
