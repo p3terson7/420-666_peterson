@@ -41,32 +41,18 @@
 }
 
 .messageRow {
+    display: flex;
     padding: 10px;
     margin: 5px 0;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     color: lightgray;
-    display: flex;
-    height: 100%;
-}
-
-.username {
-    font-weight: 600;
-    color: #F2F3F5;
-    padding-right: 10px;
-    display: flex;
-    height: 100%;
-}
-
-.date {
-    font-size: 12px;
-    color: #949BA4;
-    display: flex;
-    height: 100%;
+    align-items: stretch;
+    width: 100%;
 }
 
 .profileIcon {
-    width: 40px;
+    flex: 0 0 40px;
     height: 40px;
     border-radius: 50%;
     background-color: #A9A9A9;
@@ -82,18 +68,32 @@
 .messageDetailsContent {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: flex-end;
+    flex: 1;
 }
 
 .messageDetails {
     display: flex;
     align-items: center;
+    width: 100%;
+}
+
+.username {
+    font-weight: 600;
+    color: #F2F3F5;
+    margin-right: 10px;
+}
+
+.date {
+    color: #949BA4;
+    height: 24px;
 }
 
 .messageContent {
     display: flex;
     white-space: pre-line;
     color: #DBDEE1;
+    width: 100%;
 }
 
 .messageDateLabel {

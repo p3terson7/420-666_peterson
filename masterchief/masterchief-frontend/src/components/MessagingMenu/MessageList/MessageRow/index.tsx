@@ -19,8 +19,8 @@ export const MessageRow: React.FC<Props> = ({ message, isFirstMessageOfDay }) =>
                 <div className="profileIcon">{message.sender.firstName![0].toUpperCase()}</div>
                 <div className="messageDetailsContent">
                     <div className="messageDetails">
-                        <div className="username">{message.sender.firstName}</div>
-                        <div className="date">{formatDate(message.timestamp)}</div>
+                        <span className="username">{message.sender.firstName}</span>
+                        <span className="date">{format(new Date(message.timestamp), 'HH:MM')}</span>
                     </div>
                     <div className="messageContent">{message.content}</div>
                 </div>
