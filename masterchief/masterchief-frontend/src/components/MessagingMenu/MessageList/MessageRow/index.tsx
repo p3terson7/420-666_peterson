@@ -20,7 +20,7 @@ export const MessageRow: React.FC<Props> = ({ message, isFirstMessageOfDay }) =>
                 <div className="messageDetailsContent">
                     <div className="messageDetails">
                         <span className="username">{message.sender.firstName}</span>
-                        <span className="date">{format(new Date(message.timestamp), 'HH:MM')}</span>
+                        <span className="date">{format(new Date(message.timestamp), 'HH:mm')}</span>
                     </div>
                     <div className="messageContent">{message.content}</div>
                 </div>
