@@ -47,8 +47,13 @@ public class MasterchiefApplication implements CommandLineRunner {
 		Optional<UserDTO> client = userService.getUser(24L);
 		Optional<UserDTO> admin = userService.getUser(48L);
 
-		Optional<MessageDTO> message = messageService.createMessage(new MessageDTO(null, client.get(), "Kichta la kichta!", LocalDateTime.now().toString(), conversations.get(0)));
-		Optional<MessageDTO> message2 = messageService.createMessage(new MessageDTO(null, admin.get(), "Kichta la kichta!", LocalDateTime.now().toString(), conversations.get(0)));
+//		Optional<MessageDTO> message = messageService.createMessage(new MessageDTO(null, client.get(), "Took a walk in the park", LocalDateTime.now().toString(), conversations.get(0)));
+//		Optional<MessageDTO> message3 = messageService.createMessage(new MessageDTO(null, client.get(), "These dogs didn't dare to bark", LocalDateTime.now().toString(), conversations.get(0)));
+//		Optional<MessageDTO> message2 = messageService.createMessage(new MessageDTO(null, admin.get(), "The shit you say is very dark", LocalDateTime.now().toString(), conversations.get(0)));
+
+//		Optional<MessageDTO> message = messageService.createMessage(new MessageDTO(null, admin.get(), "Hold on let me check the stats", LocalDateTime.now().toString(), conversations.get(0)));
+//		Optional<MessageDTO> message3 = messageService.createMessage(new MessageDTO(null, client.get(), "I got hella cheese and my pockets full of racks", LocalDateTime.now().toString(), conversations.get(0)));
+//		Optional<MessageDTO> message2 = messageService.createMessage(new MessageDTO(null, admin.get(), "I been in the trap, you been hanging with the rats", LocalDateTime.now().toString(), conversations.get(0)));
 
 	}
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import './NavbarStylesheet.css';
+import './Navbar.css';
 import '../../App.css';
 import {Container, Nav, Navbar} from "react-bootstrap";
 import {UserIcon, InfoBox, MessageIcon, DashboardIcon, LogoutIcon, LoginIcon} from "../../assets/icons/icons";

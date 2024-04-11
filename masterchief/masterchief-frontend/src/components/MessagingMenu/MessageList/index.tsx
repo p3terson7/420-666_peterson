@@ -1,26 +1,50 @@
 import React, { useState, useEffect } from "react";
-import { getConversationMessages } from "../../../services/messagingService";
-import { Message } from "../../../model/conversation";
+import {getConversationMessages, sendMessage} from "../../../services/messagingService";
+import {Conversation, Message} from "../../../model/conversation";
 import { MessageRow } from "./MessageRow";
 import '../Messaging.css';
 import {SendIcon} from "../../../assets/icons/icons";
+import {getUserId} from "../../../services/authService";
+import {getUserById} from "../../../services/userService";
+import {User} from "../../../model/user";
+import {enqueueSnackbar} from "notistack";
 
 interface ConcatenatedMessage extends Omit<Message, 'content'> {
     content: string;
     isFirstMessageOfDay?: boolean;
 }
+interface Props {
+    activeConversation: Conversation;
+}
 
-export const MessageList = () => {
+export const MessageList = ({activeConversation}: Props) => {
     const [concatenatedMessages, setConcatenatedMessages] = useState<ConcatenatedMessage[]>([]);
     const [messageInput, setMessageInput] = useState<string>('');
+    const [currentUser, setCurrentUser] = useState<User>();
+    const [charCount, setCharCount] = useState<number>(0);
 
     useEffect(() => {
-        getConversationMessages(1)
+        if (!currentUser) {
+            getUserById(parseInt(getUserId()!))
+                .then(response => {
+                    setCurrentUser(response.data);
+                });
+        }
+
+        getConversationMessages(activeConversation!.id!)
             .then(response => {
                 const processedMessages = concatenateMessages(response.data);
                 setConcatenatedMessages(processedMessages);
             });
     }, []);
+
+    useEffect(() => {
+        const textarea = document.getElementById('messageTextarea');
+        if (textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = `${textarea.scrollHeight}px`;
+        }
+    }, [messageInput]);
 
     const concatenateMessages = (messages: Message[]): ConcatenatedMessage[] => {
         const concatenated: ConcatenatedMessage[] = [];
@@ -41,21 +65,32 @@ export const MessageList = () => {
         return concatenated;
     };
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
         e.preventDefault();
         if (!messageInput.trim()) return;
-        try {
-            // await sendMessage(1, messageInput); // Assuming 1 is the conversation ID
-            setMessageInput('');
-            // Refresh messages after sending new message
-            getConversationMessages(1).then(response => {
-                const processedMessages = concatenateMessages(response.data);
-                setConcatenatedMessages(processedMessages);
-            });
-        } catch (error) {
-            console.error("Failed to send message:", error);
+
+        if (messageInput.length > 255) {
+            enqueueSnackbar("Message too long!", { variant: 'error' });
+            return;
         }
+
+        await sendMessage({
+            sender: currentUser!,
+            content: messageInput,
+            timestamp: new Date().toISOString(),
+            conversation: activeConversation,
+        }).then(() => {
+            setMessageInput('');
+            getConversationMessages(1)
+                .then(response => {
+                    const processedMessages = concatenateMessages(response.data);
+                    setConcatenatedMessages(processedMessages);
+                });
+        }).catch(error => {
+            console.error("Failed to send message:", error);
+        });
     };
+
 
     return (
         <>
@@ -67,15 +102,30 @@ export const MessageList = () => {
                 ))}
             </ul>
             <div className="messageInputContainer">
-                <form onSubmit={handleSubmit} className="row messageInputForm">
-                    <input
-                        type="text"
+                <form className="messageInputForm">
+                    <textarea
+                        id="messageTextarea"
                         value={messageInput}
-                        onChange={(e) => setMessageInput(e.target.value)}
-                        className="col-12 messageInput"
+                        onChange={(e) => {
+                            setMessageInput(e.target.value);
+                            setCharCount(e.target.value.length);
+                        }}
+                        className="col messageInput"
                         placeholder="Envoyer un message..."
+                        style={{ resize: 'none', maxHeight: '100px', overflowY: 'auto' }}
+                        rows={1}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter' && !e.shiftKey) {
+                                e.preventDefault();
+                                handleSubmit(e).then(r => r).catch(e => e);
+                            }
+                        }}
                     />
-                    <button type="submit" className="col text-center sendButton"><SendIcon/></button>
+                    {charCount > 200 && (
+                        <div className="charCounter text-center" style={{ color: charCount > 255 ? '#ff4d6b' : '#DBDEE1'}}>
+                            {255 - charCount}
+                        </div>
+                    )}
                 </form>
             </div>
         </>

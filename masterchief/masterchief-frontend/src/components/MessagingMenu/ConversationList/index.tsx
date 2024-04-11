@@ -1,37 +1,38 @@
 import {useEffect, useState} from "react";
-import {getUserConversations} from "../../../services/messagingService";
 import {getUserId, signOut} from "../../../services/authService";
 import {useNavigate} from "react-router-dom";
 import {Conversation} from "../../../model/conversation";
 import '../Messaging.css';
 import {ConversationRow} from "./ConversationRow";
 
-export const ConversationList = () => {
-    const [conversations, setConversations] = useState<Conversation[]>()
+interface Props {
+    conversations: Conversation[];
+    onConversationClick: (conversation: Conversation) => void;
+    activeConversation?: Conversation;
+}
+export const ConversationList = ({conversations, onConversationClick, activeConversation}: Props) => {
     const userId = getUserId();
     const navigate = useNavigate();
 
     useEffect(() => {
+        console.log(conversations);
         if (!userId) {
             signOut();
             navigate("/pageNotFound");
             return;
         }
-
-        getUserConversations(parseInt(userId))
-            .then(response => {
-                setConversations(response.data);
-                console.log(response.data[0]);
-            })
     }, [userId]);
 
     return (
-            <ul className="ul">
-                {conversations?.map(conversation => (
-                    <>
-                        <li key={conversation.id}><ConversationRow admin={conversation.admin}/></li>
-                    </>
-                ))}
-            </ul>
+        <div>
+            {conversations.map(conversation => (
+                <ConversationRow
+                    key={conversation.id}
+                    admin={conversation.admin}
+                    onConversationClick={() => onConversationClick(conversation)}
+                    isActive={conversation === activeConversation}
+                />
+            ))}
+        </div>
     );
 }

@@ -13,34 +13,33 @@
 .ul {
     list-style-type: none;
     padding: 0;
+    overflow: scroll;
+    height: 80vh;
 }
 
-.conversationContent {
-    width: 80%;
-    display: flex;
-    flex-direction: column;
-    background: #36393E;
-}
-
-
-.conversation-row {
-    padding: 8px 16px;
-    max-width: 100%;
-    word-break: break-word;
+.conversation-row, .activeConversation {
+    padding: 16px 16px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     color: #A9A9A9;
     text-align: start;
+    transition: background-color 0.3s, color 0.3s;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.conversation-row:hover, .activeConversation:hover {
+    background-color: #4d525a;
+    color: #F2F3F5;
+}
+
+.activeConversation {
+    background-color: #41464c;
+    color: #dce0e5;
 }
 
 .messageRow {
     display: flex;
     padding: 10px;
-    margin: 5px 0;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    color: lightgray;
-    align-items: stretch;
-    width: auto;
 }
 
 .profileIcon {
@@ -58,16 +57,11 @@
 }
 
 .messageDetailsContent {
-    display: flex;
     flex-direction: column;
-    justify-content: flex-end;
-    flex: 1;
 }
 
 .messageDetails {
     display: flex;
-    align-items: center;
-    width: 100%;
 }
 
 .username {
@@ -78,21 +72,17 @@
 
 .date {
     color: #949BA4;
-    height: 24px;
 }
 
 .messageContent {
-    display: flex;
     white-space: pre-line;
     color: #DBDEE1;
-    width: 100%;
     text-align: left;
 }
 
 .messageDateLabel {
     font-size: 0.75rem;
     color: #949BA4;
-    text-align: center;
     font-weight: 600;
     position: relative;
     margin: 0 50px 0 50px;
@@ -131,17 +121,17 @@
     padding: 10px;
     background-color: #4d525a;
     border-radius: 5px;
-    align-items: start;
+    text-align: start;
+
 }
 
 .messageInput {
-    display: flex;
     padding: 8px;
     border: none;
     background-color: transparent;
-    width: max(50%, 90%);
     outline: none;
     color: #DBDEE1;
+    width: max(50%, 90%);
 }
 
 .sendButton {
@@ -175,4 +165,3 @@
     transform: scale(1.2);
     color: #3a444f;
 }
-
