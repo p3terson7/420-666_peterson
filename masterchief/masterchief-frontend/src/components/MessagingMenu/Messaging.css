@@ -22,14 +22,6 @@
     background: #36393E;
 }
 
-.messages {
-    flex-grow: 1;
-    overflow-y: auto;
-}
-
-.messageInput {
-    margin-top: auto;
-}
 
 .conversation-row {
     padding: 8px 16px;
@@ -122,5 +114,65 @@
 
 .messageDateLabel::after {
     right: 0;
+}
+
+.conversationContent {
+    position: relative;
+    width: 80%;
+    background: #36393E;
+}
+
+.messageInputContainer {
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 30px);
+    padding: 10px;
+    background-color: #4d525a;
+    border-radius: 5px;
+    align-items: start;
+}
+
+.messageInput {
+    display: flex;
+    padding: 8px;
+    border: none;
+    background-color: transparent;
+    width: max(50%, 90%);
+    outline: none;
+    color: #DBDEE1;
+}
+
+.sendButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+    background-color: #a59e8d;
+    border-radius: 5px;
+    border-color: transparent;
+}
+
+.send-icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.5s ease, color 0.5s ease;
+    background-color: transparent;
+    border-radius: 5px;
+    border-color: transparent;
+    color: #c5bbaf;
+}
+
+.sendButton:hover {
+    background-color: #505b68;
+}
+
+.sendButton:hover .send-icon {
+    transform: scale(1.2);
+    color: #3a444f;
 }
 
