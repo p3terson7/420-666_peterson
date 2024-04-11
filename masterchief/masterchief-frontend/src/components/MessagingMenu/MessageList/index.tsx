@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from "react";
-import {getConversationMessages, sendMessage} from "../../../services/messagingService";
-import {Conversation, Message} from "../../../model/conversation";
+import React, { useState, useEffect, useRef } from "react";
+import { getConversationMessages, sendMessage } from "../../../services/messagingService";
+import { Conversation, Message } from "../../../model/conversation";
 import { MessageRow } from "./MessageRow";
 import '../Messaging.css';
-import {SendIcon} from "../../../assets/icons/icons";
-import {getUserId} from "../../../services/authService";
-import {getUserById} from "../../../services/userService";
-import {User} from "../../../model/user";
-import {enqueueSnackbar} from "notistack";
+import { getUserId } from "../../../services/authService";
+import { getUserById } from "../../../services/userService";
+import { User } from "../../../model/user";
+import { enqueueSnackbar } from "notistack";
 
 interface ConcatenatedMessage extends Omit<Message, 'content'> {
     content: string;
@@ -17,11 +16,12 @@ interface Props {
     activeConversation: Conversation;
 }
 
-export const MessageList = ({activeConversation}: Props) => {
+export const MessageList = ({ activeConversation }: Props) => {
     const [concatenatedMessages, setConcatenatedMessages] = useState<ConcatenatedMessage[]>([]);
     const [messageInput, setMessageInput] = useState<string>('');
     const [currentUser, setCurrentUser] = useState<User>();
     const [charCount, setCharCount] = useState<number>(0);
+    const messageListRef = useRef<HTMLUListElement>(null);
 
     useEffect(() => {
         if (!currentUser) {
@@ -37,6 +37,10 @@ export const MessageList = ({activeConversation}: Props) => {
                 setConcatenatedMessages(processedMessages);
             });
     }, []);
+
+    useEffect(() => {
+        scrollToBottom();
+    }, [concatenatedMessages]);
 
     useEffect(() => {
         const textarea = document.getElementById('messageTextarea');
@@ -69,10 +73,7 @@ export const MessageList = ({activeConversation}: Props) => {
         e.preventDefault();
         if (!messageInput.trim()) return;
 
-        if (messageInput.length > 255) {
-            enqueueSnackbar("Message too long!", { variant: 'error' });
-            return;
-        }
+        if (checkMessageTooLong()) return;
 
         await sendMessage({
             sender: currentUser!,
@@ -91,10 +92,22 @@ export const MessageList = ({activeConversation}: Props) => {
         });
     };
 
+    const checkMessageTooLong = () => {
+        if (charCount > 255) {
+            enqueueSnackbar("Message too long!", { variant: 'error' });
+            return true;
+        }
+    }
+
+    const scrollToBottom = () => {
+        if (messageListRef.current && messageListRef.current.lastElementChild) {
+            messageListRef.current.lastElementChild.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
 
     return (
         <>
-            <ul className="ul">
+            <ul className="ul" ref={messageListRef}>
                 {concatenatedMessages.map((message, index) => (
                     <li key={index}>
                         <MessageRow message={message} isFirstMessageOfDay={message.isFirstMessageOfDay} />
