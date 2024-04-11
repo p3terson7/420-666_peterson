@@ -48,7 +48,7 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     color: lightgray;
     align-items: stretch;
-    width: 100%;
+    width: auto;
 }
 
 .profileIcon {
@@ -94,12 +94,33 @@
     white-space: pre-line;
     color: #DBDEE1;
     width: 100%;
+    text-align: left;
 }
 
 .messageDateLabel {
     font-size: 0.75rem;
     color: #949BA4;
-    padding: 5px 0;
     text-align: center;
     font-weight: 600;
+    position: relative;
+    margin: 0 50px 0 50px;
 }
+
+.messageDateLabel::before,
+.messageDateLabel::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 45%;
+    height: 1px;
+    background-color: #59626a;
+}
+
+.messageDateLabel::before {
+    left: 0;
+}
+
+.messageDateLabel::after {
+    right: 0;
+}
+

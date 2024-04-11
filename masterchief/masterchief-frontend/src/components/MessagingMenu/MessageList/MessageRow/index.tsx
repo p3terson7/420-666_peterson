@@ -1,5 +1,5 @@
 import React from 'react';
-import { formatDate, Message } from "../../../../model/conversation";
+import { Message } from "../../../../model/conversation";
 import { format } from 'date-fns';
 
 interface Props {
@@ -9,13 +9,13 @@ interface Props {
 
 export const MessageRow: React.FC<Props> = ({ message, isFirstMessageOfDay }) => {
     return (
-        <div>
+        <div className="mt-1">
             {isFirstMessageOfDay && (
                 <div className="messageDateLabel">
                     {format(new Date(message.timestamp), 'MMMM do yyyy')}
                 </div>
             )}
-            <div className="messageRow">
+            <div className="messageRow m-3">
                 <div className="profileIcon">{message.sender.firstName![0].toUpperCase()}</div>
                 <div className="messageDetailsContent">
                     <div className="messageDetails">
