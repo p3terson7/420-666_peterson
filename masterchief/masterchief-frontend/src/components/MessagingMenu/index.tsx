@@ -6,6 +6,7 @@ import {getUserId, signOut} from "../../services/authService";
 import {getUserConversations} from "../../services/messagingService";
 import {useNavigate} from "react-router-dom";
 import {Conversation} from "../../model/conversation";
+import {enqueueSnackbar} from "notistack";
 
 export const MessagingMenu = () => {
     const userId = getUserId();
@@ -26,7 +27,8 @@ export const MessagingMenu = () => {
                 setActiveConversation(response.data[0])
             })
             .catch(error => {
-                console.error('Error fetching conversations:', error);
+                enqueueSnackbar("Failed to fetch conversations", {variant: "error"});
+                throw new Error(error);
             });
 
         if (!activeConversation) {
@@ -45,9 +47,18 @@ export const MessagingMenu = () => {
                 <ConversationList conversations={conversations} onConversationClick={handleConversationClick} activeConversation={activeConversation}/>
             </div>
             <div className="conversationContent">
-                <div className="messages">
-                    {activeConversation && <MessageList activeConversation={activeConversation}/>}
-                </div>
+                {conversations.length === 0 ? (
+                    <div className="noConversationsMessage">
+                        <h1 className="mb-2">It's as quiet as a library in here!</h1>
+                        <h1 style={{fontWeight: 175}}>Looks like you haven't started any conversations yet.</h1>
+                        <h1 style={{fontWeight: 175}}>Why not be the first to break the silence?</h1>
+                        {/* TODO : Redirection*/}
+                    </div>
+                ) : (
+                    <>
+                        {activeConversation && <MessageList activeConversation={activeConversation}/>}
+                    </>
+                )}
             </div>
         </div>
     );

@@ -86,9 +86,11 @@ export const MessageList = ({ activeConversation }: Props) => {
                 .then(response => {
                     const processedMessages = concatenateMessages(response.data);
                     setConcatenatedMessages(processedMessages);
+                    setCharCount(0);
                 });
-        }).catch(error => {
-            console.error("Failed to send message:", error);
+        }).catch(e => {
+            enqueueSnackbar("Failed to send message", { variant: 'error' });
+            throw new Error(e);
         });
     };
 
@@ -114,16 +116,15 @@ export const MessageList = ({ activeConversation }: Props) => {
                     </li>
                 ))}
             </ul>
-            <div className="messageInputContainer">
+            <div className="messageAreaContainer">
                 <form className="messageInputForm">
                     <textarea
-                        id="messageTextarea"
                         value={messageInput}
                         onChange={(e) => {
                             setMessageInput(e.target.value);
                             setCharCount(e.target.value.length);
                         }}
-                        className="col messageInput"
+                        className="col messageArea"
                         placeholder="Envoyer un message..."
                         style={{ resize: 'none', maxHeight: '100px', overflowY: 'auto' }}
                         rows={1}
