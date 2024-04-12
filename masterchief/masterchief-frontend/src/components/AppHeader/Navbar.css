@@ -6,9 +6,11 @@
     align-items: center;
     padding: 10px 16px;
     font-size: 14px;
+    position: relative;
 }
 
 .navbar-left, .navbar-right {
+    position: relative;
     display: flex;
     align-items: center;
     margin-right: 1rem;
@@ -65,5 +67,9 @@
 
 .navbar-item:hover .navbar-icon {
     transform: scale(1.2);
+    color: #36393E;
+}
+
+.dashboard-icon-active {
     color: #36393E;
 }

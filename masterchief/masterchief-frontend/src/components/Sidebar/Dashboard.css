@@ -1,0 +1,20 @@
+.dashboard {
+    position: fixed;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.sidebar .menu-item:hover {
+    color: black;
+    background-color: transparent;
+    transition: background-color 0.5s ease-out, color 0.5s ease-out;
+}
+
+.ps-menu-button:hover {
+    transition: background-color 0.5s ease-out;
+    border-radius: 5px;
+}
+
+
+

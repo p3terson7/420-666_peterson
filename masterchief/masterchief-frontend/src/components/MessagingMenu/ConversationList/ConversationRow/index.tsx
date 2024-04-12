@@ -9,7 +9,7 @@ interface Props {
 export const ConversationRow = ({admin, onConversationClick, isActive}: Props) => {
     return (
         <div className={`conversationRow ${isActive ? 'activeConversation' : ''}`} onClick={onConversationClick}>
-            {admin.firstName + " (Admin)"}
+            <span style={{color: "#FF5733"}}>{admin.firstName}</span> (Admin)
         </div>
     );
 }

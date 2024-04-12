@@ -8,6 +8,8 @@ interface Props {
 }
 
 export const MessageRow: React.FC<Props> = ({ message, isFirstMessageOfDay }) => {
+    const isAdmin = message.sender.type === 'admin';
+
     return (
         <div className="mt-1">
             {isFirstMessageOfDay && (
@@ -16,10 +18,10 @@ export const MessageRow: React.FC<Props> = ({ message, isFirstMessageOfDay }) =>
                 </div>
             )}
             <div className="messageRow m-3">
-                <div className="profileIcon">{message.sender.firstName![0].toUpperCase()}</div>
+                <div className={`profileIcon ${isAdmin ? 'admin' : 'client'}`}>{message.sender.firstName![0].toUpperCase()}</div>
                 <div className="messageDetailsContent">
                     <div className="messageDetails">
-                        <span className="username">{message.sender.firstName}</span>
+                        <span className={`username ${isAdmin ? 'admin' : 'client'}`}>{message.sender.firstName}</span>
                         <span className="date">{format(new Date(message.timestamp), 'HH:mm')}</span>
                     </div>
                     <div className="messageContent">{message.content}</div>
