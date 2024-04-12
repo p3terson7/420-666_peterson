@@ -139,38 +139,21 @@
   transition: opacity 0.35s ease-in, height 0s 0.35s;
 }
 
-.signup-success {
-  text-align: center;
-  padding: 40px;
-  color: #333;
-}
-
-.signup-success h2 {
-  color: #4BB543;
-  margin-bottom: 20px;
-}
-
-.signup-success p {
-  margin-bottom: 30px;
-  font-size: 16px;
-  color: #555;
-}
-
 .toggle-form-view {
   display: block;
   width: 100%;
   padding: 10px 0;
-  color: lightgray; /* Consider adjusting if this doesn't stand out against your new background */
+  color: lightgray;
   text-align: center;
-  background-color: rgba(40, 44, 52, 0.95); /* Slightly less transparent on hover/focus for feedback */
-  border-radius: 0; /* Optional: adds a bit of rounding to the corners */
-  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+  background-color: rgba(40, 44, 52, 0.95);
+  border-radius: 0;
+  transition: background-color 0.3s ease;
   position: absolute;
   top: 60px;
   text-decoration: none;
 }
 
 .toggle-form-view:hover {
-  background-color: rgba(40, 44, 52, 0.65); /* Slightly less transparent on hover/focus for feedback */
+  background-color: rgba(40, 44, 52, 0.65);
   color: black;
 }

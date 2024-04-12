@@ -27,7 +27,6 @@ public class AuthServiceTest {
     private UserRepository userRepository;
     @Mock
     private SaltRepository saltRepository;
-
     @InjectMocks
     private AuthService authService;
 

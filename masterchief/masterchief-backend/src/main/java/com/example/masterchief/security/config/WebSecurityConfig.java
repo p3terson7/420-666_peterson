@@ -26,9 +26,11 @@ public class WebSecurityConfig {
         http
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/conversations/**").hasAnyAuthority(Authorities.ADMIN.name(), Authorities.CLIENT.name())
+                        .requestMatchers("/messages/**").hasAnyAuthority(Authorities.ADMIN.name(), Authorities.CLIENT.name())
                         .requestMatchers("/users/**").hasAnyAuthority(Authorities.ADMIN.name(), Authorities.CLIENT.name())
                         .requestMatchers("/clients/**").hasAnyAuthority(Authorities.ADMIN.name(), Authorities.CLIENT.name())
-                        .requestMatchers("/admins/**").hasAnyAuthority(Authorities.ADMIN.name())
+                        .requestMatchers("/admins/**").hasAnyAuthority(Authorities.ADMIN.name(), Authorities.CLIENT.name())
                 );
 
         http.sessionManagement((sessionManagement) ->

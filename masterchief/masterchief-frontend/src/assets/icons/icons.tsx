@@ -42,10 +42,10 @@ export const DashboardIcon = () => (
     </svg>
 );
 
-export const SuccessIcon = () => (
-    <div className="signup-success">
-        <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 24 24" className="text-success">
-            <path fill="currentColor" d="M9 19l-7-7 1.41-1.42L9 16.17l11.59-11.59L22 6l-13 13z"/>
+export const SendIcon = () => (
+    <div className="send-icon">
+        <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style={{ transform: 'rotate(90deg)' }}>
+            <path d="M12 19h-2v-2H8v-2H6v-2H4v-2h2V9h2V7h2V5h2v4h8v6h-8v4z" fill="currentColor"/>
         </svg>
     </div>
 );

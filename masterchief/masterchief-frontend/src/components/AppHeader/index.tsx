@@ -3,8 +3,9 @@ import './Navbar.css';
 import '../../App.css';
 import {Container, Nav, Navbar} from "react-bootstrap";
 import {UserIcon, InfoBox, MessageIcon, DashboardIcon, LogoutIcon, LoginIcon} from "../../assets/icons/icons";
-import {isConnected, signOut} from "../../services/authService";
+import {getAuthorities, isConnected, signOut} from "../../services/authService";
 import {useNavigate} from "react-router-dom";
+import {Authority} from "../../model/auth";
 
 const AppHeader = () => {
     const navigate = useNavigate();
@@ -16,6 +17,15 @@ const AppHeader = () => {
 
     const signInButton = () => {
         navigate("/authentication/");
+    }
+
+    const messagesButton = () => {
+        if (isConnected() && getAuthorities()?.includes(Authority.ADMIN)){
+            navigate("/admins/conversations/");
+        }
+        else if (isConnected() && getAuthorities()?.includes(Authority.CLIENT)) {
+            navigate("/clients/conversations/");
+        }
     }
 
     return (
@@ -34,7 +44,7 @@ const AppHeader = () => {
                                 <UserIcon />
                                 <span className="icon-description">Profile</span>
                             </Container>
-                            <Container fluid className="navbar-item">
+                            <Container fluid className="navbar-item" onClick={messagesButton}>
                                 <MessageIcon />
                                 <span className="icon-description">Messages</span>
                             </Container>

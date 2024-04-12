@@ -3,9 +3,9 @@ import SignInForm from "../../components/SignIn";
 
 const LoginView = () => {
     return (
-        <Container fluid>
+        <>
             <SignInForm />
-        </Container>
+        </>
     )
 }
 
