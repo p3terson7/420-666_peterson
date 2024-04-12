@@ -1,14 +1,15 @@
-import React, {useEffect, useRef, useState} from 'react';
-import { Button, Container, Form} from 'react-bootstrap';
+import React, { useEffect, useRef, useState } from 'react';
+import { Button, Container, Form } from 'react-bootstrap';
 import { GenericField } from './GenericField';
 import "../../App.css";
 import Card from "react-bootstrap/Card";
-import {enqueueSnackbar} from "notistack";
+import { useSnackbar } from 'notistack';
 
 interface FieldConfig {
     label: string;
     type: string;
     name: string;
+    options?: { label: string; value: string }[];
     validationRule?: (value: string, formData?: Record<string, string>) => boolean;
     errorMessage?: string;
     placeholder?: string;
@@ -19,16 +20,17 @@ interface GenericFormProps {
     onSubmit: (formData: Record<string, string>) => Promise<void>;
     unexpectedError?: string;
     successMessage?: string;
+    width?: string;
 }
 
-export const GenericForm: React.FC<GenericFormProps> = ({ steps, onSubmit, unexpectedError, successMessage }) => {
+export const GenericForm: React.FC<GenericFormProps> = ({ steps, onSubmit, unexpectedError, successMessage, width }) => {
     const [currentStep, setCurrentStep] = useState(0);
     const [formData, setFormData] = useState<Record<string, string>>({});
     const [errors, setErrors] = useState<Record<string, string>>({});
     const activeStepRef = useRef<HTMLDivElement>(null);
-    const [containerHeight] = useState('auto');
     const [attemptedNext, setAttemptedNext] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const { enqueueSnackbar } = useSnackbar(); // Destructure enqueueSnackbar from useSnackbar hook
 
     const validateCurrentStep = () => {
         const currentFields = steps[currentStep];
@@ -95,7 +97,7 @@ export const GenericForm: React.FC<GenericFormProps> = ({ steps, onSubmit, unexp
     };
 
     return (
-        <Card className="form-background" style={{ width: '25rem', borderRadius: '0.5rem', height: containerHeight, marginTop:'1rem' }}>
+        <Card className="d-flex form-background" style={{ width: width, height: 'auto', marginTop:'1rem' }}>
             <Card.Body>
                 <Form onSubmit={handleSubmit}>
                     {steps.map((stepFields, index) => (
@@ -115,6 +117,7 @@ export const GenericForm: React.FC<GenericFormProps> = ({ steps, onSubmit, unexp
                                     onChange={handleChange}
                                     isInvalid={!!errors[field.name]}
                                     errorMessage={errors[field.name]}
+                                    options={field.options}
                                 />
                             ))}
                         </Container>

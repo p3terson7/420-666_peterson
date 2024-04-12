@@ -144,7 +144,7 @@ const ClientSignupForm = () => {
             <h1 style={{ fontFamily: "RetroGaming, sans-serif", color:'#FFC0CB', textShadow:'2px 2px 4px #000000' }}>
                 Embark on the Quest!<br></br>Join us, and claim your destiny
             </h1>
-            <GenericForm steps={formSteps} onSubmit={handleFormSubmit} unexpectedError={unexpectedError} successMessage={successMessage}/>
+            <GenericForm steps={formSteps} onSubmit={handleFormSubmit} unexpectedError={unexpectedError} successMessage={successMessage} width='25rem'/>
         </div>
     );
 };

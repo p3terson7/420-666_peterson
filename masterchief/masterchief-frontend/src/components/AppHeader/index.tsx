@@ -48,7 +48,7 @@ const AppHeader = () => {
 
     return (
         <>
-            <Navbar className="navbar">
+            <Navbar className="navbar bg-dark">
                 <div className="navbar-left">
                     {pathname !== '/authentication/' && (
                         <Container fluid className="navbar-item p-0" onClick={toggleDashboard}>

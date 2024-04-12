@@ -95,7 +95,7 @@ const SignInForm = () => {
                     Look Who's Back!<br/>We saved your spot
                 </h1>
             </div>
-            <GenericForm steps={formFields} onSubmit={handleFormSubmit} unexpectedError={unexpectedError} successMessage={successMessage} />
+            <GenericForm steps={formFields} onSubmit={handleFormSubmit} unexpectedError={unexpectedError} successMessage={successMessage} width='25rem'/>
         </div>
     );
 };

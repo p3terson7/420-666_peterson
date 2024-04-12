@@ -1,48 +1,60 @@
 import React from 'react';
 import {GenericForm} from "../../GenericForm";
-
+import '@fortawesome/fontawesome-free/css/all.css';
 const BeginnerForm = () => {
     const formSteps = [
         [
             {
-                label: 'Quel usage allez-vous faire de l’ordinateur? Veuillez brièvement détailler ci-dessous',
+                type: 'checkbox',
+                name: 'noob_usage_checkbox',
+                label: 'Common use case(s) for your PC',
+                options: [
+                    { label: 'Gaming', value: 'gaming' },
+                    { label: 'School or Office Work', value: 'office_work' },
+                    { label: 'Graphic Design and Creative Work', value: 'graphic_design' },
+                    { label: 'Media Consumption & Entertainment', value: 'media_entertainment' },
+                    { label: 'Programming and Software Development', value: 'software_development' },
+                    { label: 'Other', value: 'other' },
+                ],
+            },
+            {
+                label: 'Briefly describe how you plan to use your PC',
                 name: 'noob_usage_message',
                 type: 'textarea',
-                placeholder: 'Ex: Je stream du Warzone en qualité Ultra sur Twitch de jour, je pirate les systèmes du Pentagone de soir',
+                placeholder: 'I plan to use my PC to play games and watch cat videos.',
                 validationRule: (value:any) => !!value,
                 errorMessage: 'Ce champ est requis.',
             },
         ],
         [
             {
-                label: 'En termes d’accessoires lumineux (RGB), que voulez-vous intégrer?',
+                label: 'Do you want RGB accessories?',
                 name: 'noob_RGB_accessories',
-                type: 'checkboxGroup',
+                type: 'checkbox',
                 options: [
-                    { label: 'Ventilateurs', value: 'noob_Ventilateurs_RGB' },
-                    { label: 'Bande LED', value: 'noob_Bande_LED' },
-                    { label: 'Refroidisseur CPU', value: 'noob_RGB_CPU_Cooler' },
-                    { label: 'Mémoire Vive', value: 'noob_RGB_RAM' },
-                    { label: 'Carte Graphique', value: 'noob_RGB_GPU' },
-                    { label: 'Carte mère', value: 'noob_RGB_Motherboard' },
-                    { label: 'Câbles', value: 'noob_RGB_Cables' },
-                    { label: 'Autre (Détaillez ci-dessous)', value: 'noob_Other_Accessories' },
-                    { label: 'Rien, je suis épileptique', value: 'noob_Nothing_RGB' },
+                    { label: 'Fans', value: 'ventilateurs' },
+                    { label: 'LED Strips', value: 'bande_led' },
+                    { label: 'CPU Cooler', value: 'refroidisseur_cpu' },
+                    { label: 'RAM', value: 'memoire_vive' },
+                    { label: 'GPU', value: 'carte_graphique' },
+                    { label: 'Motherboard', value: 'carte_mere' },
+                    { label: 'Cables', value: 'cables' },
+                    { label: 'Other', value: 'autre_accessories' },
+                    { label: 'No, but how nice of you for asking', value: 'nothing_rgb' },
                 ],
             },
         ],
         [
             {
-                label: 'Quel est votre budget?',
+                label: 'Do you have a budget?',
                 name: 'noob_budget',
                 type: 'select',
                 options: [
-                    'Entre 300 et 400$ (Parfait pour le travail de bureau de base)',
-                    'Entre 400 et 500$ (Parfait le travail de bureau de base et travaux d’école)',
-                    'Entre 500 et 700$ (Parfait pour travaux d’école et gaming léger)',
-                    'Entre 700 et 1000$ (Parfait pour tout gaming à qualité intermédiaire)',
-                    'Entre 1000 et 1500$ (Parfait pour tout gaming à qualité avancée)',
-                    'Plus de 1500$ (Machine de guerre)',
+                    { label: 'Not really, I\'m seeking the most cost-effective option', value: 'nan' },
+                    { label: 'Budget Around $500: Basic Performance & Affordability', value: '500' },
+                    { label: 'Budget Around $700: Balanced Performance for Work & Entertainment', value: '700' },
+                    { label: 'Budget Around $1000: Enhanced Performance for Demanding Tasks', value: '1000' },
+                    { label: 'Budget Over $1000: Premium Performance for High-End Needs', value: '1000+' }
                 ],
                 validationRule: (value:any) => !!value,
                 errorMessage: 'Veuillez sélectionner une option.',
@@ -50,7 +62,7 @@ const BeginnerForm = () => {
         ],
         [
             {
-                label: 'Êtes-vous à l’aise avec la configuration de l’ordinateur? (Installation de Windows, Startup, Installation des Pilotes, Manipulations BIOS, Overclocking si nécessaire)',
+                label: 'Are you confident in handling computer setup? Our expertise includes seamless Windows installation, smooth startup processes, driver installations, BIOS optimization, and advanced overclocking if needed. Let us take care of your setup worries.',
                 name: 'config',
                 type: 'radioGroup',
                 options: [
@@ -59,13 +71,12 @@ const BeginnerForm = () => {
                 ],
             },
             {
-                label: 'Si vous avez des spécifications particulières ou des questions, écrivez les ici.',
+                label: 'If you have any specific requirements or questions, please write them here.',
                 name: 'noob_other_message',
                 type: 'textarea',
             },
         ],
-        [
-        ],
+        [],
     ];
 
     const handleFormSubmit = async (formData:any) => {
@@ -73,7 +84,7 @@ const BeginnerForm = () => {
     };
 
     return (
-        <div className="p-5 container bg-light" style={{ borderRadius: '7px', border: '1px solid blueviolet' }}>
+        <div style={{fontSize: '20px'}}>
             <h2>Beginner Form</h2>
             <GenericForm
                 steps={formSteps}
