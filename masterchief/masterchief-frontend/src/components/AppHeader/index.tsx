@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import './Navbar.css';
 import '../../App.css';
 import { Container, Nav, Navbar } from "react-bootstrap";
@@ -38,7 +38,12 @@ const AppHeader = () => {
         if (!isConnected()) {
             setIsOpen(false);
         }
-    }, [isConnected]); // TODO : Make it actually work
+    }, [isConnected]);
+
+    const handleBuildClick = () => {
+        toggleDashboard();
+        navigate('/build');
+    }
 
     return (
         <>
@@ -82,7 +87,7 @@ const AppHeader = () => {
                     </Nav>
                 </div>
             </Navbar>
-            <CollapsibleSidebar isOpen={isOpen} />
+            <CollapsibleSidebar isOpen={isOpen} handleBuildClick={handleBuildClick} />
         </>
     );
 }

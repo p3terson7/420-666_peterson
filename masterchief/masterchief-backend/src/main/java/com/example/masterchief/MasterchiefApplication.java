@@ -28,12 +28,12 @@ public class MasterchiefApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-//		Optional<AdminDTO> optionalAdminDTO = adminService.createAdmin(new AdminDTO(null, "Karim", "Benzema", "kb9@email.com", "Lolface1232!"));
-//		if (optionalAdminDTO.isPresent()) {
-//			System.out.println("Admin created successfully");
-//		} else {
-//			System.out.println("Admin creation failed");
-//		}
+		Optional<AdminDTO> optionalAdminDTO = adminService.createAdmin(new AdminDTO(null, "Kylian", "Mbappe", "mbappe@email.com", "Lolface1232!"));
+		if (optionalAdminDTO.isPresent()) {
+			System.out.println("Admin created successfully");
+		} else {
+			System.out.println("Admin creation failed");
+		}
 
 //		Optional<ConversationDTO> conversation = conversationService.createConversation(48L, 24L);
 //		if (conversation.isPresent()) {
@@ -45,7 +45,9 @@ public class MasterchiefApplication implements CommandLineRunner {
 		conversations.add(conversationService.getConversationsByUserId(24L).get(0));
 
 		Optional<UserDTO> client = userService.getUser(24L);
-		Optional<UserDTO> admin = userService.getUser(25L);
+		Optional<UserDTO> admin = userService.getUser(48L);
+
+		// TODO : Check that user can only send messages to his conversation
 
 //		Optional<MessageDTO> message1 = messageService.createMessage(new MessageDTO(null, client.get(), "Hold on let me check the stats", LocalDateTime.now().toString(), conversations.get(0)));
 //		Optional<MessageDTO> message2 = messageService.createMessage(new MessageDTO(null, client.get(), "I got hella cheese and my pockets full of racks", LocalDateTime.now().toString(), conversations.get(0)));
@@ -60,5 +62,6 @@ public class MasterchiefApplication implements CommandLineRunner {
 //		Optional<MessageDTO> message11 = messageService.createMessage(new MessageDTO(null, admin.get(), "She a gold digger, I'm a go-getter", LocalDateTime.now().toString(), conversations.get(0)));
 //		Optional<MessageDTO> message12 = messageService.createMessage(new MessageDTO(null, admin.get(), "I'm a real one, she a pretender", LocalDateTime.now().toString(), conversations.get(0)));
 //		Optional<MessageDTO> message13 = messageService.createMessage(new MessageDTO(null, client.get(), "I'm a real one, she a pretender", LocalDateTime.now().toString(), conversations.get(0)));
+//		Optional<MessageDTO> message14 = messageService.createMessage(new MessageDTO(null, admin.get(), "I'm a real one, she a pretender", LocalDateTime.now().toString(), conversations.get(0)));
 	}
 }
