@@ -45,15 +45,20 @@ public class MasterchiefApplication implements CommandLineRunner {
 		conversations.add(conversationService.getConversationsByUserId(24L).get(0));
 
 		Optional<UserDTO> client = userService.getUser(24L);
-		Optional<UserDTO> admin = userService.getUser(48L);
+		Optional<UserDTO> admin = userService.getUser(25L);
 
-//		Optional<MessageDTO> message = messageService.createMessage(new MessageDTO(null, client.get(), "Took a walk in the park", LocalDateTime.now().toString(), conversations.get(0)));
-//		Optional<MessageDTO> message3 = messageService.createMessage(new MessageDTO(null, client.get(), "These dogs didn't dare to bark", LocalDateTime.now().toString(), conversations.get(0)));
-//		Optional<MessageDTO> message2 = messageService.createMessage(new MessageDTO(null, admin.get(), "The shit you say is very dark", LocalDateTime.now().toString(), conversations.get(0)));
-
-//		Optional<MessageDTO> message = messageService.createMessage(new MessageDTO(null, admin.get(), "Hold on let me check the stats", LocalDateTime.now().toString(), conversations.get(0)));
-//		Optional<MessageDTO> message3 = messageService.createMessage(new MessageDTO(null, client.get(), "I got hella cheese and my pockets full of racks", LocalDateTime.now().toString(), conversations.get(0)));
-//		Optional<MessageDTO> message2 = messageService.createMessage(new MessageDTO(null, admin.get(), "I been in the trap, you been hanging with the rats", LocalDateTime.now().toString(), conversations.get(0)));
-
+//		Optional<MessageDTO> message1 = messageService.createMessage(new MessageDTO(null, client.get(), "Hold on let me check the stats", LocalDateTime.now().toString(), conversations.get(0)));
+//		Optional<MessageDTO> message2 = messageService.createMessage(new MessageDTO(null, client.get(), "I got hella cheese and my pockets full of racks", LocalDateTime.now().toString(), conversations.get(0)));
+//		Optional<MessageDTO> message3 = messageService.createMessage(new MessageDTO(null, admin.get(), "I been in the trap, you been hanging with the rats", LocalDateTime.now().toString(), conversations.get(0)));
+//		Optional<MessageDTO> message4 = messageService.createMessage(new MessageDTO(null, client.get(), "I'm getting money, I ain't worried bout none of that", LocalDateTime.now().toString(), conversations.get(0)));
+//		Optional<MessageDTO> message5 = messageService.createMessage(new MessageDTO(null, admin.get(), "I'm from the streets where it's dark, ain't no turning back", LocalDateTime.now().toString(), conversations.get(0)));
+//		Optional<MessageDTO> message6 = messageService.createMessage(new MessageDTO(null, admin.get(), "I got a whole lot of scars, that's a fact", LocalDateTime.now().toString(), conversations.get(0)));
+//		Optional<MessageDTO> message7 = messageService.createMessage(new MessageDTO(null, admin.get(), "Your girl homie hop and that's no cap", LocalDateTime.now().toString(), conversations.get(0)));
+//		Optional<MessageDTO> message8 = messageService.createMessage(new MessageDTO(null, client.get(), "But she Ice Spice, no paprika", LocalDateTime.now().toString(), conversations.get(0)));
+//		Optional<MessageDTO> message9 = messageService.createMessage(new MessageDTO(null, client.get(), "I handle my space, big Elon with the rocket-a", LocalDateTime.now().toString(), conversations.get(0)));
+//		Optional<MessageDTO> message10 = messageService.createMessage(new MessageDTO(null, admin.get(), "I'm on a whole different level, I'm a trendsetter", LocalDateTime.now().toString(), conversations.get(0)));
+//		Optional<MessageDTO> message11 = messageService.createMessage(new MessageDTO(null, admin.get(), "She a gold digger, I'm a go-getter", LocalDateTime.now().toString(), conversations.get(0)));
+//		Optional<MessageDTO> message12 = messageService.createMessage(new MessageDTO(null, admin.get(), "I'm a real one, she a pretender", LocalDateTime.now().toString(), conversations.get(0)));
+//		Optional<MessageDTO> message13 = messageService.createMessage(new MessageDTO(null, client.get(), "I'm a real one, she a pretender", LocalDateTime.now().toString(), conversations.get(0)));
 	}
 }

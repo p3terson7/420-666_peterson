@@ -4,6 +4,10 @@ body {
     font-family: 'DM Sans', sans-serif;
 }
 
+::-webkit-scrollbar {
+    display: none;
+}
+
 .messagingMenu {
     display: flex;
     height: calc(100vh - 60px);
@@ -136,6 +140,7 @@ body {
     outline: none;
     color: #DDE0E2;
     width: 100%;
+    display: flex;
 }
 
 .noConversationsMessage {
