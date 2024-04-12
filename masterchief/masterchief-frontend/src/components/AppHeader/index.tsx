@@ -4,13 +4,14 @@ import '../../App.css';
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { UserIcon, InfoBox, MessageIcon, DashboardIcon, LogoutIcon, LoginIcon } from "../../assets/icons/icons";
 import { getAuthorities, isConnected, signOut } from "../../services/authService";
-import { useNavigate } from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import { Authority } from "../../model/auth";
 import CollapsibleSidebar from "../Sidebar";
 
 const AppHeader = () => {
     const [isOpen, setIsOpen] = useState(false);
     const navigate = useNavigate();
+    const { pathname } = useLocation();
 
     const signOutButton = () => {
         signOut();
@@ -42,14 +43,14 @@ const AppHeader = () => {
 
     const handleBuildClick = () => {
         toggleDashboard();
-        navigate('/build');
+        navigate('build');
     }
 
     return (
         <>
             <Navbar className="navbar">
                 <div className="navbar-left">
-                    {isConnected() && (
+                    {pathname !== '/authentication/' && (
                         <Container fluid className="navbar-item p-0" onClick={toggleDashboard}>
                             <DashboardIcon />
                         </Container>
