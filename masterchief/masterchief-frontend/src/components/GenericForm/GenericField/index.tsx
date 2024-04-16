@@ -22,7 +22,7 @@ export const GenericField: React.FC<GenericFieldProps> = ({ label, type, name, v
                         {options && options.map((option, index) => (
                             <div key={index} className="custom-checkbox-container">
                                 <div>
-                                    <div className="custom-checkbox bg-dark p-3">
+                                    <div className="custom-checkbox">
                                         <input
                                             type="checkbox"
                                             name={name}
@@ -32,13 +32,13 @@ export const GenericField: React.FC<GenericFieldProps> = ({ label, type, name, v
                                             onChange={onChange}
                                             className={`custom-checkbox-input ${isInvalid ? 'is-invalid' : ''}`}
                                         />
-                                        <label htmlFor={`${name}-${index}`} className="custom-checkbox-label">
+                                        <label htmlFor={`${name}-${index}`} className="custom-checkbox-label bg-dark p-3">
                                             {option.label}
                                         </label>
                                     </div>
                                 </div>
                             </div>
-                        ))}
+                            ))}
                     </>
                 );
             case 'textarea':

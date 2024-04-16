@@ -185,14 +185,15 @@
 
 .custom-checkbox-input:checked + .custom-checkbox-label {
   color: #FF1744;
-  transform: scale(1.035);
+  transform: scale(1.05);
 }
 
 .custom-checkbox:hover .custom-checkbox-label {
   color: #FF1744;
-  transform: scale(1.035);
+  transform: scale(1.05);
 }
 
-.custom-checkbox-container:hover .custom-checkbox {
+.custom-checkbox:hover {
   transform: scale(1.075);
+  color: #FF1744;
 }

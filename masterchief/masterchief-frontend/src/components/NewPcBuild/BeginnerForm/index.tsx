@@ -32,15 +32,15 @@ const BeginnerForm = () => {
                 name: 'noob_RGB_accessories',
                 type: 'checkbox',
                 options: [
-                    { label: 'Fans', value: 'ventilateurs' },
-                    { label: 'LED Strips', value: 'bande_led' },
-                    { label: 'CPU Cooler', value: 'refroidisseur_cpu' },
-                    { label: 'RAM', value: 'memoire_vive' },
-                    { label: 'GPU', value: 'carte_graphique' },
-                    { label: 'Motherboard', value: 'carte_mere' },
+                    { label: 'Fans', value: 'fans' },
+                    { label: 'LED Strips', value: 'strip' },
+                    { label: 'CPU Cooler', value: 'cpu_cooler' },
+                    { label: 'RAM', value: 'ram' },
+                    { label: 'GPU', value: 'gpu' },
+                    { label: 'Motherboard', value: 'mobo' },
                     { label: 'Cables', value: 'cables' },
-                    { label: 'Other', value: 'autre_accessories' },
-                    { label: 'No, but how nice of you for asking', value: 'nothing_rgb' },
+                    { label: 'Other', value: 'other' },
+                    { label: 'No, but how nice of you for asking', value: 'no_rgb' },
                 ],
             },
         ],
@@ -64,7 +64,7 @@ const BeginnerForm = () => {
             {
                 label: 'Are you confident in handling computer setup? Our expertise includes seamless Windows installation, smooth startup processes, driver installations, BIOS optimization, and advanced overclocking if needed. Let us take care of your setup worries.',
                 name: 'config',
-                type: 'radioGroup',
+                type: 'select',
                 options: [
                     { label: 'Oui, je suis à l\'aise', value: 'a_l\'aise' },
                     { label: 'Non, j\'aurais besoin d\'assistance', value: 'pas_a_l\'aise' },
@@ -80,7 +80,7 @@ const BeginnerForm = () => {
     ];
 
     const handleFormSubmit = async (formData:any) => {
-        // Handle form submission logic for the beginner form
+        console.log('Form submitted:', formData);
     };
 
     return (
