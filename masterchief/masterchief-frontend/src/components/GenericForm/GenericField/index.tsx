@@ -14,6 +14,16 @@ interface GenericFieldProps {
 }
 
 export const GenericField: React.FC<GenericFieldProps> = ({ label, type, name, value, placeholder, onChange, isInvalid, errorMessage, options }) => {
+    const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { value: checkboxValue } = e.target;
+        const currentValue = value as string[];
+        const newValue = currentValue.includes(checkboxValue)
+            ? currentValue.filter((value) => value !== checkboxValue)
+            : [...currentValue, checkboxValue];
+        onChange({ target: { name, value: newValue } } as any);
+        console.log('Checkbox value:', newValue)
+    }
+
     const renderFormControl = () => {
         switch (type) {
             case 'checkbox':
@@ -28,8 +38,7 @@ export const GenericField: React.FC<GenericFieldProps> = ({ label, type, name, v
                                             name={name}
                                             id={`${name}-${index}`}
                                             value={option.value}
-                                            checked={value === option.value}
-                                            onChange={onChange}
+                                            onChange={handleCheckboxChange}
                                             className={`custom-checkbox-input ${isInvalid ? 'is-invalid' : ''}`}
                                         />
                                         <label htmlFor={`${name}-${index}`} className="custom-checkbox-label bg-dark p-3">
@@ -38,7 +47,7 @@ export const GenericField: React.FC<GenericFieldProps> = ({ label, type, name, v
                                     </div>
                                 </div>
                             </div>
-                            ))}
+                        ))}
                     </>
                 );
             case 'textarea':
