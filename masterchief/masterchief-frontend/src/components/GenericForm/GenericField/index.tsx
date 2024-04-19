@@ -1,19 +1,22 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Form, Container } from 'react-bootstrap';
+import {User} from "../../../model/user";
+import {enqueueSnackbar} from "notistack";
 
 interface GenericFieldProps {
     label: string;
     type: string;
     name: string;
-    value: any;
+    value?: any;
     placeholder?: string;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     isInvalid?: boolean;
     errorMessage?: string;
     options?: { label: string; value: string }[];
+    charCount?: number;
 }
 
-export const GenericField: React.FC<GenericFieldProps> = ({ label, type, name, value, placeholder, onChange, isInvalid, errorMessage, options }) => {
+export const GenericField: React.FC<GenericFieldProps> = ({ label, type, name, value, placeholder, onChange, isInvalid, errorMessage, options, charCount }) => {
     const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { value: checkboxValue } = e.target;
         const currentValue = value as string[];
@@ -22,6 +25,17 @@ export const GenericField: React.FC<GenericFieldProps> = ({ label, type, name, v
             : [...currentValue, checkboxValue];
         onChange({ target: { name, value: newValue } } as any);
         console.log('Checkbox value:', newValue)
+    }
+
+    const checkMessageTooLong = () => {
+        if (charCount! > 255) {
+            enqueueSnackbar("Message too long!", { variant: 'error' });
+            return true;
+        }
+    }
+
+    const handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+
     }
 
     const renderFormControl = () => {
@@ -52,14 +66,21 @@ export const GenericField: React.FC<GenericFieldProps> = ({ label, type, name, v
                 );
             case 'textarea':
                 return (
-                    <Form.Control
-                        as="textarea"
-                        name={name}
-                        value={value}
-                        placeholder={placeholder}
-                        onChange={onChange}
-                        isInvalid={isInvalid}
-                    />
+                    <>
+                        <Form.Control
+                            as="textarea"
+                            name={name}
+                            value={value}
+                            placeholder={placeholder}
+                            onChange={onChange}
+                            isInvalid={isInvalid}
+                        />
+                        {charCount! > 200 && (
+                            <div className="charCounter text-center" style={{ color: charCount! > 255 ? '#ff4d6b' : '#DBDEE1'}}>
+                                {255 - charCount!}
+                            </div>
+                        )}
+                    </>
                 );
             case 'select':
                 return (

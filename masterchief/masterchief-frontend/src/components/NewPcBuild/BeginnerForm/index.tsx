@@ -2,6 +2,15 @@ import React from 'react';
 import {GenericForm} from "../../GenericForm";
 import '@fortawesome/fontawesome-free/css/all.css';
 const BeginnerForm = () => {
+
+    const textAreaValidationMessages = (value:any) => {
+        if (!!value) {
+            return "This field is required"
+        }
+        else if (value.length > 255) {
+            return "Message too long!"
+        }
+    }
     const formSteps = [
         [
             {
@@ -16,13 +25,15 @@ const BeginnerForm = () => {
                     { label: 'Programming and Software Development', value: 'software_development' },
                     { label: 'Other', value: 'other' },
                 ],
+                validationRule: (value:any) => !!value && value.length != 0,
+                errorMessage: 'Please select at least one option.',
             },
             {
-                label: 'Briefly describe how you plan to use your PC',
+                label: 'Briefly describe how you plan on using your PC',
                 name: 'noob_usage_message',
                 type: 'textarea',
                 placeholder: 'I plan to use my PC to play games and watch cat videos.',
-                validationRule: (value:any) => !!value,
+                validationRule: (value:any) => !!value && value.length <= 255,
                 errorMessage: 'Ce champ est requis.',
             },
         ],
@@ -42,6 +53,8 @@ const BeginnerForm = () => {
                     { label: 'Other', value: 'other' },
                     { label: 'No, but how nice of you for asking', value: 'no_rgb' },
                 ],
+                validationRule: (value:any) => value.length != 0,
+                errorMessage: 'Please select at least one option.',
             },
         ],
         [
@@ -69,6 +82,8 @@ const BeginnerForm = () => {
                     { label: 'Oui, je suis à l\'aise', value: 'a_l\'aise' },
                     { label: 'Non, j\'aurais besoin d\'assistance', value: 'pas_a_l\'aise' },
                 ],
+                validationRule: (value:any) => !!value,
+                errorMessage: 'Veuillez sélectionner une option.',
             },
             {
                 label: 'If you have any specific requirements or questions, please write them here.',

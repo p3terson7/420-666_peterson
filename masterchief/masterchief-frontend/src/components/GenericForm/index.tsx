@@ -30,7 +30,9 @@ export const GenericForm: React.FC<GenericFormProps> = ({ steps, onSubmit, unexp
     const activeStepRef = useRef<HTMLDivElement>(null);
     const [attemptedNext, setAttemptedNext] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const { enqueueSnackbar } = useSnackbar(); // Destructure enqueueSnackbar from useSnackbar hook
+    const { enqueueSnackbar } = useSnackbar();
+    const [charCount, setCharCount] = useState<number>(0);
+
 
     const validateCurrentStep = () => {
         const currentFields = steps[currentStep];
@@ -73,6 +75,7 @@ export const GenericForm: React.FC<GenericFormProps> = ({ steps, onSubmit, unexp
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
+        setCharCount(e.target.value.length);
     };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -118,6 +121,7 @@ export const GenericForm: React.FC<GenericFormProps> = ({ steps, onSubmit, unexp
                                     isInvalid={!!errors[field.name]}
                                     errorMessage={errors[field.name]}
                                     options={field.options}
+                                    charCount={charCount}
                                 />
                             ))}
                         </Container>
