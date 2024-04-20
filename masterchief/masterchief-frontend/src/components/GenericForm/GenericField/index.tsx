@@ -1,5 +1,6 @@
 import React from 'react';
 import { Form, Container } from 'react-bootstrap';
+import Select from 'react-select';
 
 interface GenericFieldProps {
     label: string;
@@ -50,6 +51,22 @@ export const GenericField: React.FC<GenericFieldProps> = ({ label, type, name, v
         }
     };
 
+    const customStyles = {
+        control: (provided: any) => ({
+            ...provided,
+            backgroundColor: '#2c2f33', // Background color
+            borderColor: '#2c2f33', // Border color
+            borderRadius: '5px', // Border radius
+        }),
+        option: (provided: any, state: { isSelected: any; isFocused: any; }) => ({
+            ...provided,
+            backgroundColor: state.isSelected ? '#5c6bc0' : state.isFocused ? '#7986cb' : '#2c2f33', // Background color on hover or selection
+            color: state.isSelected ? '#ffffff' : '#ffffff', // Text color
+            padding: '0.5rem 1rem', // Padding
+        }),
+    };
+
+
     const renderFormControl = () => {
         switch (type) {
             case 'checkbox':
@@ -98,18 +115,40 @@ export const GenericField: React.FC<GenericFieldProps> = ({ label, type, name, v
                 );
             case 'select':
                 return (
-                    <Form.Control
-                        as="select"
-                        name={name}
-                        value={value}
-                        onChange={onChange}
-                        isInvalid={isInvalid}
-                    >
-                        <option value="">Select an option</option>
-                        {options && options.map((option, index) => (
-                            <option key={index} value={option.value}>{option.label}</option>
-                        ))}
-                    </Form.Control>
+                    <div className="select-container">
+                        <Form.Control
+                            as="select"
+                            name={name}
+                            value={value}
+                            onChange={onChange}
+                            isInvalid={isInvalid}
+                            className="custom-select"
+                        >
+                            <option value="">Select an option</option>
+                            {options &&
+                                options.map((option, index) => (
+                                    <option key={index} value={option.value}>
+                                        {option.label}
+                                    </option>
+                                ))}
+                        </Form.Control>
+                        <div className="select-arrow"></div>
+                    </div>
+                );
+            case 'selecter':
+                return (
+                    <div className="select-container">
+                        <Select
+                            options={options}
+                            value={options?.find(option => option.value === value)}
+                            onChange={(selectedOption) => {
+                                onChange({ target: { name, value: selectedOption?.value } } as any);
+                            }}
+                            styles={customStyles}
+                            isSearchable={false}
+                            placeholder="Select an option"
+                        />
+                    </div>
                 );
             default:
                 return (
