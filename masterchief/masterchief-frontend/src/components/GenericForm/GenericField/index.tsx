@@ -15,25 +15,38 @@ interface GenericFieldProps {
 }
 
 export const GenericField: React.FC<GenericFieldProps> = ({ label, type, name, value, placeholder, onChange, isInvalid, errorMessage, options, charCount }) => {
-    const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value: checkboxValue, checked } = e.target;
+    const handleRegularCheckboxChange = (checkboxValue: string, checked: boolean) => {
+        let newValue: string[];
 
-        if (checkboxValue === 'no_rgb') {
+        if (Array.isArray(value)) {
             if (checked) {
-                onChange({ target: { name: 'noob_RGB_accessories', value: ['no_rgb'] } } as any);
-            }
-            if (!checked) {
-                onChange({ target: { name: 'noob_RGB_accessories', value: [] } } as any);
-            }
-        } else {
-            let newValue: string[];
-            if (checked) {
-                newValue = value.filter((value:any) => value !== 'no_rgb');
+                newValue = value.filter((value: any) => value !== 'no_rgb');
                 newValue.push(checkboxValue);
             } else {
-                newValue = value.filter((value:any) => value !== checkboxValue);
+                newValue = value.filter((value: any) => value !== checkboxValue);
             }
-            onChange({ target: { name, value: newValue } } as any);
+        } else {
+            newValue = checked ? [checkboxValue] : [];
+        }
+
+        onChange({ target: { name, value: newValue } } as any);
+    };
+
+    const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { value: checkboxValue, checked } = e.target;
+
+        if (checkboxValue === 'no_rgb') {
+            handleNoRGBCheckboxChange(checked);
+        } else {
+            handleRegularCheckboxChange(checkboxValue, checked);
+        }
+    };
+
+    const handleNoRGBCheckboxChange = (checked: boolean) => {
+        if (checked) {
+            onChange({ target: { name: 'noob_RGB_accessories', value: ['no_rgb'] } } as any);
+        } else {
+            onChange({ target: { name: 'noob_RGB_accessories', value: [] } } as any);
         }
     };
 
