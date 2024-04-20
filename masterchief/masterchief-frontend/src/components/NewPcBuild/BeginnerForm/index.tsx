@@ -1,15 +1,7 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {GenericForm} from "../../GenericForm";
-import Select from "react-select";
 
-const options = [
-    { value: "blues", label: "Blues" },
-    { value: "rock", label: "Rock" },
-    { value: "jazz", label: "Jazz" },
-    { value: "orchestra", label: "Orchestra" },
-];
 const BeginnerForm = () => {
-
     const formSteps = [
         [
             {
@@ -97,7 +89,6 @@ const BeginnerForm = () => {
         console.log('Form submitted:', formData);
     };
 
-    const [selectedOption, setSelectedOption] = useState<{value: string; label: string;} | null>(null);
     return (
         <div style={{fontSize: '20px'}}>
             <h2>Beginner Form</h2>

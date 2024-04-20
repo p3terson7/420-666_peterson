@@ -54,15 +54,16 @@ export const GenericField: React.FC<GenericFieldProps> = ({ label, type, name, v
     const customStyles = {
         control: (provided: any) => ({
             ...provided,
-            backgroundColor: '#2c2f33', // Background color
-            borderColor: '#2c2f33', // Border color
-            borderRadius: '5px', // Border radius
+            backgroundColor: '#2c2f33',
+            borderColor: '#2c2f33',
+            borderRadius: '5px',
         }),
         option: (provided: any, state: { isSelected: any; isFocused: any; }) => ({
             ...provided,
-            backgroundColor: state.isSelected ? '#5c6bc0' : state.isFocused ? '#7986cb' : '#2c2f33', // Background color on hover or selection
+            backgroundColor: state.isSelected ? '#5c6bc0' : state.isFocused ? '#7986cb' : '#2c2f33',
             color: state.isSelected ? '#ffffff' : '#ffffff', // Text color
-            padding: '0.5rem 1rem', // Padding
+            padding: '0.5rem 1rem',
+            position: 'fixed',
         }),
     };
 
