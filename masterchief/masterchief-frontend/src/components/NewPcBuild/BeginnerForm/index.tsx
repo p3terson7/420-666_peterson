@@ -1,16 +1,7 @@
 import React from 'react';
 import {GenericForm} from "../../GenericForm";
-import '@fortawesome/fontawesome-free/css/all.css';
 const BeginnerForm = () => {
 
-    const textAreaValidationMessages = (value:any) => {
-        if (!!value) {
-            return "This field is required"
-        }
-        else if (value.length > 255) {
-            return "Message too long!"
-        }
-    }
     const formSteps = [
         [
             {
@@ -34,7 +25,7 @@ const BeginnerForm = () => {
                 type: 'textarea',
                 placeholder: 'I plan to use my PC to play games and watch cat videos.',
                 validationRule: (value:any) => !!value && value.length <= 255,
-                errorMessage: 'Ce champ est requis.',
+                errorMessage: 'This field is required, and must be less than 255 characters long.',
             },
         ],
         [

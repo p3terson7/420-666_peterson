@@ -1,7 +1,5 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { Form, Container } from 'react-bootstrap';
-import {User} from "../../../model/user";
-import {enqueueSnackbar} from "notistack";
 
 interface GenericFieldProps {
     label: string;
@@ -25,17 +23,6 @@ export const GenericField: React.FC<GenericFieldProps> = ({ label, type, name, v
             : [...currentValue, checkboxValue];
         onChange({ target: { name, value: newValue } } as any);
         console.log('Checkbox value:', newValue)
-    }
-
-    const checkMessageTooLong = () => {
-        if (charCount! > 255) {
-            enqueueSnackbar("Message too long!", { variant: 'error' });
-            return true;
-        }
-    }
-
-    const handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-
     }
 
     const renderFormControl = () => {
@@ -123,6 +110,5 @@ export const GenericField: React.FC<GenericFieldProps> = ({ label, type, name, v
                 </Container>
             )}
         </Form.Group>
-
     );
 };
