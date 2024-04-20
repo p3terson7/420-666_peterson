@@ -156,10 +156,6 @@
   text-decoration: none;
 }
 
-.checkbox-container {
-  margin-bottom: 0.5rem;
-}
-
 .custom-checkbox-container {
   display: inline-block;
   margin-right: 0.5rem;
@@ -178,22 +174,29 @@
   position: absolute;
 }
 
+.custom-checkbox-input-checkers {
+  opacity: 0;
+  position: absolute;
+  color: white;
+}
+
 .custom-checkbox-label {
   user-select: none;
   transition: 0.15s;
 }
 
-.custom-checkbox-input:checked + .custom-checkbox-label {
-  color: #FF1744;
+.custom-checkbox-input:checked + .custom-checkbox-label,
+.custom-checkbox-label.checked {
+  color: #ff1744;
   transform: scale(1.05);
 }
 
 .custom-checkbox:hover .custom-checkbox-label {
-  color: #FF1744;
+  color: #ff1744;
   transform: scale(1.05);
 }
 
 .custom-checkbox:hover {
   transform: scale(1.075);
-  color: #FF1744;
+  color: #ff1744;
 }

@@ -16,14 +16,26 @@ interface GenericFieldProps {
 
 export const GenericField: React.FC<GenericFieldProps> = ({ label, type, name, value, placeholder, onChange, isInvalid, errorMessage, options, charCount }) => {
     const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { value: checkboxValue } = e.target;
-        const currentValue = value as string[];
-        const newValue = currentValue.includes(checkboxValue)
-            ? currentValue.filter((value) => value !== checkboxValue)
-            : [...currentValue, checkboxValue];
-        onChange({ target: { name, value: newValue } } as any);
-        console.log('Checkbox value:', newValue)
-    }
+        const { name, value: checkboxValue, checked } = e.target;
+
+        if (checkboxValue === 'no_rgb') {
+            if (checked) {
+                onChange({ target: { name: 'noob_RGB_accessories', value: ['no_rgb'] } } as any);
+            }
+            if (!checked) {
+                onChange({ target: { name: 'noob_RGB_accessories', value: [] } } as any);
+            }
+        } else {
+            let newValue: string[];
+            if (checked) {
+                newValue = value.filter((value:any) => value !== 'no_rgb');
+                newValue.push(checkboxValue);
+            } else {
+                newValue = value.filter((value:any) => value !== checkboxValue);
+            }
+            onChange({ target: { name, value: newValue } } as any);
+        }
+    };
 
     const renderFormControl = () => {
         switch (type) {
@@ -40,7 +52,8 @@ export const GenericField: React.FC<GenericFieldProps> = ({ label, type, name, v
                                             id={`${name}-${index}`}
                                             value={option.value}
                                             onChange={handleCheckboxChange}
-                                            className={`custom-checkbox-input ${isInvalid ? 'is-invalid' : ''}`}
+                                            checked={value && value.includes(option.value)}
+                                            className="custom-checkbox-input"
                                         />
                                         <label htmlFor={`${name}-${index}`} className="custom-checkbox-label bg-dark p-3">
                                             {option.label}
@@ -49,6 +62,7 @@ export const GenericField: React.FC<GenericFieldProps> = ({ label, type, name, v
                                 </div>
                             </div>
                         ))}
+
                     </>
                 );
             case 'textarea':
