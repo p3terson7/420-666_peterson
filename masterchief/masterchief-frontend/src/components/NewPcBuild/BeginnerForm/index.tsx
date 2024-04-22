@@ -1,5 +1,6 @@
 import React from 'react';
 import {GenericForm} from "../../GenericForm";
+import '../../../App.css';
 
 const BeginnerForm = () => {
     const formSteps = [
@@ -66,7 +67,8 @@ const BeginnerForm = () => {
         ],
         [
             {
-                label: 'Are you confident in handling computer setup? Our expertise includes seamless Windows installation, smooth startup processes, driver installations, BIOS optimization, and advanced overclocking if needed. Let us take care of your setup worries.',
+                label: 'Are you confident in handling computer setup?',
+                subLabel: 'Our expertise includes seamless Windows installation, smooth startup processes, driver installations, BIOS optimization, and advanced overclocking if needed. Let us take care of your setup worries.',
                 name: 'config',
                 type: 'select',
                 options: [
@@ -75,6 +77,7 @@ const BeginnerForm = () => {
                 ],
                 validationRule: (value:any) => !!value,
                 errorMessage: 'Veuillez sélectionner une option.',
+                labelClassName: 'lighter-font-label'
             },
             {
                 label: 'If you have any specific requirements or questions, please write them here.',

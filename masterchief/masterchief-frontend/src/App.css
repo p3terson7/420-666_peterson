@@ -107,6 +107,12 @@
   font-weight: bold;
 }
 
+.sublabel {
+  font-weight: 275;
+  color: #BEBEBE;
+  font-size: 19px;
+}
+
 .form-background .form-control::placeholder {
   color: #A9A9A9;
 }

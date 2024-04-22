@@ -4,6 +4,7 @@ import Select from 'react-select';
 
 interface GenericFieldProps {
     label: string;
+    subLabel?: string;
     type: string;
     name: string;
     value?: any;
@@ -15,7 +16,7 @@ interface GenericFieldProps {
     charCount?: number;
 }
 
-export const GenericField: React.FC<GenericFieldProps> = ({ label, type, name, value, placeholder, onChange, isInvalid, errorMessage, options, charCount }) => {
+export const GenericField: React.FC<GenericFieldProps> = ({ label, subLabel, type, name, value, placeholder, onChange, isInvalid, errorMessage, options, charCount }) => {
     const handleRegularCheckboxChange = (checkboxValue: string, checked: boolean) => {
         let newValue: string[];
 
@@ -116,6 +117,8 @@ export const GenericField: React.FC<GenericFieldProps> = ({ label, type, name, v
                                     ...provided,
                                     backgroundColor: '#2c2f33',
                                     borderColor: '#2c2f33',
+                                    outline: 'none',
+                                    boxShadow: 'none',
                                 }),
                                 option: (provided, state) => ({
                                     ...provided,
@@ -158,6 +161,7 @@ export const GenericField: React.FC<GenericFieldProps> = ({ label, type, name, v
     return (
         <Form.Group controlId={name}>
             <Form.Label>{label}</Form.Label>
+            {subLabel && <div className="sublabel"> {subLabel}</div>}
             <div className="checkbox-container">
                 {renderFormControl()}
             </div>

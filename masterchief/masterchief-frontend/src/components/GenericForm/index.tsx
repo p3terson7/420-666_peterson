@@ -7,6 +7,7 @@ import { useSnackbar } from 'notistack';
 
 interface FieldConfig {
     label: string;
+    subLabel?: string;
     type: string;
     name: string;
     options?: { label: string; value: string }[];
@@ -113,6 +114,7 @@ export const GenericForm: React.FC<GenericFormProps> = ({ steps, onSubmit, unexp
                                 <GenericField
                                     key={field.name}
                                     label={field.label}
+                                    subLabel={field.subLabel}
                                     type={field.type}
                                     name={field.name}
                                     value={formData[field.name] || ''}
