@@ -39,7 +39,7 @@ const AppHeader = () => {
         if (!isConnected()) {
             setIsOpen(false);
         }
-    }, [isConnected]);
+    }, []);
 
     const handleBuildClick = () => {
         toggleDashboard();

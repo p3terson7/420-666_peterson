@@ -36,7 +36,7 @@ export const MessageList = ({ activeConversation }: Props) => {
                 const processedMessages = concatenateMessages(response.data);
                 setConcatenatedMessages(processedMessages);
             });
-    }, []);
+    }, [activeConversation, currentUser]);
 
     useEffect(() => {
         scrollToBottom();

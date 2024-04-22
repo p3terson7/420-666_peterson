@@ -16,7 +16,7 @@ const BeginnerForm = () => {
                     { label: 'Programming and Software Development', value: 'software_development' },
                     { label: 'Other', value: 'other' },
                 ],
-                validationRule: (value:any) => !!value && value.length != 0,
+                validationRule: (value:any) => !!value && value.length !== 0,
                 errorMessage: 'Please select at least one option.',
             },
             {
@@ -44,7 +44,7 @@ const BeginnerForm = () => {
                     { label: 'Other', value: 'other' },
                     { label: 'No, but how nice of you for asking', value: 'no_rgb' },
                 ],
-                validationRule: (value:any) => value.length != 0,
+                validationRule: (value:any) => value.length !== 0,
                 errorMessage: 'Please select at least one option.',
             },
         ],
@@ -52,7 +52,7 @@ const BeginnerForm = () => {
             {
                 label: 'Do you have a budget?',
                 name: 'noob_budget',
-                type: 'selecter',
+                type: 'select',
                 options: [
                     { label: 'Not really, I\'m seeking the most cost-effective option', value: 'nan' },
                     { label: 'Budget Around $500: Basic Performance & Affordability', value: '500' },

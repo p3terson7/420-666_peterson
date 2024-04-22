@@ -2,7 +2,6 @@ import React from 'react';
 import { Collapse } from 'react-bootstrap';
 import { Sidebar, Menu, MenuItem, sidebarClasses } from 'react-pro-sidebar';
 import './Dashboard.css';
-import { useNavigate } from "react-router-dom";
 
 interface Props {
     isOpen: boolean;
@@ -10,8 +9,6 @@ interface Props {
 }
 
 const CollapsibleSidebar = ({ isOpen, handleBuildClick }: Props) => {
-    const navigate = useNavigate();
-
     return (
         <Collapse in={isOpen}>
             <div className={`dashboard ${isOpen ? 'open' : ''}`}>

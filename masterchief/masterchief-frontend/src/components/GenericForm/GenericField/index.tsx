@@ -51,23 +51,6 @@ export const GenericField: React.FC<GenericFieldProps> = ({ label, type, name, v
         }
     };
 
-    const customStyles = {
-        control: (provided: any) => ({
-            ...provided,
-            backgroundColor: '#2c2f33',
-            borderColor: '#2c2f33',
-            borderRadius: '5px',
-        }),
-        option: (provided: any, state: { isSelected: any; isFocused: any; }) => ({
-            ...provided,
-            backgroundColor: state.isSelected ? '#5c6bc0' : state.isFocused ? '#7986cb' : '#2c2f33',
-            color: state.isSelected ? '#ffffff' : '#ffffff', // Text color
-            padding: '0.5rem 1rem',
-            position: 'fixed',
-        }),
-    };
-
-
     const renderFormControl = () => {
         switch (type) {
             case 'checkbox':
@@ -116,40 +99,47 @@ export const GenericField: React.FC<GenericFieldProps> = ({ label, type, name, v
                 );
             case 'select':
                 return (
-                    <div className="select-container">
-                        <Form.Control
-                            as="select"
-                            name={name}
-                            value={value}
-                            onChange={onChange}
-                            isInvalid={isInvalid}
-                            className="custom-select"
-                        >
-                            <option value="">Select an option</option>
-                            {options &&
-                                options.map((option, index) => (
-                                    <option key={index} value={option.value}>
-                                        {option.label}
-                                    </option>
-                                ))}
-                        </Form.Control>
-                        <div className="select-arrow"></div>
-                    </div>
-                );
-            case 'selecter':
-                return (
-                    <div className="select-container">
+                    <>
                         <Select
+                            menuPortalTarget={document.body}
+                            theme={(theme) => ({
+                                ...theme,
+                                borderRadius: 5,
+                            })}
                             options={options}
                             value={options?.find(option => option.value === value)}
                             onChange={(selectedOption) => {
                                 onChange({ target: { name, value: selectedOption?.value } } as any);
                             }}
-                            styles={customStyles}
-                            isSearchable={false}
-                            placeholder="Select an option"
+                            styles={{
+                                control: (provided) => ({
+                                    ...provided,
+                                    backgroundColor: '#2c2f33',
+                                    borderColor: '#2c2f33',
+                                }),
+                                option: (provided, state) => ({
+                                    ...provided,
+                                    backgroundColor: state.isSelected ? '#5c6bc0' : state.isFocused ? '#7986cb' : '#2c2f33',
+                                    color: '#FDFDFD',
+                                    padding: '0.5rem 1rem',
+                                }),
+                                menu: (provided) => ({
+                                    ...provided,
+                                    backgroundColor: '#2c2f33',
+                                }),
+                                menuPortal: provided => ({
+                                    ...provided,
+                                    zIndex: 9999,
+                                }),
+                                singleValue: (provided) => ({
+                                    ...provided,
+                                    color: '#FDFDFD',
+                                }),
+                            }}
+                            isSearchable={true}
+                            placeholder="Select an option..."
                         />
-                    </div>
+                    </>
                 );
             default:
                 return (
