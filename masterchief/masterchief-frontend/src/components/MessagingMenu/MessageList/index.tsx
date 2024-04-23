@@ -22,6 +22,26 @@ export const MessageList = ({ activeConversation }: Props) => {
     const [currentUser, setCurrentUser] = useState<User>();
     const [charCount, setCharCount] = useState<number>(0);
     const messageListRef = useRef<HTMLUListElement>(null);
+    const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+    const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setMessageInput(e.target.value);
+        setCharCount(e.target.value.length);
+    };
+
+    const handleInput = () => {
+        const textarea = textareaRef.current;
+        const messageList = messageListRef.current;
+
+        if (textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = `${textarea.scrollHeight}px`;
+
+            if (messageList && textarea.scrollHeight > 80 && textarea.scrollHeight < 500) {
+                messageList.style.paddingBottom = `calc(${textarea.scrollHeight}px - 80px)`;
+            }
+        }
+    };
 
     useEffect(() => {
         if (!currentUser) {
@@ -43,12 +63,8 @@ export const MessageList = ({ activeConversation }: Props) => {
     }, [concatenatedMessages]);
 
     useEffect(() => {
-        const textarea = document.getElementById('messageTextarea');
-        if (textarea) {
-            textarea.style.height = 'auto';
-            textarea.style.height = `${textarea.scrollHeight}px`;
-        }
-    }, [messageInput]);
+        handleInput();
+    }, [messageInput, charCount]);
 
     const concatenateMessages = (messages: Message[]): ConcatenatedMessage[] => {
         const concatenated: ConcatenatedMessage[] = [];
@@ -107,9 +123,18 @@ export const MessageList = ({ activeConversation }: Props) => {
         }
     };
 
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            handleSubmit(e).then(r => r).catch(e => e);
+            const textarea = e.target as HTMLTextAreaElement;
+            textarea.blur();
+        }
+    };
+
     return (
         <>
-            <ul className="ul" ref={messageListRef}>
+            <ul id="message-list" className="ul" ref={messageListRef}>
                 {concatenatedMessages.map((message, index) => (
                     <li key={index}>
                         <MessageRow message={message} isFirstMessageOfDay={message.isFirstMessageOfDay} />
@@ -119,21 +144,13 @@ export const MessageList = ({ activeConversation }: Props) => {
             <div className="messageAreaContainer">
                 <form className="messageInputForm">
                     <textarea
+                        ref={textareaRef}
                         value={messageInput}
-                        onChange={(e) => {
-                            setMessageInput(e.target.value);
-                            setCharCount(e.target.value.length);
-                        }}
+                        onChange={onChange}
                         className="col messageArea"
                         placeholder="Envoyer un message..."
-                        style={{ resize: 'none', maxHeight: '100px', overflowY: 'auto' }}
                         rows={1}
-                        onKeyDown={(e) => {
-                            if (e.key === 'Enter' && !e.shiftKey) {
-                                e.preventDefault();
-                                handleSubmit(e).then(r => r).catch(e => e);
-                            }
-                        }}
+                        onKeyDown={handleKeyDown}
                     />
                     {charCount > 200 && (
                         <div className="charCounter text-center" style={{ color: charCount > 255 ? '#ff4d6b' : '#DBDEE1'}}>
