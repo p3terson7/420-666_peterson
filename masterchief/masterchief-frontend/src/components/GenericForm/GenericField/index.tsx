@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import { Form, Container } from 'react-bootstrap';
 import Select from 'react-select';
 
@@ -17,6 +17,22 @@ interface GenericFieldProps {
 }
 
 export const GenericField: React.FC<GenericFieldProps> = ({ label, subLabel, type, name, value, placeholder, onChange, isInvalid, errorMessage, options, charCount }) => {
+    const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+    const handleInput = () => {
+        const textarea = textareaRef.current;
+
+        if (textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = `${textarea.scrollHeight}px`;
+
+        }
+    };
+
+    useEffect(() => {
+        handleInput();
+    }, [value, charCount]);
+
     const handleRegularCheckboxChange = (checkboxValue: string, checked: boolean) => {
         let newValue: string[];
 
@@ -121,6 +137,7 @@ export const GenericField: React.FC<GenericFieldProps> = ({ label, subLabel, typ
                     <>
                         <Form.Control
                             as="textarea"
+                            ref={textareaRef}
                             name={name}
                             value={value}
                             placeholder={placeholder}

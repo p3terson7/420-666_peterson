@@ -29,20 +29,6 @@ export const MessageList = ({ activeConversation }: Props) => {
         setCharCount(e.target.value.length);
     };
 
-    const handleInput = () => {
-        const textarea = textareaRef.current;
-        const messageList = messageListRef.current;
-
-        if (textarea) {
-            textarea.style.height = 'auto';
-            textarea.style.height = `${textarea.scrollHeight}px`;
-
-            if (messageList && textarea.scrollHeight > 80 && textarea.scrollHeight < 500) {
-                messageList.style.paddingBottom = `calc(${textarea.scrollHeight}px - 80px)`;
-            }
-        }
-    };
-
     useEffect(() => {
         if (!currentUser) {
             getUserById(parseInt(getUserId()!))
@@ -61,6 +47,20 @@ export const MessageList = ({ activeConversation }: Props) => {
     useEffect(() => {
         scrollToBottom();
     }, [concatenatedMessages]);
+
+    const handleInput = () => {
+        const textarea = textareaRef.current;
+        const messageList = messageListRef.current;
+
+        if (textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = `${textarea.scrollHeight}px`;
+
+            if (messageList && textarea.scrollHeight > 80 && textarea.scrollHeight < 500) {
+                messageList.style.paddingBottom = `calc(${textarea.scrollHeight}px - 80px)`;
+            }
+        }
+    };
 
     useEffect(() => {
         handleInput();
@@ -134,7 +134,7 @@ export const MessageList = ({ activeConversation }: Props) => {
 
     return (
         <>
-            <ul id="message-list" className="ul" ref={messageListRef}>
+            <ul className="ul" ref={messageListRef}>
                 {concatenatedMessages.map((message, index) => (
                     <li key={index}>
                         <MessageRow message={message} isFirstMessageOfDay={message.isFirstMessageOfDay} />

@@ -217,6 +217,7 @@
 
 .custom-textarea {
   transition: background-color 0.3s ease;
+  max-height: 200px;
 }
 
 .custom-textarea:hover,
