@@ -119,6 +119,7 @@ export const GenericField: React.FC<GenericFieldProps> = ({ label, subLabel, typ
                                     borderColor: '#2c2f33',
                                     outline: 'none',
                                     boxShadow: 'none',
+                                    marginBottom: '0.5rem',
                                 }),
                                 option: (provided, state) => ({
                                     ...provided,
@@ -160,13 +161,17 @@ export const GenericField: React.FC<GenericFieldProps> = ({ label, subLabel, typ
 
     return (
         <Form.Group controlId={name}>
-            <Form.Label>{label}</Form.Label>
-            {subLabel && <div className="sublabel"> {subLabel}</div>}
+            <Form.Label>
+                <>
+                    {label}
+                    {subLabel && <div className="form-sub-label"> {subLabel}</div>}
+                </>
+            </Form.Label>
             <div className="checkbox-container">
                 {renderFormControl()}
             </div>
             {isInvalid && (
-                <Container className="invalid-feedback fade-in" style={{ display: 'block' }}>
+                <Container className="d-block invalid-feedback fade-in m-0">
                     {errorMessage}
                 </Container>
             )}

@@ -85,7 +85,6 @@ const BeginnerForm = () => {
                 type: 'textarea',
             },
         ],
-        [],
     ];
 
     const handleFormSubmit = async (formData:any) => {

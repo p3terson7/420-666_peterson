@@ -87,6 +87,7 @@
   border-radius: 5px;
   color: #FFFFFF;
   resize: none;
+  margin-bottom: 0.5rem;
 }
 
 @keyframes fadeIn {
@@ -107,7 +108,7 @@
   font-weight: bold;
 }
 
-.sublabel {
+.form-sub-label {
   font-weight: 275;
   color: #BEBEBE;
   font-size: 19px;
@@ -120,8 +121,13 @@
 .form-background .btn-primary {
   background-color: #5c6bc0;
   border-color: #5c6bc0;
-  box-shadow: 0 2px 4px 0 rgba(92, 107, 192, 0.4);
+  box-shadow: 0 4px 8px 0 rgba(92, 107, 192, 0.4);
   color: #fff;
+  border-radius: 3px;
+}
+
+.form-background .btn-secondary {
+  border-radius: 3px;
 }
 
 .form-background .btn-primary:hover {
