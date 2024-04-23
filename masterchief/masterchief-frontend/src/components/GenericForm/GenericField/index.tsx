@@ -52,6 +52,42 @@ export const GenericField: React.FC<GenericFieldProps> = ({ label, subLabel, typ
         }
     };
 
+    const customStyles = {
+        control: (provided: any) => ({
+            ...provided,
+            backgroundColor: '#282c34',
+            border: 'none',
+            outline: 'none',
+            boxShadow: 'none',
+            marginBottom: '0.5rem',
+            transition: 'background-color 0.3s ease',
+            '&:hover': {
+                backgroundColor: '#212429',
+            },
+            '&:focus-within': {
+                backgroundColor: '#212429',
+            },
+        }),
+        option: (provided: any, state: { isSelected: any; isFocused: any; }) => ({
+            ...provided,
+            backgroundColor: state.isSelected ? '#5c6bc0' : state.isFocused ? '#7986cb' : '#282c34',
+            color: '#FDFDFD',
+            padding: '0.5rem 1rem',
+        }),
+        menu: (provided: any) => ({
+            ...provided,
+            backgroundColor: '#282c34',
+        }),
+        menuPortal: (provided: any) => ({
+            ...provided,
+            zIndex: 9999,
+        }),
+        singleValue: (provided: any) => ({
+            ...provided,
+            color: '#FDFDFD',
+        }),
+    };
+
     const renderFormControl = () => {
         switch (type) {
             case 'checkbox':
@@ -70,7 +106,7 @@ export const GenericField: React.FC<GenericFieldProps> = ({ label, subLabel, typ
                                             checked={value && value.includes(option.value)}
                                             className="custom-checkbox-input"
                                         />
-                                        <label htmlFor={`${name}-${index}`} className="custom-checkbox-label bg-dark p-3">
+                                        <label htmlFor={`${name}-${index}`} className="custom-checkbox-label p-3">
                                             {option.label}
                                         </label>
                                     </div>
@@ -103,6 +139,7 @@ export const GenericField: React.FC<GenericFieldProps> = ({ label, subLabel, typ
                 return (
                     <>
                         <Select
+                            className="custom-select"
                             menuPortalTarget={document.body}
                             theme={(theme) => ({
                                 ...theme,
@@ -113,36 +150,10 @@ export const GenericField: React.FC<GenericFieldProps> = ({ label, subLabel, typ
                             onChange={(selectedOption) => {
                                 onChange({ target: { name, value: selectedOption?.value } } as any);
                             }}
-                            styles={{
-                                control: (provided) => ({
-                                    ...provided,
-                                    backgroundColor: '#2c2f33',
-                                    borderColor: '#2c2f33',
-                                    outline: 'none',
-                                    boxShadow: 'none',
-                                    marginBottom: '0.5rem',
-                                }),
-                                option: (provided, state) => ({
-                                    ...provided,
-                                    backgroundColor: state.isSelected ? '#5c6bc0' : state.isFocused ? '#7986cb' : '#2c2f33',
-                                    color: '#FDFDFD',
-                                    padding: '0.5rem 1rem',
-                                }),
-                                menu: (provided) => ({
-                                    ...provided,
-                                    backgroundColor: '#2c2f33',
-                                }),
-                                menuPortal: provided => ({
-                                    ...provided,
-                                    zIndex: 9999,
-                                }),
-                                singleValue: (provided) => ({
-                                    ...provided,
-                                    color: '#FDFDFD',
-                                }),
-                            }}
+                            styles={customStyles}
                             isSearchable={true}
                             placeholder="Select an option..."
+                            blurInputOnSelect={true}
                         />
                     </>
                 );

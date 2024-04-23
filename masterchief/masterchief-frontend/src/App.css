@@ -71,7 +71,7 @@
 }
 
 .form-background {
-  background-color: #36393E;
+  background-color: #3a3f4a;
   color: #FFFFFF;
   border-radius: 5px;
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.5);
@@ -82,7 +82,7 @@
 }
 
 .form-background .form-control {
-  background-color: #2c2f33;
+  background-color: #282c34;
   color: #FFFFFF;
   border-radius: 5px;
   margin-bottom: 0.5rem;
@@ -180,6 +180,7 @@
   transition: transform 0.3s;
   display: inline-block;
   overflow: hidden;
+  background-color: #282c34;
 }
 
 .custom-checkbox-input {
@@ -220,5 +221,5 @@
 
 .custom-textarea:hover,
 .custom-textarea:focus{
-  background-color: #454a50;
+  background-color: #212429;
 }
