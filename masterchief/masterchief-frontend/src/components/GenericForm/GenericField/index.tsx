@@ -90,6 +90,7 @@ export const GenericField: React.FC<GenericFieldProps> = ({ label, subLabel, typ
                             placeholder={placeholder}
                             onChange={onChange}
                             isInvalid={isInvalid}
+                            className="custom-textarea"
                         />
                         {charCount! > 200 && (
                             <div className="charCounter text-center" style={{ color: charCount! > 255 ? '#ff4d6b' : '#DBDEE1'}}>

@@ -83,11 +83,12 @@
 
 .form-background .form-control {
   background-color: #2c2f33;
-  border: none;
-  border-radius: 5px;
   color: #FFFFFF;
-  resize: none;
+  border-radius: 5px;
   margin-bottom: 0.5rem;
+  border: none;
+  resize: none;
+  box-shadow: none;
 }
 
 @keyframes fadeIn {
@@ -211,4 +212,13 @@
 .custom-checkbox:hover {
   transform: scale(1.075);
   color: #ff1744;
+}
+
+.custom-textarea {
+  transition: background-color 0.3s ease;
+}
+
+.custom-textarea:hover,
+.custom-textarea:focus{
+  background-color: #454a50;
 }

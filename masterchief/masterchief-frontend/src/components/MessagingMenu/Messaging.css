@@ -145,18 +145,19 @@ body {
     transform: translateX(-50%);
     width: calc(100% - 30px);
     padding: 10px;
-    background-color: #52575e;
+    background-color: transparent;
     border-radius: 5px;
 }
 
 .messageArea {
-    padding: 8px;
+    padding: 20px;
     border: none;
     background-color: transparent;
     outline: none;
     color: #DDE0E2;
     width: 100%;
     display: flex;
+    border-radius: 5px;
 }
 
 .noConversationsMessage {
@@ -169,4 +170,14 @@ body {
 
 .noConversationsMessage p {
     margin: 10px;
+}
+
+.messageArea {
+    transition: background-color 0.3s ease;
+    background-color: #52575e;
+}
+
+.messageArea:hover,
+.messageArea:focus {
+    background-color: #474c53;
 }
