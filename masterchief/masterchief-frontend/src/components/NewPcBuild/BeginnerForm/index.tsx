@@ -45,7 +45,7 @@ const BeginnerForm = () => {
                     { label: 'Other', value: 'other' },
                     { label: 'No, but how nice of you for asking', value: 'no_rgb' },
                 ],
-                validationRule: (value:any) => value.length !== 0,
+                validationRule: (value:any) => !!value && value.length !== 0,
                 errorMessage: 'Please select at least one option.',
             },
         ],
@@ -89,6 +89,16 @@ const BeginnerForm = () => {
 
     const handleFormSubmit = async (formData:any) => {
         console.log('Form submitted:', formData);
+
+        let BeginnerForm = {
+            useCases: formData.noob_usage_checkbox,
+            description: formData.noob_usage_message,
+            rgbAccessories: formData.noob_RGB_accessories,
+            budget: formData.noob_budget,
+            configuration: formData.config,
+            specificRequirements: formData.noob_other_message,
+        }
+        console.log(BeginnerForm);
     };
 
     return (
