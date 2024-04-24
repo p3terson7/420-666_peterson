@@ -1,6 +1,7 @@
 package com.example.masterchief.model.Form;
 
 import com.example.masterchief.dto.Form.FormDTO;
+import com.example.masterchief.model.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,6 +17,10 @@ public abstract class Form {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQUENCE_FORM")
     @SequenceGenerator(name = "SEQUENCE_FORM", sequenceName = "FORM_SEC", allocationSize = 1)
     protected Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public abstract FormDTO toDTO();
 }

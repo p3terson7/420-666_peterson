@@ -1,6 +1,7 @@
 package com.example.masterchief.model;
 
 import com.example.masterchief.dto.ClientDTO;
+import com.example.masterchief.model.Form.Form;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
@@ -15,12 +16,15 @@ import java.util.List;
 @Entity
 @Data
 @NoArgsConstructor
-public class Client extends User{
+public class Client extends User {
     private String address;
     private String phone;
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     protected List<Conversation> conversations = new ArrayList<>();
+
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+    protected List<Form> forms = new ArrayList<>();
 
     public Client(
             Long id,
