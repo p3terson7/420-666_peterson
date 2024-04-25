@@ -27,9 +27,11 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/conversations/**").hasAnyAuthority(Authorities.ADMIN.name(), Authorities.CLIENT.name())
-                        .requestMatchers("/forms/**").hasAnyAuthority(Authorities.ADMIN.name(), Authorities.CLIENT.name())
+//                        .requestMatchers("/forms/**").hasAnyAuthority(Authorities.ADMIN.name(), Authorities.CLIENT.name())
+                        .requestMatchers("/forms/**").permitAll()
                         .requestMatchers("/messages/**").hasAnyAuthority(Authorities.ADMIN.name(), Authorities.CLIENT.name())
-                        .requestMatchers("/users/**").hasAnyAuthority(Authorities.ADMIN.name(), Authorities.CLIENT.name())
+//                        .requestMatchers("/users/**").hasAnyAuthority(Authorities.ADMIN.name(), Authorities.CLIENT.name())
+                        .requestMatchers("/users/**").permitAll()
                         .requestMatchers("/clients/**").hasAnyAuthority(Authorities.ADMIN.name(), Authorities.CLIENT.name())
                         .requestMatchers("/admins/**").hasAnyAuthority(Authorities.ADMIN.name(), Authorities.CLIENT.name())
                 );

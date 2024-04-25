@@ -7,7 +7,7 @@ interface Props {
 }
 const SignupView = ({ userType }: Props) => {
     return <>
-        <ClientSignupForm />
+        <ClientSignupForm  onSubmitSuccess={console.log}/>
     </>;
 }
 

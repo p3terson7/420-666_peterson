@@ -224,3 +224,64 @@
 .custom-textarea:focus{
   background-color: #212429;
 }
+
+.custom-input {
+  transition: background-color 0.3s ease;
+  padding: 0.75rem;
+}
+
+.custom-input:hover,
+.custom-input:focus{
+  background-color: #212429;
+}
+
+.custom-popup {
+  background-color: transparent !important;
+}
+
+.custom-popup .custom-popup-content {
+  background-color: #282c34;
+}
+
+.popup-content {
+  margin: auto;
+  background: transparent;
+  width: 50%;
+  padding: 5px;
+}
+
+.popup-content{
+  margin:auto;
+  width:50%;
+  padding:5px;
+}
+
+.custom-popup {
+  backdrop-filter: blur(5px); /* Blur effect */
+  width: 200px; /* Width of the popup */
+  border-radius: 5px; /* Border radius */
+}
+
+.popup-overlay {
+  background: rgba(0, 0, 0, 0.2); /* Background color of the overlay */
+  backdrop-filter: blur(5px);
+  text-align: center;
+}
+
+[data-popup=tooltip].popup-overlay {
+  background: transparent; /* Background color of the overlay when using tooltip */
+}
+
+.popup-arrow {
+  -webkit-filter: drop-shadow(0 -3px 3px rgba(0, 0, 0, 0.16));
+  filter: drop-shadow(0 -3px 3px rgba(0, 0, 0, 0.16));
+  color: #fff; /* Color of the arrow */
+  stroke-width: 2px; /* Stroke width of the arrow */
+  stroke: #d7d7d7; /* Stroke color of the arrow */
+  stroke-dasharray: 30px;
+  stroke-dashoffset: -54px;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}

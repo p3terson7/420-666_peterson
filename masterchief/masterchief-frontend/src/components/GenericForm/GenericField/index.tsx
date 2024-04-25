@@ -177,6 +177,7 @@ export const GenericField: React.FC<GenericFieldProps> = ({ label, subLabel, typ
             default:
                 return (
                     <Form.Control
+                        className="custom-input"
                         type={type}
                         name={name}
                         value={value}
@@ -200,7 +201,7 @@ export const GenericField: React.FC<GenericFieldProps> = ({ label, subLabel, typ
                 {renderFormControl()}
             </div>
             {isInvalid && (
-                <Container className="d-block invalid-feedback fade-in m-0">
+                <Container className="d-block invalid-feedback fade-in m-0 p-0">
                     {errorMessage}
                 </Container>
             )}

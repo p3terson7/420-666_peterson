@@ -1,17 +1,19 @@
 import React, {useEffect, useState} from 'react';
 import {GenericForm} from "../../GenericForm";
 import '../../../App.css';
-import {saveBeginnerForm} from "../../../services/formService";
 import {getUserById} from "../../../services/userService";
-import {authenticate, getUserId, login, signOut} from "../../../services/authService";
+import {getUserId} from "../../../services/authService";
 import {User} from "../../../model/user";
-import {SignInRequest} from "../../../model/auth";
 import {useNavigate} from "react-router-dom";
+import Popup from 'reactjs-popup';
+import ClientSignup from "../../ClientSignup";
+import {saveBeginnerForm} from "../../../services/formService";
 
 const BeginnerForm = () => {
     const [currentUser, setCurrentUser] = useState<User>();
     const [unexpectedError, setUnexpectedError] = useState<string>("");
     const [successMessage, setSuccessMessage] = useState<string>("");
+    const [showPopup, setShowPopup] = useState<boolean>(false);
     const navigate = useNavigate();
 
     const formSteps = [
@@ -103,12 +105,26 @@ const BeginnerForm = () => {
             getUserById(parseInt(getUserId()!))
                 .then(response => {
                     setCurrentUser(response.data);
-                });
+                })
+                .catch(error => console.error('Error fetching user:', error)
+                );
         }
     }, [currentUser]);
 
     const handleFormSubmit = async (formData:any) => {
         console.log('Form submitted:', formData);
+
+        await getUserById(parseInt(getUserId()!))
+            .then(response => {
+                setCurrentUser(response.data);
+            })
+            .catch(error => console.error('Error fetching user:', error)
+            );
+
+        if (!currentUser) {
+            setShowPopup(true);
+            return;
+        }
 
         let BeginnerForm = {
             client: currentUser!,
@@ -134,6 +150,10 @@ const BeginnerForm = () => {
         console.log(BeginnerForm);
     };
 
+    const handlePopupClose = () => {
+        setShowPopup(false);
+    };
+
     return (
         <div style={{fontSize: '20px'}}>
             <h2>Beginner Form</h2>
@@ -143,6 +163,9 @@ const BeginnerForm = () => {
                 unexpectedError={unexpectedError}
                 successMessage={successMessage}
             />
+            <Popup open={showPopup} onClose={() => setShowPopup(false)} position="right center" className="custom-popup">
+                <ClientSignup onSubmitSuccess={handlePopupClose} />
+            </Popup>
         </div>
     );
 };

@@ -8,7 +8,10 @@ import {useNavigate} from "react-router-dom";
 import {SignInRequest} from "../../model/auth";
 import {getUserById} from "../../services/userService";
 
-const ClientSignupForm = () => {
+interface Props {
+    onSubmitSuccess: () => void;
+}
+const ClientSignupForm = ({onSubmitSuccess}: Props) => {
     const [unexpectedError, setUnexpectedError] = useState<string>("");
     const [successMessage, setSuccessMessage] = useState<string>("");
     const navigate = useNavigate();
@@ -124,14 +127,17 @@ const ClientSignupForm = () => {
                     return;
                 }
 
-                getUserById(parseInt(id))
-                    .then(() => {
-                        navigate("/clients");
-                    })
-                    .catch(() => {
-                        signOut();
-                        navigate("/pageNotFound");
-                    });
+                onSubmitSuccess();
+
+
+                // getUserById(parseInt(id))
+                //     .then(() => {
+                //         navigate("/clients");
+                //     })
+                //     .catch(() => {
+                //         signOut();
+                //         navigate("/pageNotFound");
+                //     });
             })
             .catch((error) => {
                 setUnexpectedError("Unexpected Redirection Error.");
