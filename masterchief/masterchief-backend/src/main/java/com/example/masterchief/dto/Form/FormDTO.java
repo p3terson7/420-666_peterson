@@ -17,11 +17,11 @@ import lombok.NoArgsConstructor;
         property = "type"
 )
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = AdminDTO.class, name = "beginner"),
-        @JsonSubTypes.Type(value = ClientDTO.class, name = "advanced"),
+        @JsonSubTypes.Type(value = BeginnerFormDTO.class, name = "beginner"),
 })
 public abstract class FormDTO {
     protected Long id;
+    protected ClientDTO client;
 
     public abstract Form fromDTO();
 }

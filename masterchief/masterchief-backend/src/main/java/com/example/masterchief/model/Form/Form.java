@@ -1,6 +1,7 @@
 package com.example.masterchief.model.Form;
 
 import com.example.masterchief.dto.Form.FormDTO;
+import com.example.masterchief.model.Client;
 import com.example.masterchief.model.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -19,8 +20,8 @@ public abstract class Form {
     protected Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "client_id")
+    private Client client;
 
     public abstract FormDTO toDTO();
 }

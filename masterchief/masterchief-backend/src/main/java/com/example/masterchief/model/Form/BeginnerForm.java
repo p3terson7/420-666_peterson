@@ -1,7 +1,7 @@
 package com.example.masterchief.model.Form;
 
 import com.example.masterchief.dto.Form.BeginnerFormDTO;
-import com.example.masterchief.dto.Form.FormDTO;
+import com.example.masterchief.model.Client;
 import jakarta.persistence.Entity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,8 +19,8 @@ public class BeginnerForm extends Form {
     private String configuration;
     private String specificRequirements;
 
-    public BeginnerForm(Long id, List<String> useCases, String description, List<String> rgbAccessories, String budget, String configuration, String specificRequirements) {
-        super(id);
+    public BeginnerForm(Long id, Client client, List<String> useCases, String description, List<String> rgbAccessories, String budget, String configuration, String specificRequirements) {
+        super(id, client);
         this.useCases = useCases;
         this.description = description;
         this.rgbAccessories = rgbAccessories;
@@ -31,6 +31,6 @@ public class BeginnerForm extends Form {
 
     @Override
     public BeginnerFormDTO toDTO() {
-        return new BeginnerFormDTO(id, useCases, description, rgbAccessories, budget, configuration, specificRequirements);
+        return new BeginnerFormDTO(id, super.getClient().toDTO(), useCases, description, rgbAccessories, budget, configuration, specificRequirements);
     }
 }

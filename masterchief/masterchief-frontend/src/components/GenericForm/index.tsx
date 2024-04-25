@@ -34,7 +34,6 @@ export const GenericForm: React.FC<GenericFormProps> = ({ steps, onSubmit, unexp
     const { enqueueSnackbar } = useSnackbar();
     const [charCount, setCharCount] = useState<number>(0);
 
-
     const validateCurrentStep = () => {
         const currentFields = steps[currentStep];
         const newErrors: Record<string, string> = {};

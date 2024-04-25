@@ -23,10 +23,10 @@ public class BeginnerForm extends LoggedController {
         this.formService = formService;
     }
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<List<FormDTO>> getForms(@PathVariable Long userId) {
+    @GetMapping("/{clientId}")
+    public ResponseEntity<List<FormDTO>> getForms(@PathVariable Long clientId) {
         logger.info("getForms");
-        return ResponseEntity.ok(formService.getFormsByUserId(userId));
+        return ResponseEntity.ok(formService.getFormsByClientId(clientId));
     }
 
     @PostMapping("/forms")

@@ -1,5 +1,6 @@
 package com.example.masterchief.dto.Form;
 
+import com.example.masterchief.dto.ClientDTO;
 import com.example.masterchief.model.Form.BeginnerForm;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,6 +21,7 @@ public class BeginnerFormDTO extends FormDTO {
 
     public BeginnerFormDTO(
             Long id,
+            ClientDTO client,
             List<String> useCases,
             String description,
             List<String> rgbAccessories,
@@ -27,7 +29,8 @@ public class BeginnerFormDTO extends FormDTO {
             String configuration,
             String specificRequirements
     ) {
-        super(id);
+        super(id, client);
+        this.client = client;
         this.useCases = useCases;
         this.description = description;
         this.rgbAccessories = rgbAccessories;
@@ -38,6 +41,15 @@ public class BeginnerFormDTO extends FormDTO {
 
     @Override
     public BeginnerForm fromDTO() {
-        return null;
+        return new BeginnerForm(
+                id,
+                client.fromDTO(),
+                useCases,
+                description,
+                rgbAccessories,
+                budget,
+                configuration,
+                specificRequirements
+        );
     }
 }

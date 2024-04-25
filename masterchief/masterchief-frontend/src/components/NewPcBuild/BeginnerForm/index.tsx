@@ -1,8 +1,19 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {GenericForm} from "../../GenericForm";
 import '../../../App.css';
+import {saveBeginnerForm} from "../../../services/formService";
+import {getUserById} from "../../../services/userService";
+import {authenticate, getUserId, login, signOut} from "../../../services/authService";
+import {User} from "../../../model/user";
+import {SignInRequest} from "../../../model/auth";
+import {useNavigate} from "react-router-dom";
 
 const BeginnerForm = () => {
+    const [currentUser, setCurrentUser] = useState<User>();
+    const [unexpectedError, setUnexpectedError] = useState<string>("");
+    const [successMessage, setSuccessMessage] = useState<string>("");
+    const navigate = useNavigate();
+
     const formSteps = [
         [
             {
@@ -87,17 +98,39 @@ const BeginnerForm = () => {
         ],
     ];
 
+    useEffect(() => {
+        if (!currentUser) {
+            getUserById(parseInt(getUserId()!))
+                .then(response => {
+                    setCurrentUser(response.data);
+                });
+        }
+    }, [currentUser]);
+
     const handleFormSubmit = async (formData:any) => {
         console.log('Form submitted:', formData);
 
         let BeginnerForm = {
+            client: currentUser!,
             useCases: formData.noob_usage_checkbox,
             description: formData.noob_usage_message,
             rgbAccessories: formData.noob_RGB_accessories,
             budget: formData.noob_budget,
             configuration: formData.config,
             specificRequirements: formData.noob_other_message,
+            type: 'beginner'
         }
+
+        await saveBeginnerForm(BeginnerForm)
+            .then(response => {
+                setUnexpectedError("")
+                setSuccessMessage("Build submitted successfully!");
+            })
+            .catch(error => {
+                setUnexpectedError(error.response.data);
+                throw new Error(error.response.data);
+            });
+
         console.log(BeginnerForm);
     };
 
@@ -107,8 +140,8 @@ const BeginnerForm = () => {
             <GenericForm
                 steps={formSteps}
                 onSubmit={handleFormSubmit}
-                unexpectedError="An unexpected error occurred."
-                successMessage="Form submitted successfully!"
+                unexpectedError={unexpectedError}
+                successMessage={successMessage}
             />
         </div>
     );
