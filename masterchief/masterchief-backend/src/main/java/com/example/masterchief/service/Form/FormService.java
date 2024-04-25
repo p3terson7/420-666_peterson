@@ -18,7 +18,7 @@ public class FormService {
         this.formRepository = formRepository;
     }
 
-    public List<FormDTO> getFormByUserId(Long userId) {
+    public List<FormDTO> getFormsByUserId(Long userId) {
         return formRepository.findByUserId(userId).stream()
                 .map(Form::toDTO)
                 .collect(Collectors.toList());
