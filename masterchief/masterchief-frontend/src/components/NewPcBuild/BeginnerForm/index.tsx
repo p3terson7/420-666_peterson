@@ -100,33 +100,32 @@ const BeginnerForm = () => {
         ],
     ];
 
+
     useEffect(() => {
         if (!currentUser) {
-            getUserById(parseInt(getUserId()!))
-                .then(response => {
-                    setCurrentUser(response.data);
-                })
-                .catch(error => console.error('Error fetching user:', error)
-                );
+            getUser();
         }
     }, [currentUser]);
 
-    const handleFormSubmit = async (formData:any) => {
-        console.log('Form submitted:', formData);
-
+    const getUser = async () => {
         await getUserById(parseInt(getUserId()!))
             .then(response => {
                 setCurrentUser(response.data);
             })
-            .catch(error => console.error('Error fetching user:', error)
-            );
+            .catch(error => {
+                console.log('No user fetched', error.messages);
+            });
+    };
+
+    const handleFormSubmit = async (formData: any) => {
+        console.log('Form submitted:', formData);
 
         if (!currentUser) {
             setShowPopup(true);
             return;
         }
 
-        let BeginnerForm = {
+        const BeginnerForm = {
             client: currentUser!,
             useCases: formData.noob_usage_checkbox,
             description: formData.noob_usage_message,
@@ -135,16 +134,16 @@ const BeginnerForm = () => {
             configuration: formData.config,
             specificRequirements: formData.noob_other_message,
             type: 'beginner'
-        }
+        };
 
         await saveBeginnerForm(BeginnerForm)
-            .then(response => {
-                setUnexpectedError("")
+            .then(() => {
+                setUnexpectedError("");
                 setSuccessMessage("Build submitted successfully!");
             })
-            .catch(error => {
-                setUnexpectedError(error.response.data);
-                throw new Error(error.response.data);
+            .catch((error) => {
+                    setUnexpectedError(error.response.data);
+                    throw new Error(error.response.data);
             });
 
         console.log(BeginnerForm);
@@ -152,10 +151,11 @@ const BeginnerForm = () => {
 
     const handlePopupClose = () => {
         setShowPopup(false);
+        getUser();
     };
 
     return (
-        <div style={{fontSize: '20px'}}>
+        <div style={{ fontSize: '20px' }}>
             <h2>Beginner Form</h2>
             <GenericForm
                 steps={formSteps}
@@ -163,7 +163,7 @@ const BeginnerForm = () => {
                 unexpectedError={unexpectedError}
                 successMessage={successMessage}
             />
-            <Popup open={showPopup} onClose={() => setShowPopup(false)} position="right center" className="custom-popup">
+            <Popup open={showPopup} onClose={handlePopupClose} position="right center" className="custom-popup">
                 <ClientSignup onSubmitSuccess={handlePopupClose} />
             </Popup>
         </div>

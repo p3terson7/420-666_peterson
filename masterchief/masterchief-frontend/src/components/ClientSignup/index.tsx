@@ -115,20 +115,28 @@ const ClientSignupForm = ({onSubmitSuccess}: Props) => {
         };
 
         await login(signInRequest)
-            .then((response) => {
+            .then(async (response) => {
                 authenticate(response.data);
                 setSuccessMessage("Successfully signed up!")
 
                 const id = getUserId();
 
-                if (id == null) {
-                    signOut();
-                    navigate("/pageNotFound");
-                    return;
-                }
-
+                await getUserById(parseInt(id!))
+                    .then(() => {
+                        // navigate("/clients");
+                        onSubmitSuccess();
+                    })
+                    .catch(() => {
+                        signOut();
+                        navigate("/pageNotFound");
+                    });
                 onSubmitSuccess();
 
+                // if (id == null) {
+                //     signOut();
+                //     navigate("/pageNotFound");
+                //     return;
+                // }
 
                 // getUserById(parseInt(id))
                 //     .then(() => {
