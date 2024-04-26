@@ -98,7 +98,6 @@ public class ConversationControllerTest {
     private ConversationRepository conversationRepository;
     @Autowired
     private MockMvc mockMvc;
-
     @MockBean
     private ConversationService conversationService;
 
