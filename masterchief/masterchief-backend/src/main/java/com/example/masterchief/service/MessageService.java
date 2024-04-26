@@ -33,5 +33,4 @@ public class MessageService {
                 .map(Message::toDTO)
                 .collect(Collectors.toList());
     }
-
 }

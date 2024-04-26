@@ -118,5 +118,41 @@ public class ConversationControllerTest {
                 .andExpect(jsonPath("$[0].id", is(conversation1.getId().intValue())))
                 .andExpect(jsonPath("$[1].id", is(conversation2.getId().intValue())));
     }
+
+    @Test
+    @WithMockUser
+    public void testCreateConversation_Success() throws Exception {
+        ConversationDTO conversationDTO = new ConversationDTO();
+
+        when(conversationService.createConversation(any())).thenReturn(Optional.of(conversationDTO));
+
+        String conversationJson = new ObjectMapper().writeValueAsString(conversationDTO);
+
+        RequestBuilder request = MockMvcRequestBuilders
+                .post("/conversations/conversations").with(csrf())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(conversationJson);
+
+        mockMvc.perform(request)
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @WithMockUser
+    public void testCreateConversation_ConversationNotCreated() throws Exception {
+        ConversationDTO conversationDTO = new ConversationDTO();
+
+        when(conversationService.createConversation(any())).thenReturn(Optional.empty());
+
+        String conversationJson = new ObjectMapper().writeValueAsString(conversationDTO);
+
+        RequestBuilder request = MockMvcRequestBuilders
+                .post("/conversations/conversations").with(csrf())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(conversationJson);
+
+        mockMvc.perform(request)
+                .andExpect(status().isNotFound());
+    }
 }
 
