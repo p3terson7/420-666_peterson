@@ -29,11 +29,11 @@ public class ConversationService {
     }
 
     @Transactional
-    public Optional<ConversationDTO> createConversation(Long adminId, Long clientId) {
-        Admin admin = adminRepository.findById(adminId)
-                .orElseThrow(() -> new IllegalArgumentException("Admin with ID " + adminId + " not found"));
-        Client client = clientRepository.findById(clientId)
-                .orElseThrow(() -> new IllegalArgumentException("Client with ID " + clientId + " not found"));
+    public Optional<ConversationDTO> createConversation(ConversationDTO conversationDTO) {
+        Admin admin = adminRepository.findById(conversationDTO.getAdmin().getId())
+                .orElseThrow(() -> new IllegalArgumentException("Admin with ID " + conversationDTO.getAdmin().getId() + " not found"));
+        Client client = clientRepository.findById(conversationDTO.getClient().getId())
+                .orElseThrow(() -> new IllegalArgumentException("Client with ID " + conversationDTO.getClient().getId() + " not found"));
 
         Optional<Conversation> existingConversation = conversationRepository.findByAdminAndClient(admin, client);
         if (existingConversation.isPresent()) {

@@ -4,10 +4,14 @@ import com.example.masterchief.dto.ClientDTO;
 import com.example.masterchief.dto.UserDTO;
 import com.example.masterchief.repository.AdminRepository;
 import com.example.masterchief.repository.ConversationRepository;
+import com.example.masterchief.repository.Form.BeginnerFormRepository;
+import com.example.masterchief.repository.Form.FormRepository;
 import com.example.masterchief.repository.MessageRepository;
 import com.example.masterchief.repository.UserRepository;
 import com.example.masterchief.repository.security.SaltRepository;
 import com.example.masterchief.service.*;
+import com.example.masterchief.service.Form.BeginnerFormService;
+import com.example.masterchief.service.Form.FormService;
 import com.example.masterchief.utils.JwtManipulator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -55,8 +59,15 @@ public class UserControllerTest {
     private MessageRepository messageRepository;
     @MockBean
     private MessageService messageService;
-
-
+    @MockBean
+    private BeginnerFormRepository beginnerFormRepository;
+    @MockBean
+    private BeginnerFormService beginnerFormService;
+    @MockBean
+    private FormService formService;
+    @MockBean
+    private FormRepository formRepository;
+    
     @Test
     @WithMockUser(username = "user")
     void testGetUser() throws Exception {

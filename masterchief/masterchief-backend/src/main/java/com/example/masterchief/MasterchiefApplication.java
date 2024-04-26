@@ -41,11 +41,11 @@ public class MasterchiefApplication implements CommandLineRunner {
 //		} else {
 //			System.out.println("Conversation creation failed");
 //		}
-		List<ConversationDTO> conversations = new ArrayList<>();
-		conversations.add(conversationService.getConversationsByUserId(24L).get(0));
-
-		Optional<UserDTO> client = userService.getUser(24L);
-		Optional<UserDTO> admin = userService.getUser(48L);
+//		List<ConversationDTO> conversations = new ArrayList<>();
+//		conversations.add(conversationService.getConversationsByUserId(24L).get(0));
+//
+//		Optional<UserDTO> client = userService.getUser(24L);
+//		Optional<UserDTO> admin = userService.getUser(48L);
 
 		// TODO : Check that user can only send messages to his conversation
 

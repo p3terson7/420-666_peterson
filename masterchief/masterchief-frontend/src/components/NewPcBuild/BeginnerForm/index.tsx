@@ -162,11 +162,7 @@ const BeginnerForm = () => {
     };
 
     useEffect(() => {
-        if (!userId) {
-            signOut();
-            navigate("/pageNotFound");
-            return;
-        }
+        if (!userId) return;
 
         getUserConversations(parseInt(userId))
             .then(response => {
@@ -195,6 +191,10 @@ const BeginnerForm = () => {
             console.error("Failed to send build as message:", error);
         });
     };
+
+    // const createConversation = async (conversation: Conversation) => {
+    //
+    // }
 
     function objectToString(formData: any) {
         const labels: { [key: string]: string } = {

@@ -14,3 +14,7 @@ export const getConversationMessages = async (conversationId: number): Promise<A
 export const sendMessage = async (message: Message): Promise<AxiosResponse<Message>> => {
     return http.post(`${MESSAGE_PREFIX}/messages`, message);
 }
+
+export const createConversation = async (conversation: Conversation): Promise<AxiosResponse<Conversation>> => {
+    return http.post(`${CONVERSATION_PREFIX}/conversations`, conversation);
+}

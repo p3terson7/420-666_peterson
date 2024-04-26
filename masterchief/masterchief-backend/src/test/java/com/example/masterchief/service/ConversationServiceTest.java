@@ -51,7 +51,7 @@ public class ConversationServiceTest {
         when(conversationRepository.findByAdminAndClient(admin, client)).thenReturn(Optional.empty());
         when(conversationRepository.save(any(Conversation.class))).thenReturn(conversation);
 
-        Optional<ConversationDTO> result = conversationService.createConversation(admin.getId(), client.getId());
+        Optional<ConversationDTO> result = conversationService.createConversation(conversation.toDTO());
 
         assertThat(result).isPresent();
         assertThat(result.get().getId()).isEqualTo(conversation.getId());
@@ -68,7 +68,7 @@ public class ConversationServiceTest {
         when(clientRepository.findById(client.getId())).thenReturn(Optional.of(client));
         when(conversationRepository.findByAdminAndClient(admin, client)).thenReturn(Optional.of(conversation));
 
-        Optional<ConversationDTO> result = conversationService.createConversation(admin.getId(), client.getId());
+        Optional<ConversationDTO> result = conversationService.createConversation(conversation.toDTO());
 
         assertThat(result).isPresent();
         assertThat(result.get().getId()).isEqualTo(conversation.getId());
@@ -77,11 +77,11 @@ public class ConversationServiceTest {
     @Test
     void createConversation_AdminNotFound() {
         Admin admin = createAdminDTO().fromDTO();
-        Client client = createClientDTO().fromDTO();
+        Conversation conversation = createConversationDTO().fromDTO();
 
-        when(adminRepository.findById(admin.getId())).thenReturn(Optional.empty());
+        when(adminRepository.findById(conversation.getAdmin().getId())).thenReturn(Optional.empty());
 
-        assertThatThrownBy(() -> conversationService.createConversation(admin.getId(), client.getId()))
+        assertThatThrownBy(() -> conversationService.createConversation(conversation.toDTO()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Admin with ID " + admin.getId() + " not found");
     }
@@ -90,11 +90,12 @@ public class ConversationServiceTest {
     void createConversation_ClientNotFound() {
         Admin admin = createAdminDTO().fromDTO();
         Client client = createClientDTO().fromDTO();
+        Conversation conversation = createConversationDTO().fromDTO();
 
-        when(adminRepository.findById(admin.getId())).thenReturn(Optional.of(admin));
-        when(clientRepository.findById(client.getId())).thenReturn(Optional.empty());
+        when(adminRepository.findById(conversation.getAdmin().getId())).thenReturn(Optional.of(admin));
+        when(clientRepository.findById(conversation.getClient().getId())).thenReturn(Optional.empty());
 
-        assertThatThrownBy(() -> conversationService.createConversation(admin.getId(), client.getId()))
+        assertThatThrownBy(() -> conversationService.createConversation(conversation.toDTO()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Client with ID " + client.getId() + " not found");
     }

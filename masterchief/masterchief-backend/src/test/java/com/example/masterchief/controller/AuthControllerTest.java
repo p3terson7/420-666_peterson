@@ -4,10 +4,15 @@ import com.example.masterchief.dto.ClientDTO;
 import com.example.masterchief.dto.UserDTO;
 import com.example.masterchief.repository.AdminRepository;
 import com.example.masterchief.repository.ConversationRepository;
+import com.example.masterchief.repository.Form.BeginnerFormRepository;
+import com.example.masterchief.repository.Form.FormRepository;
 import com.example.masterchief.repository.MessageRepository;
 import com.example.masterchief.repository.UserRepository;
+import com.example.masterchief.repository.security.SaltRepository;
 import com.example.masterchief.security.jwt.TimedJwt;
 import com.example.masterchief.service.*;
+import com.example.masterchief.service.Form.BeginnerFormService;
+import com.example.masterchief.service.Form.FormService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -51,7 +56,18 @@ public class AuthControllerTest {
     private MessageRepository messageRepository;
     @MockBean
     private MessageService messageService;
-
+    @MockBean
+    private SaltRepository saltRepository;
+    @MockBean
+    private BeginnerFormRepository beginnerFormRepository;
+    @MockBean
+    private BeginnerFormService beginnerFormService;
+    @MockBean
+    private FormService formService;
+    @MockBean
+    private FormRepository formRepository;
+    @MockBean
+    private UserService userService;
     @Test
     @WithMockUser
     public void testLogin_happyPath() throws Exception {
