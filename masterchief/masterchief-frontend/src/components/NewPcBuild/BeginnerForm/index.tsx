@@ -2,19 +2,25 @@ import React, {useEffect, useState} from 'react';
 import {GenericForm} from "../../GenericForm";
 import '../../../App.css';
 import {getUserById} from "../../../services/userService";
-import {getUserId} from "../../../services/authService";
+import {getUserId, signOut} from "../../../services/authService";
 import {User} from "../../../model/user";
 import {useNavigate} from "react-router-dom";
 import Popup from 'reactjs-popup';
 import ClientSignup from "../../ClientSignup";
 import {saveBeginnerForm} from "../../../services/formService";
+import {getUserConversations, sendMessage} from "../../../services/messagingService";
+import {Conversation} from "../../../model/conversation";
+import {enqueueSnackbar} from "notistack";
 
 const BeginnerForm = () => {
     const [currentUser, setCurrentUser] = useState<User>();
     const [unexpectedError, setUnexpectedError] = useState<string>("");
     const [successMessage, setSuccessMessage] = useState<string>("");
     const [showPopup, setShowPopup] = useState<boolean>(false);
+    const [conversations, setConversations] = useState<Conversation[]>([])
+    const [activeConversation, setActiveConversation] = useState<Conversation>();
     const navigate = useNavigate();
+    const userId = getUserId();
 
     const formSteps = [
         [
@@ -23,12 +29,12 @@ const BeginnerForm = () => {
                 name: 'noob_usage_checkbox',
                 label: 'Common use case(s) for your PC',
                 options: [
-                    { label: 'Gaming', value: 'gaming' },
-                    { label: 'School or Office Work', value: 'office_work' },
-                    { label: 'Graphic Design and Creative Work', value: 'graphic_design' },
-                    { label: 'Media Consumption & Entertainment', value: 'media_entertainment' },
-                    { label: 'Programming and Software Development', value: 'software_development' },
-                    { label: 'Other', value: 'other' },
+                    { label: 'Gaming', value: 'Gaming' },
+                    { label: 'School or Office Work', value: 'Office Work' },
+                    { label: 'Graphic Design and Creative Work', value: 'Graphic Design' },
+                    { label: 'Media Consumption & Entertainment', value: 'Media & Entertainment' },
+                    { label: 'Programming and Software Development', value: 'Software Development' },
+                    { label: 'Other', value: 'Other' },
                 ],
                 validationRule: (value:any) => !!value && value.length !== 0,
                 errorMessage: 'Please select at least one option.',
@@ -48,15 +54,15 @@ const BeginnerForm = () => {
                 name: 'noob_RGB_accessories',
                 type: 'checkbox',
                 options: [
-                    { label: 'Fans', value: 'fans' },
-                    { label: 'LED Strips', value: 'strip' },
-                    { label: 'CPU Cooler', value: 'cpu_cooler' },
-                    { label: 'RAM', value: 'ram' },
-                    { label: 'GPU', value: 'gpu' },
-                    { label: 'Motherboard', value: 'mobo' },
-                    { label: 'Cables', value: 'cables' },
-                    { label: 'Other', value: 'other' },
-                    { label: 'No, but how nice of you for asking', value: 'no_rgb' },
+                    { label: 'Fans', value: 'Fans' },
+                    { label: 'LED Strips', value: 'LED Strips' },
+                    { label: 'CPU Cooler', value: 'CPU Cooler' },
+                    { label: 'RAM', value: 'RAM' },
+                    { label: 'GPU', value: 'GPU' },
+                    { label: 'Motherboard', value: 'Motherboard' },
+                    { label: 'Cables', value: 'Cables' },
+                    { label: 'Other', value: 'Other' },
+                    { label: 'No, but how nice of you for asking', value: 'No, but how nice of you for asking' },
                 ],
                 validationRule: (value:any) => !!value && value.length !== 0,
                 errorMessage: 'Please select at least one option.',
@@ -68,14 +74,14 @@ const BeginnerForm = () => {
                 name: 'noob_budget',
                 type: 'select',
                 options: [
-                    { label: 'Not really, I\'m seeking the most cost-effective option', value: 'nan' },
-                    { label: 'Budget Around $500: Basic Performance & Affordability', value: '500' },
-                    { label: 'Budget Around $700: Balanced Performance for Work & Entertainment', value: '700' },
-                    { label: 'Budget Around $1000: Enhanced Performance for Demanding Tasks', value: '1000' },
-                    { label: 'Budget Over $1000: Premium Performance for High-End Needs', value: '1000+' }
+                    { label: 'Not really, I\'m seeking the most cost-effective option', value: 'Most Cost-Effective Option' },
+                    { label: 'Budget Around $500: Basic Performance & Affordability', value: 'Around 500$' },
+                    { label: 'Budget Around $700: Balanced Performance for Work & Entertainment', value: 'Around 700$' },
+                    { label: 'Budget Around $1000: Enhanced Performance for Demanding Tasks', value: 'Around 1000$' },
+                    { label: 'Budget Over $1000: Premium Performance for High-End Needs', value: 'Beyond 1000$' }
                 ],
                 validationRule: (value:any) => !!value,
-                errorMessage: 'Veuillez sélectionner une option.',
+                errorMessage: 'Please select an option.',
             },
         ],
         [
@@ -85,11 +91,11 @@ const BeginnerForm = () => {
                 name: 'config',
                 type: 'select',
                 options: [
-                    { label: 'Oui, je suis à l\'aise', value: 'a_l\'aise' },
-                    { label: 'Non, j\'aurais besoin d\'assistance', value: 'pas_a_l\'aise' },
+                    { label: 'Yes, I would appreciate some assistance', value: 'With Assistance' },
+                    { label: 'No, I don\'t require assistance', value: 'Without Assistance' },
                 ],
                 validationRule: (value:any) => !!value,
-                errorMessage: 'Veuillez sélectionner une option.',
+                errorMessage: 'Please select an option.',
                 labelClassName: 'lighter-font-label'
             },
             {
@@ -140,6 +146,7 @@ const BeginnerForm = () => {
             .then(() => {
                 setUnexpectedError("");
                 setSuccessMessage("Build submitted successfully!");
+                sendBuildAsMessage(BeginnerForm);
             })
             .catch((error) => {
                     setUnexpectedError(error.response.data);
@@ -153,6 +160,64 @@ const BeginnerForm = () => {
         setShowPopup(false);
         getUser();
     };
+
+    useEffect(() => {
+        if (!userId) {
+            signOut();
+            navigate("/pageNotFound");
+            return;
+        }
+
+        getUserConversations(parseInt(userId))
+            .then(response => {
+                setConversations(response.data);
+                setActiveConversation(response.data[0])
+            })
+            .catch(error => {
+                enqueueSnackbar("Failed to fetch conversations", {variant: "error"});
+                throw new Error(error);
+            });
+
+        if (!activeConversation) {
+            setActiveConversation(conversations[0]);
+        }
+
+    }, [userId]);
+
+    const sendBuildAsMessage = async (formData: any) => {
+        const messageContent = `${objectToString(formData)}`;
+        await sendMessage({
+            sender: currentUser!,
+            content: messageContent,
+            timestamp: new Date().toISOString(),
+            conversation: activeConversation!,
+        }).catch((error) => {
+            console.error("Failed to send build as message:", error);
+        });
+    };
+
+    function objectToString(formData: any) {
+        const labels: { [key: string]: string } = {
+            useCases: 'Use Cases',
+            description: 'Description',
+            rgbAccessories: 'RGB Accessories',
+            budget: 'Budget',
+            configuration: 'Configuration',
+            specificRequirements: 'Specific Requirements',
+        };
+
+        let result = "New build submitted:\n";
+        for (const key in formData) {
+            if (Object.prototype.hasOwnProperty.call(formData, key) && key !== 'client' && key !== 'type') {
+                const label = labels[key] || key; // Use the key if label not found
+                const value = key === 'specificRequirements' && formData[key] === undefined ? 'None' : formData[key];
+                result += `${label}: ${value}\n`;
+            }
+        }
+        return result;
+    }
+
+
 
     return (
         <div style={{ fontSize: '20px' }}>

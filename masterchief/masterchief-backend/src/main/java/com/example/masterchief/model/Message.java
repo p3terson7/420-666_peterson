@@ -25,6 +25,7 @@ public class Message {
     @JoinColumn(name = "conversation_id")
     private Conversation conversation;
 
+    @Column(columnDefinition = "TEXT")
     private String content;
     private String timestamp;
 

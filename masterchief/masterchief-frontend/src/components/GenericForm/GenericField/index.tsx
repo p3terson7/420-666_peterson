@@ -38,7 +38,7 @@ export const GenericField: React.FC<GenericFieldProps> = ({ label, subLabel, typ
 
         if (Array.isArray(value)) {
             if (checked) {
-                newValue = value.filter((value: any) => value !== 'no_rgb');
+                newValue = value.filter((value: any) => value !== 'No, but how nice of you for asking');
                 newValue.push(checkboxValue);
             } else {
                 newValue = value.filter((value: any) => value !== checkboxValue);
@@ -53,7 +53,7 @@ export const GenericField: React.FC<GenericFieldProps> = ({ label, subLabel, typ
     const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { value: checkboxValue, checked } = e.target;
 
-        if (checkboxValue === 'no_rgb') {
+        if (checkboxValue === 'No, but how nice of you for asking') {
             handleNoRGBCheckboxChange(checked);
         } else {
             handleRegularCheckboxChange(checkboxValue, checked);
@@ -62,7 +62,7 @@ export const GenericField: React.FC<GenericFieldProps> = ({ label, subLabel, typ
 
     const handleNoRGBCheckboxChange = (checked: boolean) => {
         if (checked) {
-            onChange({ target: { name: 'noob_RGB_accessories', value: ['no_rgb'] } } as any);
+            onChange({ target: { name: 'noob_RGB_accessories', value: ['No, but how nice of you for asking'] } } as any);
         } else {
             onChange({ target: { name: 'noob_RGB_accessories', value: [] } } as any);
         }
