@@ -209,7 +209,7 @@ const BeginnerForm = () => {
         let result = "New build submitted:\n";
         for (const key in formData) {
             if (Object.prototype.hasOwnProperty.call(formData, key) && key !== 'client' && key !== 'type') {
-                const label = labels[key] || key; // Use the key if label not found
+                const label = labels[key] || key;
                 const value = key === 'specificRequirements' && formData[key] === undefined ? 'None' : formData[key];
                 result += `${label}: ${value}\n`;
             }

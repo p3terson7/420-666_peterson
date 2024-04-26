@@ -24,4 +24,11 @@ public class ConversationController extends LoggedController {
         return ResponseEntity.ok(service.getConversationsByUserId(userId));
     }
 
+    @PostMapping("/{adminId}/{clientId}")
+    public ResponseEntity<ConversationDTO> createConversation(@PathVariable Long adminId, @PathVariable Long clientId) {
+        return service.createConversation(adminId, clientId)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
 }
