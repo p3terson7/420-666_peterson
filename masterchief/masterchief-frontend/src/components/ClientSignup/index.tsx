@@ -132,20 +132,6 @@ const ClientSignupForm = ({onSubmitSuccess}: Props) => {
                     });
                 onSubmitSuccess();
 
-                // if (id == null) {
-                //     signOut();
-                //     navigate("/pageNotFound");
-                //     return;
-                // }
-
-                // getUserById(parseInt(id))
-                //     .then(() => {
-                //         navigate("/clients");
-                //     })
-                //     .catch(() => {
-                //         signOut();
-                //         navigate("/pageNotFound");
-                //     });
             })
             .catch((error) => {
                 setUnexpectedError("Unexpected Redirection Error.");
