@@ -8,8 +8,8 @@ export interface User {
 }
 
 export interface Client extends User {
-    address: string;
-    phone: string;
+    address?: string;
+    phone?: string;
 }
 
 export interface Admin extends User {}

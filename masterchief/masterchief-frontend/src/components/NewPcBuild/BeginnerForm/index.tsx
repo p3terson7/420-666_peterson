@@ -2,18 +2,19 @@ import React, {useEffect, useState} from 'react';
 import {GenericForm} from "../../GenericForm";
 import '../../../App.css';
 import {getUserById} from "../../../services/userService";
-import {getUserId, signOut} from "../../../services/authService";
+import {getUserId} from "../../../services/authService";
 import {User} from "../../../model/user";
 import {useNavigate} from "react-router-dom";
 import Popup from 'reactjs-popup';
 import ClientSignup from "../../ClientSignup";
 import {saveBeginnerForm} from "../../../services/formService";
-import {getUserConversations, sendMessage} from "../../../services/messagingService";
+import {createConversation, getUserConversations, sendMessage} from "../../../services/messagingService";
 import {Conversation} from "../../../model/conversation";
 import {enqueueSnackbar} from "notistack";
 
 const BeginnerForm = () => {
     const [currentUser, setCurrentUser] = useState<User>();
+    const [currentUserAdmin, setCurrentUserAdmin] = useState<User>();
     const [unexpectedError, setUnexpectedError] = useState<string>("");
     const [successMessage, setSuccessMessage] = useState<string>("");
     const [showPopup, setShowPopup] = useState<boolean>(false);
@@ -21,6 +22,150 @@ const BeginnerForm = () => {
     const [activeConversation, setActiveConversation] = useState<Conversation>();
     const navigate = useNavigate();
     const userId = getUserId();
+
+    useEffect(() => {
+        if (!currentUser) {
+            getCurrentUser();
+            getCurrentAdmin();
+        }
+    }, []);
+
+    const getCurrentUser = async () => {
+        await getUserById(parseInt(getUserId()!))
+            .then(response => {
+                setCurrentUser(response.data);
+            })
+            .catch(error => {
+                console.log('No user fetched', error.messages);
+            });
+    };
+
+    const getCurrentAdmin = async () => {
+        await getUserById(49!)
+            .then(response => {
+                setCurrentUserAdmin(response.data);
+            })
+            .catch(error => {
+                console.log('No user fetched', error.messages);
+            });
+    };
+
+    const handleFormSubmit = async (formData: any) => {
+        console.log('Form submitted:', formData);
+
+        if (!currentUser) {
+            setShowPopup(true);
+            return;
+        }
+
+        const BeginnerForm = {
+            client: currentUser!,
+            useCases: formData.noob_usage_checkbox,
+            description: formData.noob_usage_message,
+            rgbAccessories: formData.noob_RGB_accessories,
+            budget: formData.noob_budget,
+            configuration: formData.config,
+            specificRequirements: formData.noob_other_message,
+            type: 'beginner'
+        };
+
+        await saveBeginnerForm(BeginnerForm)
+            .then(async () => {
+                setUnexpectedError("");
+                await sendBuildAsMessage(BeginnerForm)
+                    .then(() => {
+                        setSuccessMessage("Build submitted successfully!");
+                    });
+            })
+            .catch((error) => {
+                setUnexpectedError(error.response.data);
+                throw new Error(error.response.data);
+            });
+
+        console.log(BeginnerForm);
+    };
+
+    const handlePopupClose = async () => {
+        await getCurrentUser();
+        setShowPopup(false);
+    };
+
+    useEffect(() => {
+        if (!userId) return;
+
+        getUserConversations(parseInt(userId))
+            .then(response => {
+                setConversations(response.data);
+                setActiveConversation(response.data[0])
+            })
+            .catch(error => {
+                enqueueSnackbar("Failed to fetch conversations", {variant: "error"});
+                throw new Error(error);
+            });
+
+        if (!activeConversation) {
+            setActiveConversation(conversations[0]);
+        }
+
+    }, [userId]);
+
+    const sendBuildAsMessage = async (formData: any) => {
+        if (!currentUser) return;
+
+        if (currentUser && conversations.length === 0) {
+            await createConversationForNewUser();
+            return;
+        }
+
+        const messageContent = `${objectToString(formData)}`;
+        await sendMessage({
+            sender: currentUser,
+            content: messageContent,
+            timestamp: new Date().toISOString(),
+            conversation: activeConversation!,
+        }).catch((error) => {
+            console.error("Failed to send build as message:", error);
+        });
+    };
+
+    const createConversationForNewUser = async () => {
+        let conversation : Conversation = {
+            client: currentUser!,
+            admin: currentUserAdmin!,
+        };
+
+        await createConversation(conversation)
+            .then(() => {
+                setConversations([...conversations, conversation]);
+                setActiveConversation(conversations[0]);
+                enqueueSnackbar("Conversation created successfully", {variant: "success"});
+            })
+            .catch((error) => {
+                enqueueSnackbar("Failed to create conversation", {variant: "error"});
+                throw new Error(error);
+            });
+    }
+
+    function objectToString(formData: any) {
+        const labels: { [key: string]: string } = {
+            useCases: 'Use Cases',
+            description: 'Description',
+            rgbAccessories: 'RGB Accessories',
+            budget: 'Budget',
+            configuration: 'Configuration',
+            specificRequirements: 'Specific Requirements',
+        };
+
+        let result = "New build submitted:\n";
+        for (const key in formData) {
+            if (Object.prototype.hasOwnProperty.call(formData, key) && key !== 'client' && key !== 'type') {
+                const label = labels[key] || key;
+                const value = key === 'specificRequirements' && formData[key] === undefined ? 'None' : formData[key];
+                result += `${label}: ${value}\n`;
+            }
+        }
+        return result;
+    }
 
     const formSteps = [
         [
@@ -105,119 +250,6 @@ const BeginnerForm = () => {
             },
         ],
     ];
-
-
-    useEffect(() => {
-        if (!currentUser) {
-            getUser();
-        }
-    }, [currentUser]);
-
-    const getUser = async () => {
-        await getUserById(parseInt(getUserId()!))
-            .then(response => {
-                setCurrentUser(response.data);
-            })
-            .catch(error => {
-                console.log('No user fetched', error.messages);
-            });
-    };
-
-    const handleFormSubmit = async (formData: any) => {
-        console.log('Form submitted:', formData);
-
-        if (!currentUser) {
-            setShowPopup(true);
-            return;
-        }
-
-        const BeginnerForm = {
-            client: currentUser!,
-            useCases: formData.noob_usage_checkbox,
-            description: formData.noob_usage_message,
-            rgbAccessories: formData.noob_RGB_accessories,
-            budget: formData.noob_budget,
-            configuration: formData.config,
-            specificRequirements: formData.noob_other_message,
-            type: 'beginner'
-        };
-
-        await saveBeginnerForm(BeginnerForm)
-            .then(() => {
-                setUnexpectedError("");
-                setSuccessMessage("Build submitted successfully!");
-                sendBuildAsMessage(BeginnerForm);
-            })
-            .catch((error) => {
-                    setUnexpectedError(error.response.data);
-                    throw new Error(error.response.data);
-            });
-
-        console.log(BeginnerForm);
-    };
-
-    const handlePopupClose = () => {
-        setShowPopup(false);
-        getUser();
-    };
-
-    useEffect(() => {
-        if (!userId) return;
-
-        getUserConversations(parseInt(userId))
-            .then(response => {
-                setConversations(response.data);
-                setActiveConversation(response.data[0])
-            })
-            .catch(error => {
-                enqueueSnackbar("Failed to fetch conversations", {variant: "error"});
-                throw new Error(error);
-            });
-
-        if (!activeConversation) {
-            setActiveConversation(conversations[0]);
-        }
-
-    }, [userId]);
-
-    const sendBuildAsMessage = async (formData: any) => {
-        const messageContent = `${objectToString(formData)}`;
-        await sendMessage({
-            sender: currentUser!,
-            content: messageContent,
-            timestamp: new Date().toISOString(),
-            conversation: activeConversation!,
-        }).catch((error) => {
-            console.error("Failed to send build as message:", error);
-        });
-    };
-
-    // const createConversation = async (conversation: Conversation) => {
-    //
-    // }
-
-    function objectToString(formData: any) {
-        const labels: { [key: string]: string } = {
-            useCases: 'Use Cases',
-            description: 'Description',
-            rgbAccessories: 'RGB Accessories',
-            budget: 'Budget',
-            configuration: 'Configuration',
-            specificRequirements: 'Specific Requirements',
-        };
-
-        let result = "New build submitted:\n";
-        for (const key in formData) {
-            if (Object.prototype.hasOwnProperty.call(formData, key) && key !== 'client' && key !== 'type') {
-                const label = labels[key] || key;
-                const value = key === 'specificRequirements' && formData[key] === undefined ? 'None' : formData[key];
-                result += `${label}: ${value}\n`;
-            }
-        }
-        return result;
-    }
-
-
 
     return (
         <div style={{ fontSize: '20px' }}>

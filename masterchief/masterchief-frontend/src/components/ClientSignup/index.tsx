@@ -123,14 +123,12 @@ const ClientSignupForm = ({onSubmitSuccess}: Props) => {
 
                 await getUserById(parseInt(id!))
                     .then(() => {
-                        // navigate("/clients");
                         onSubmitSuccess();
                     })
                     .catch(() => {
                         signOut();
                         navigate("/pageNotFound");
                     });
-                onSubmitSuccess();
 
             })
             .catch((error) => {
