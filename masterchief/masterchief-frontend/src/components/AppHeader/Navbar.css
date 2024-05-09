@@ -21,11 +21,13 @@
     font-family: "RetroGaming", sans-serif;
     transition: color 0.3s ease;
     color: #373c41;
+    cursor: pointer;
 }
 
 .navbar-menu, .navbar-item {
     display: flex;
     align-items: center;
+    cursor: pointer;
 }
 
 .navbar-item {

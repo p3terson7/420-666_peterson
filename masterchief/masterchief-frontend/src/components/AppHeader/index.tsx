@@ -31,6 +31,10 @@ const AppHeader = () => {
         }
     }
 
+    const homeButton = () => {
+        navigate("/home/");
+    }
+
     const toggleDashboard = () => {
         setIsOpen(!isOpen);
     };
@@ -55,7 +59,7 @@ const AppHeader = () => {
                             <DashboardIcon />
                         </Container>
                     )}
-                    <Navbar.Brand className="navbar-brand">PROTOTYPE</Navbar.Brand>
+                    <Navbar.Brand className="navbar-brand" onClick={homeButton}>PROTOTYPE</Navbar.Brand>
                 </div>
                 <div className="navbar-right">
                     <Nav className="navbar-menu">

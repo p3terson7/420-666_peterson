@@ -146,7 +146,7 @@ const BeginnerForm = () => {
             specificRequirements: 'Specific Requirements',
         };
 
-        let result = "New build submitted:\n";
+        let result = "---- New Build Submitted ----\n";
         for (const key in formData) {
             if (Object.prototype.hasOwnProperty.call(formData, key) && key !== 'client' && key !== 'type') {
                 const label = labels[key] || key;
@@ -154,6 +154,7 @@ const BeginnerForm = () => {
                 result += `${label}: ${value}\n`;
             }
         }
+        result += "-----------------------------\n";
         return result;
     }
 
@@ -243,7 +244,6 @@ const BeginnerForm = () => {
 
     return (
         <div style={{ fontSize: '20px' }}>
-            <h2>Beginner Form</h2>
             <GenericForm
                 steps={formSteps}
                 onSubmit={handleFormSubmit}

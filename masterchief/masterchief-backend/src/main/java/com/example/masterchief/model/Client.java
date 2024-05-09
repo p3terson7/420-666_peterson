@@ -19,6 +19,7 @@ import java.util.List;
 public class Client extends User {
     private String address;
     private String phone;
+    private String colorCode;
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     protected List<Conversation> conversations = new ArrayList<>();
@@ -38,9 +39,18 @@ public class Client extends User {
         super(id, firstname, lastname, email, password);
         this.address = address;
         this.phone = phone;
+        this.colorCode = randomColorCode();
+    }
+
+    public String randomColorCode() {
+        String[] colors = {
+                "#3498db", "#e74c3c", "#2ecc71", "#f1c40f", "#8e44ad", "#27ae60",
+                "#f39c12"
+        };
+        return colors[(int) (Math.random() * colors.length)];
     }
 
     public ClientDTO toDTO() {
-        return new ClientDTO(id, firstName, lastName, email, password, address, phone);
+        return new ClientDTO(id, firstName, lastName, email, password, address, phone, colorCode);
     }
 }

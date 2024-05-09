@@ -15,9 +15,9 @@ export const ConversationRow = ({admin, client, onConversationClick, isActive}: 
 
     const nameToDisplay = () => {
         if (currentUserId == admin.id?.toString()) {
-            return `${client.firstName} (Client)`;
+            return <span style={{color: client.colorCode ? client.colorCode : "#9b59b6"}}>{client.firstName}</span>;
         } else {
-            return `${admin.firstName} (Admin)`;
+            return `${admin.firstName}`;
         }
     };
 
@@ -27,7 +27,7 @@ export const ConversationRow = ({admin, client, onConversationClick, isActive}: 
 
     return (
         <div className={`conversationRow ${isActive ? 'activeConversation' : 'conversation-row'}`} onClick={onConversationClick}>
-            <span style={{color: "#FF5733"}}>{nameToDisplay()}</span> (Admin)
+            <span style={{color: "#FF5733"}}>{nameToDisplay()}</span>
         </div>
     );
 }

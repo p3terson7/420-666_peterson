@@ -11,7 +11,7 @@ const BuildFormView = () => {
         <Container fluid className="background-home">
             {isBeginnerView ? <BeginnerForm /> : <AdvancedForm />}
             <Button variant="link" onClick={() => setIsBeginnerView(!isBeginnerView)} className="toggle-form-view">
-                {isBeginnerView ? "Advanced User? Choose This Option" : "Beginner? Choose This Option"}
+                {isBeginnerView ? "You already know your components? Choose This Option" : "Beginner? Choose This Option"}
             </Button>
         </Container>
     );

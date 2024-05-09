@@ -10,6 +10,7 @@ export interface User {
 export interface Client extends User {
     address?: string;
     phone?: string;
+    colorCode?: string;
 }
 
 export interface Admin extends User {}
