@@ -1,5 +1,5 @@
 import {Admin, Client} from "../../../../model/user";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import {getUserId} from "../../../../services/authService";
 
 interface Props {
@@ -10,7 +10,6 @@ interface Props {
 }
 
 export const ConversationRow = ({admin, client, onConversationClick, isActive}: Props) => {
-    const [name, setName] = useState<string>('');
     const currentUserId = getUserId();
 
     const nameToDisplay = () => {

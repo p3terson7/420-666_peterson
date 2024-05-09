@@ -3,7 +3,8 @@
 }
 
 html {
-  scrollbar-color: transparent transparent;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .App-header {
@@ -58,6 +59,11 @@ html {
   /*background: rgba(0, 0, 0, 0.5) url('assets/img/new-build/landscape.jpg') no-repeat fixed center center;*/
   background: #3a3f4a;
   background-size: cover;
+}
+
+.home-page-background {
+  background: #3C3F44;
+  height: 400px;
 }
 
 .container-fluid {
@@ -262,27 +268,27 @@ html {
 }
 
 .custom-popup {
-  backdrop-filter: blur(5px); /* Blur effect */
-  width: 200px; /* Width of the popup */
-  border-radius: 5px; /* Border radius */
+  backdrop-filter: blur(5px);
+  width: 200px;
+  border-radius: 5px;
 }
 
 .popup-overlay {
-  background: rgba(0, 0, 0, 0.2); /* Background color of the overlay */
+  background: rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(5px);
   text-align: center;
 }
 
 [data-popup=tooltip].popup-overlay {
-  background: transparent; /* Background color of the overlay when using tooltip */
+  background: transparent;
 }
 
 .popup-arrow {
   -webkit-filter: drop-shadow(0 -3px 3px rgba(0, 0, 0, 0.16));
   filter: drop-shadow(0 -3px 3px rgba(0, 0, 0, 0.16));
-  color: #fff; /* Color of the arrow */
-  stroke-width: 2px; /* Stroke width of the arrow */
-  stroke: #d7d7d7; /* Stroke color of the arrow */
+  color: #fff;
+  stroke-width: 2px;
+  stroke: #d7d7d7;
   stroke-dasharray: 30px;
   stroke-dashoffset: -54px;
   left: 0;
