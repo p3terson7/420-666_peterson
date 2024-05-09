@@ -8,12 +8,14 @@ interface Props {
     activeConversation?: Conversation;
 }
 export const ConversationList = ({conversations, onConversationClick, activeConversation}: Props) => {
+
     return (
         <div>
             {conversations.map(conversation => (
                 <ConversationRow
                     key={conversation.id}
                     admin={conversation.admin}
+                    client={conversation.client}
                     onConversationClick={() => onConversationClick(conversation)}
                     isActive={conversation === activeConversation}
                 />

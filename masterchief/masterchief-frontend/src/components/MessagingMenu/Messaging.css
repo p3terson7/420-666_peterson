@@ -36,8 +36,12 @@ body {
     text-align: start;
     transition: background-color 0.3s, color 0.3s;
     cursor: pointer;
+}
+
+.activeConversation {
     font-weight: 600;
 }
+
 
 .conversation-row:hover, .activeConversation:hover {
     background-color: #52575e;
