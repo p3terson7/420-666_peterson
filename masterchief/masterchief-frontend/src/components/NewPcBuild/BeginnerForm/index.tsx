@@ -41,7 +41,7 @@ const BeginnerForm = () => {
     };
 
     const getCurrentAdmin = async () => {
-        await getUserById(49!)
+        await getUserById(25!)
             .then(response => {
                 setCurrentUserAdmin(response.data);
             })
@@ -110,41 +110,81 @@ const BeginnerForm = () => {
     }, [userId]);
 
     const sendBuildAsMessage = async (formData: any) => {
-        if (!currentUser) return;
+        try {
+            if (!currentUser) return;
 
-        if (currentUser && conversations.length === 0) {
-            await createConversationForNewUser();
-            return;
-        }
+            try {
+                let conversation: Conversation = {
+                    client: currentUser!,
+                    admin: currentUserAdmin!,
+                };
 
-        const messageContent = `${objectToString(formData)}`;
-        await sendMessage({
-            sender: currentUser,
-            content: messageContent,
-            timestamp: new Date().toISOString(),
-            conversation: activeConversation!,
-        }).catch((error) => {
+                await createConversation(conversation);
+
+                const response = await getUserConversations(parseInt(userId!));
+                setConversations(response.data);
+                enqueueSnackbar("Conversation created successfully", { variant: "success" });
+                console.log("Conversation created successfully", response.data, conversations);
+
+                const messageContent = `${objectToString(formData)}`;
+
+                await sendMessage({
+                    sender: currentUser,
+                    content: messageContent,
+                    timestamp: new Date().toISOString(),
+                    conversation: response.data[0],
+                });
+            } catch (error:any) {
+                enqueueSnackbar("Failed to create conversation", { variant: "error" });
+                throw new Error(error);
+            }
+            // Wait for conversations state to update
+
+            const messageContent = `${objectToString(formData)}`;
+
+            // Use the first conversation after creation
+            const activeConv = conversations[0];
+
+            if (!activeConv) {
+                console.log("No active conversation found");
+                return;
+            }
+
+            await sendMessage({
+                sender: currentUser,
+                content: messageContent,
+                timestamp: new Date().toISOString(),
+                conversation: activeConv,
+            });
+
+            enqueueSnackbar("Build sent as message", { variant: "success" });
+        } catch (error) {
             console.error("Failed to send build as message:", error);
-        });
+            enqueueSnackbar("Failed to send build as message", { variant: "error" });
+        }
     };
 
-    const createConversationForNewUser = async () => {
-        let conversation : Conversation = {
-            client: currentUser!,
-            admin: currentUserAdmin!,
-        };
 
-        await createConversation(conversation)
-            .then(() => {
-                setConversations([...conversations, conversation]);
-                setActiveConversation(conversations[0]);
-                enqueueSnackbar("Conversation created successfully", {variant: "success"});
-            })
-            .catch((error) => {
-                enqueueSnackbar("Failed to create conversation", {variant: "error"});
-                throw new Error(error);
-            });
-    }
+    const createConversationForNewUser = async () => {
+        try {
+            let conversation: Conversation = {
+                client: currentUser!,
+                admin: currentUserAdmin!,
+            };
+
+            await createConversation(conversation);
+
+            const response = await getUserConversations(parseInt(userId!));
+            setConversations(response.data);
+            enqueueSnackbar("Conversation created successfully", { variant: "success" });
+            console.log("Conversation created successfully", response.data, conversations);
+
+        } catch (error:any) {
+            enqueueSnackbar("Failed to create conversation", { variant: "error" });
+            throw new Error(error);
+        }
+    };
+
 
     function objectToString(formData: any) {
         const labels: { [key: string]: string } = {

@@ -1,10 +1,10 @@
-import {Admin, Client} from "./user";
+import {Admin, Client, User} from "./user";
 import {format} from "date-fns";
 
 export interface Conversation {
     id?: number;
-    admin: Admin;
-    client: Client;
+    admin: User;
+    client: User;
 }
 
 export interface Message {

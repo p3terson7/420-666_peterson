@@ -25,7 +25,6 @@ export const GenericField: React.FC<GenericFieldProps> = ({ label, subLabel, typ
         if (textarea) {
             textarea.style.height = 'auto';
             textarea.style.height = `${textarea.scrollHeight}px`;
-
         }
     };
 
