@@ -57,7 +57,7 @@ export const MessageList = ({ activeConversation }: Props) => {
             textarea.style.height = `${textarea.scrollHeight}px`;
 
             if (messageList && textarea.scrollHeight > 80 && textarea.scrollHeight < 500) {
-                messageList.style.paddingBottom = `calc(${textarea.scrollHeight}px - 80px)`;
+                messageList.style.paddingBottom = `calc(${textarea.scrollHeight}px - 70px)`;
             }
         }
     };
@@ -111,7 +111,7 @@ export const MessageList = ({ activeConversation }: Props) => {
     };
 
     const checkMessageTooLong = () => {
-        if (charCount > 255) {
+        if (charCount > 800) {
             enqueueSnackbar("Message too long!", { variant: 'error' });
             return true;
         }
@@ -151,10 +151,11 @@ export const MessageList = ({ activeConversation }: Props) => {
                         placeholder="Envoyer un message..."
                         rows={1}
                         onKeyDown={handleKeyDown}
+                        style={{overflow: 'hidden'}}
                     />
-                    {charCount > 200 && (
-                        <div className="charCounter text-center" style={{ color: charCount > 255 ? '#ff4d6b' : '#DBDEE1'}}>
-                            {255 - charCount}
+                    {charCount > 750 && (
+                        <div className="charCounter text-center" style={{ color: charCount > 800 ? '#ff4d6b' : '#DBDEE1'}}>
+                            {800 - charCount}
                         </div>
                     )}
                 </form>
