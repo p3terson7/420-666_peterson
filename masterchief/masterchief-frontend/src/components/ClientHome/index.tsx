@@ -27,7 +27,7 @@ export const ClientHome = () => {
     return (
         <Container fluid className="background-home-client">
             <div className="client-info">
-                <h1 className="page-title" style={{color: backgroundColor(), width: "500px"}}>Behold, {client?.firstName} has returned</h1>
+                <h1 className="page-title" style={{color: backgroundColor(), width: "500px"}}>Welcome, {client?.firstName}</h1>
                 {client && (
                     <div className="info-sheet">
                         <p><strong>Name:</strong> {client.firstName} {client.lastName}</p>
