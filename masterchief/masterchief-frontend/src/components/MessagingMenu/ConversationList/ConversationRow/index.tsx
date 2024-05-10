@@ -1,5 +1,4 @@
 import {Admin, Client} from "../../../../model/user";
-import {useEffect} from "react";
 import {getUserId} from "../../../../services/authService";
 
 interface Props {
@@ -19,10 +18,6 @@ export const ConversationRow = ({admin, client, onConversationClick, isActive}: 
             return `${admin.firstName}`;
         }
     };
-
-    useEffect(() => {
-        console.log(currentUserId == admin.id?.toString());
-    }, []);
 
     return (
         <div className={`conversationRow ${isActive ? 'activeConversation' : 'conversation-row'}`} onClick={onConversationClick}>

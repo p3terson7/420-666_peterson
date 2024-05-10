@@ -19,6 +19,7 @@
     "axios": "^1.6.7",
     "bootstrap": "^5.3.3",
     "date-fns": "^3.6.0",
+    "emailjs-com": "^3.2.0",
     "jwt-decode": "^4.0.0",
     "notistack": "^3.0.1",
     "pixelarticons": "^1.7.0",

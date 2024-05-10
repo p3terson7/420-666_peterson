@@ -7,6 +7,7 @@ import { getUserId } from "../../../services/authService";
 import { getUserById } from "../../../services/userService";
 import { User } from "../../../model/user";
 import { enqueueSnackbar } from "notistack";
+import emailjs from 'emailjs-com';
 
 interface ConcatenatedMessage extends Omit<Message, 'content'> {
     content: string;
@@ -97,8 +98,9 @@ export const MessageList = ({ activeConversation }: Props) => {
             timestamp: new Date().toISOString(),
             conversation: activeConversation,
         }).then(() => {
+            sendEmailNotification(currentUser!, messageInput, activeConversation);
             setMessageInput('');
-            getConversationMessages(1)
+            getConversationMessages(activeConversation!.id!)
                 .then(response => {
                     const processedMessages = concatenateMessages(response.data);
                     setConcatenatedMessages(processedMessages);
@@ -109,6 +111,23 @@ export const MessageList = ({ activeConversation }: Props) => {
             throw new Error(e);
         });
     };
+
+    const sendEmailNotification = (sender: User, message: string, activeConversation: Conversation) => {
+        if (!messageInput.trim() || sender.id == activeConversation.client.id) return;
+
+        emailjs.send('service_sbow9xv', 'template_b9evmkg', {
+            to_email: activeConversation.client.email,
+            to_name: activeConversation.client.firstName,
+            from_name: sender.firstName,
+            message: message,
+            reply_to: 'psarateanu@hotmail.ca',
+        }, '_OGmPcIYHvtuFIbKT')
+            .then(() => {
+                enqueueSnackbar("Email sent!", { variant: 'success' })
+            }, () => {
+                enqueueSnackbar("Failed to send email", { variant: 'error' })
+            });
+    }
 
     const checkMessageTooLong = () => {
         if (charCount > 800) {
