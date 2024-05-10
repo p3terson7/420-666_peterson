@@ -1,8 +1,11 @@
+import React from "react";
+import "../../../App.css";
+import {AdminHome} from "../../../components/AdminHome";
+
 const AdminView = () => {
     return (
-        <>
-            <h1>Admin View</h1>
-        </>
+        <AdminHome />
     );
 }
+
 export default AdminView;
