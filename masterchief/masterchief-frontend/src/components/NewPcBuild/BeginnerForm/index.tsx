@@ -41,7 +41,7 @@ const BeginnerForm = () => {
     };
 
     const getCurrentAdmin = async () => {
-        await getUserById(25!)
+        await getUserById(49!)
             .then(response => {
                 setCurrentUserAdmin(response.data);
             })
@@ -101,8 +101,7 @@ const BeginnerForm = () => {
                 setActiveConversation(response.data[0])
             })
             .catch(error => {
-                enqueueSnackbar("Failed to fetch conversations", {variant: "error"});
-                throw new Error(error);
+                console.log('No conversations fetched', error.messages)
             });
 
         if (!activeConversation) {
@@ -134,7 +133,6 @@ const BeginnerForm = () => {
            throw new Error("Failed to send build as message : ", error);
         }
     };
-
 
     function objectToString(formData: any) {
         const labels: { [key: string]: string } = {
@@ -227,8 +225,8 @@ const BeginnerForm = () => {
                 name: 'config',
                 type: 'select',
                 options: [
-                    { label: 'Yes, I would appreciate some assistance', value: 'With Assistance' },
-                    { label: 'No, I don\'t require assistance', value: 'Without Assistance' },
+                    { label: 'No, I would appreciate some assistance', value: 'With Assistance' },
+                    { label: 'Yes, I don\'t require assistance', value: 'Without Assistance' },
                 ],
                 validationRule: (value:any) => !!value,
                 errorMessage: 'Please select an option.',
