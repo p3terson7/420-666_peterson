@@ -243,17 +243,21 @@ const BeginnerForm = () => {
     ];
 
     return (
-        <div style={{ fontSize: '20px' }}>
-            <GenericForm
-                steps={formSteps}
-                onSubmit={handleFormSubmit}
-                unexpectedError={unexpectedError}
-                successMessage={successMessage}
-            />
-            <Popup open={showPopup} onClose={handlePopupClose} position="right center" className="custom-popup">
-                <ClientSignup onSubmitSuccess={handlePopupClose} />
-            </Popup>
-        </div>
+        <>
+            <h2 style={{color: "#D3D3D3"}}>Request Your Custom Build</h2>
+            <p style={{ maxWidth: '600px', margin: '0 auto', color: "#A9A9A9"}}>Once submitted, you will be able to interact with the admin through the messages tab to discuss your requirements and preferences, ensuring that your custom build meets your specifications.</p>
+            <div style={{ fontSize: '20px' }}>
+                <GenericForm
+                    steps={formSteps}
+                    onSubmit={handleFormSubmit}
+                    unexpectedError={unexpectedError}
+                    successMessage={successMessage}
+                />
+                <Popup open={showPopup} onClose={handlePopupClose} position="right center" className="custom-popup">
+                    <ClientSignup onSubmitSuccess={handlePopupClose} />
+                </Popup>
+            </div>
+        </>
     );
 };
 

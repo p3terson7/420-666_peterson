@@ -19,7 +19,7 @@ html {
 }
 
 .App-link {
-  color: #61dafb;
+  color: #DADADA;
 }
 
 @font-face {
@@ -56,14 +56,8 @@ html {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  /*background: rgba(0, 0, 0, 0.5) url('assets/img/new-build/landscape.jpg') no-repeat fixed center center;*/
   background: #3a3f4a;
   background-size: cover;
-}
-
-.home-page-background {
-  background: #3C3F44;
-  height: 400px;
 }
 
 .container-fluid {
@@ -90,6 +84,7 @@ html {
   overflow: hidden;
   transition: height 0.5s ease-in-out;
   border: none;
+
 }
 
 .form-background .form-control {

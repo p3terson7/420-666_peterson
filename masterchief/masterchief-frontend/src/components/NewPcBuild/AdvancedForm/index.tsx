@@ -1,7 +1,7 @@
 export const AdvancedForm = () => {
     return (
         <div>
-            <h1>Advanced Form</h1>
+            <h1>Coming Soon!</h1>
         </div>
     );
 }

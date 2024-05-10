@@ -1,0 +1,76 @@
+.table, .th, .tr, .td, .thead, .tbody, .tfoot {
+  border-color: transparent;
+}
+
+.btn-primary {
+  background-color: #5c6bc0;
+  border-color: #5c6bc0;
+  box-shadow: 0 4px 8px 0 rgba(92, 107, 192, 0.4);
+  color: #fff;
+  border-radius: 3px;
+}
+
+.btn-primary:hover {
+  background-color: #7986cb;
+  border-color: #7986cb;
+}
+
+.footer {
+  background-color: #282c34;
+}
+
+.home-page-background {
+  background-image: url(../../assets/img/new-build/rtx.png);
+  background-size: cover;
+  background-position: center;
+  height: 570px;
+  position: relative;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.home-page-background::before {
+  content: "";
+  background-color: rgba(58, 63, 74, 0.6);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.title {
+  font-size: 42px;
+  font-weight: 800;
+  color: #E0E0E0;
+}
+
+.sublabel {
+  font-size: 28px;
+  font-weight: 250;
+  color: #CCCCCC;
+}
+
+.opening-insights {
+  color: #333333;
+  font-size: 1.8rem;
+}
+
+.opening-insights-subtext {
+  font-size: 22px;
+  font-weight: 225;
+}
+
+.get-started-text {
+  color: #333333;
+}
+
+.comparison-title {
+  color: #333333;
+  font-size: 1.8rem;
+}
+
+.comparison-text {
+  color: #333333;
+  margin-bottom: 2rem;
+}
+

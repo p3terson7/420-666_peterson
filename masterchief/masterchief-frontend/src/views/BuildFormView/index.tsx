@@ -8,7 +8,7 @@ const BuildFormView = () => {
     const [isBeginnerView, setIsBeginnerView] = useState(true);
 
     return (
-        <Container fluid className="background-home">
+        <Container fluid className="background-home ">
             {isBeginnerView ? <BeginnerForm /> : <AdvancedForm />}
             <Button variant="link" onClick={() => setIsBeginnerView(!isBeginnerView)} className="toggle-form-view">
                 {isBeginnerView ? "You already know your components? Choose This Option" : "Beginner? Choose This Option"}
