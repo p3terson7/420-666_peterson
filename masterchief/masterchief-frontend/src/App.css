@@ -5,6 +5,16 @@
 html {
   overflow-x: hidden;
   overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.html::-webkit-scrollbar {
+  display: none;
+}
+
+.html {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .App-header {
@@ -84,7 +94,6 @@ html {
   overflow: hidden;
   transition: height 0.5s ease-in-out;
   border: none;
-
 }
 
 .form-background .form-control {

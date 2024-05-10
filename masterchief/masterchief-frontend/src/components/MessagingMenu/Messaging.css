@@ -27,6 +27,8 @@ body {
     overflow: scroll;
     height: 80vh;
     transition: ease-in-out 0.5s;
+    overflow-x: hidden;
+    scrollbar-width: none;
 }
 
 .conversation-row, .activeConversation {

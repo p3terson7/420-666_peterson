@@ -17,7 +17,7 @@ export const HomePage = () => {
             <Container fluid className="home-page-background">
                 <div className="text-start p-4">
                     <h1 className="title" style={{fontWeight: "900", letterSpacing: "2px", fontSize: "64px"}}>
-                        From
+                        <span style={{fontWeight: "250"}}>From </span>
                         <span style={{
                             fontFamily: "RetroGaming, sans-serif",
                             fontWeight: "900",
